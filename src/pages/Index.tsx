@@ -50,7 +50,7 @@ const Index = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <a href="#top" className="flex items-center gap-3">
-            <img src={logo} alt="Jones Service Group logo" className="h-12 w-12 rounded object-cover" />
+            <img src={logo} alt="Jones Service Group logo" className="h-14 w-14 rounded object-cover" />
             <span className="hidden font-bold tracking-wide sm:inline">JONES SERVICE GROUP</span>
           </a>
           <nav className="hidden gap-6 text-sm font-medium md:flex">

@@ -27,6 +27,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import heroImg from "@/assets/contact-hero.jpg";
+import nkyImg from "@/assets/northern-kentucky.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -396,15 +397,13 @@ const Contact = () => {
             </p>
           </div>
           <div className="mt-10 overflow-hidden rounded-lg border border-border shadow-lg">
-            <iframe
-              title="Jones Service Group service area"
-              src="https://www.google.com/maps?q=Northern+Kentucky&output=embed"
-              width="100%"
-              height="420"
-              style={{ border: 0 }}
+            <img
+              src={nkyImg}
+              alt="Aerial view of Northern Kentucky landscape with the Ohio River and rolling hills"
+              width={1600}
+              height={896}
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
+              className="h-auto w-full object-cover"
             />
           </div>
         </div>

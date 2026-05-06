@@ -1,0 +1,1 @@
+ALTER TABLE public.contact_submissions ADD COLUMN contact_method TEXT, ADD COLUMN sms_consent BOOLEAN NOT NULL DEFAULT false;

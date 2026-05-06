@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -64,6 +65,8 @@ const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>([]);
   const [otherService, setOtherService] = useState("");
+  const [contactMethod, setContactMethod] = useState<"email" | "text">("email");
+  const [smsConsent, setSmsConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const toggleService = (s: string) => {
@@ -77,6 +80,16 @@ const Contact = () => {
       toast({ title: "Please check the form", description: result.error.issues[0].message });
       return;
     }
+    if (contactMethod === "text") {
+      if (!form.phone.trim()) {
+        toast({ title: "Phone number required", description: "Please add a phone number to be contacted by text." });
+        return;
+      }
+      if (!smsConsent) {
+        toast({ title: "SMS consent required", description: "Please agree to receive SMS messages or choose email instead." });
+        return;
+      }
+    }
     setSubmitting(true);
     const { error } = await supabase.from("contact_submissions").insert({
       name: form.name,
@@ -86,6 +99,8 @@ const Contact = () => {
       other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
       message: form.message,
       source: "contact_page",
+      contact_method: contactMethod,
+      sms_consent: smsConsent,
     });
     setSubmitting(false);
     if (error) {
@@ -99,6 +114,8 @@ const Contact = () => {
     setForm({ name: "", email: "", phone: "", message: "" });
     setServices([]);
     setOtherService("");
+    setContactMethod("email");
+    setSmsConsent(false);
   };
 
   return (
@@ -319,6 +336,41 @@ const Contact = () => {
                     required
                   />
                 </div>
+
+                <div>
+                  <Label>How would you like to be contacted? *</Label>
+                  <RadioGroup
+                    value={contactMethod}
+                    onValueChange={(v) => setContactMethod(v as "email" | "text")}
+                    className="mt-3 grid gap-2 sm:grid-cols-2"
+                  >
+                    <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
+                      <RadioGroupItem value="email" id="contact-email" />
+                      <span className="text-sm">Email</span>
+                    </label>
+                    <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
+                      <RadioGroupItem value="text" id="contact-text" />
+                      <span className="text-sm">Text (SMS)</span>
+                    </label>
+                  </RadioGroup>
+                  {contactMethod === "text" && (
+                    <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-3">
+                      <Checkbox
+                        checked={smsConsent}
+                        onCheckedChange={(v) => setSmsConsent(v === true)}
+                        className="mt-0.5"
+                      />
+                      <span className="text-xs leading-relaxed text-muted-foreground">
+                        By checking this box and submitting this form, I consent to receive SMS text
+                        messages from Jones Service Group at the phone number provided regarding my
+                        inquiry, estimates, and scheduling. Message and data rates may apply. Message
+                        frequency varies. Reply STOP to opt out at any time, or HELP for help. Consent
+                        is not a condition of purchase.
+                      </span>
+                    </label>
+                  )}
+                </div>
+
                 <div className="flex flex-wrap gap-3">
                   <Button type="submit" size="lg" disabled={submitting}>
                     {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Message"}

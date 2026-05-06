@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
-import { Phone, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { Phone, ArrowLeft, CheckCircle2, ImageOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import logo from "@/assets/jsg-logo.png";
+import imgOutdoorLiving from "@/assets/service-outdoor-living.jpg";
+import imgLandscape from "@/assets/service-landscape.jpg";
+import imgPatiosWalls from "@/assets/service-patios-walls.jpg";
+import imgKitchensFire from "@/assets/service-kitchens-fire.jpg";
+import imgLighting from "@/assets/service-lighting.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -11,38 +16,47 @@ const services = [
   {
     title: "Outdoor Living Spaces",
     desc: "Custom-designed spaces that extend your home into the outdoors — perfect for entertaining and everyday relaxation.",
+    image: imgOutdoorLiving,
   },
   {
     title: "Landscape Design & Installation",
     desc: "Thoughtful designs and expert installation to transform your yard into a beautiful, low-maintenance landscape.",
+    image: imgLandscape,
   },
   {
     title: "Patios & Retaining Walls",
     desc: "Durable, hand-built paver patios and retaining walls engineered to last and complement your home's style.",
+    image: imgPatiosWalls,
   },
   {
     title: "Outdoor Kitchens & Fire Features",
     desc: "Built-in grills, bars, fire pits and fireplaces designed for memorable gatherings year-round.",
+    image: imgKitchensFire,
   },
   {
     title: "Pergolas, Gazebos & Pavilions",
     desc: "Custom shade structures crafted to enhance comfort and add a striking focal point to your outdoor space.",
+    image: null,
   },
   {
     title: "Outdoor Lighting",
     desc: "Low-voltage landscape and architectural lighting that adds beauty, safety and curb appeal after dark.",
+    image: imgLighting,
   },
   {
     title: "Property Maintenance",
     desc: "Seasonal lawn, bed and landscape maintenance to keep your property looking its best all year long.",
+    image: null,
   },
   {
     title: "Roofing, Gutters & Siding",
     desc: "Full exterior services to protect and beautify your home — installations, repairs and replacements.",
+    image: null,
   },
   {
     title: "Excavation & Drainage Solutions",
     desc: "Grading, excavation and drainage work to solve water problems and prepare sites the right way.",
+    image: null,
   },
 ];
 
@@ -81,7 +95,22 @@ const Services = () => {
         <div className="container mx-auto px-4">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s) => (
-              <Card key={s.title} className="border-border/60 transition-colors hover:border-primary">
+              <Card key={s.title} className="overflow-hidden border-border/60 transition-colors hover:border-primary">
+                <div className="aspect-[4/3] w-full overflow-hidden bg-muted">
+                  {s.image ? (
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
+                      <ImageOff className="h-8 w-8" />
+                      <span className="text-xs">Photo coming soon</span>
+                    </div>
+                  )}
+                </div>
                 <CardContent className="p-6">
                   <div className="flex items-center gap-3">
                     <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />

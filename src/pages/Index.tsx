@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
+import { QuoteDialog } from "@/components/QuoteDialog";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
@@ -113,9 +114,9 @@ const Index = () => {
               driven by experience, trusted for over 35 years.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <a href="#contact">Get a Free Quote</a>
-              </Button>
+              <QuoteDialog source="home_hero">
+                <Button size="lg">Get a Free Quote</Button>
+              </QuoteDialog>
               <Button asChild size="lg" variant="outline">
                 <a href={`tel:${PHONE_TEL}`}><Phone /> Call {PHONE}</a>
               </Button>
@@ -214,9 +215,11 @@ const Index = () => {
                   </span>
                   <h3 className="mt-4 text-2xl font-bold sm:text-3xl">{item.title}</h3>
                   <p className="mt-3 text-muted-foreground">{item.desc}</p>
-                  <Button asChild variant="outline" className="mt-6">
-                    <a href="#contact">Start Your Project <ArrowRight /></a>
-                  </Button>
+                  <QuoteDialog source={`home_gallery_${item.title}`}>
+                    <Button variant="outline" className="mt-6">
+                      Start Your Project <ArrowRight />
+                    </Button>
+                  </QuoteDialog>
                 </div>
               </div>
             ))}

@@ -31,9 +31,27 @@ const services = [
 ];
 
 const gallery = [
-  { src: galleryPatio, alt: "Paver patio with fire pit and seating wall" },
-  { src: galleryFireplace, alt: "Custom outdoor stone fireplace on paver patio" },
-  { src: galleryLighting, alt: "Outdoor landscape lighting on stone wall at night" },
+  {
+    src: galleryPatio,
+    alt: "Paver patio with fire pit and seating wall",
+    title: "Paver Patio & Fire Pit",
+    category: "Hardscaping",
+    desc: "Custom paver patio with built-in seating wall and stone fire pit — designed for year-round entertaining.",
+  },
+  {
+    src: galleryFireplace,
+    alt: "Custom outdoor stone fireplace on paver patio",
+    title: "Outdoor Stone Fireplace",
+    category: "Outdoor Living",
+    desc: "Hand-built stone fireplace anchoring an expansive paver patio with column accents and pavilion.",
+  },
+  {
+    src: galleryLighting,
+    alt: "Outdoor landscape lighting on stone wall at night",
+    title: "Landscape Lighting",
+    category: "Lighting & Walls",
+    desc: "Low-voltage column and step lighting on a custom retaining wall — beauty and safety after dark.",
+  },
 ];
 
 const Index = () => {
@@ -166,20 +184,40 @@ const Index = () => {
       <section id="gallery" className="border-t border-border py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold sm:text-4xl">Recent Work</h2>
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">Featured Projects</span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Our Recent Work</h2>
             <p className="mt-3 text-muted-foreground">
-              A look at some of our latest hardscaping and outdoor living projects.
+              A closer look at some of our latest hardscaping and outdoor living transformations
+              across Northern Kentucky.
             </p>
           </div>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {gallery.map((img) => (
-              <div key={img.src} className="overflow-hidden rounded-lg border border-border">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  loading="lazy"
-                  className="aspect-[4/3] w-full object-cover transition-transform duration-500 hover:scale-105"
-                />
+
+          <div className="mt-14 space-y-16">
+            {gallery.map((item, i) => (
+              <div
+                key={item.src}
+                className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-12 ${
+                  i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
+                }`}
+              >
+                <div className="overflow-hidden rounded-lg border border-border shadow-lg">
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    loading="lazy"
+                    className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+                <div>
+                  <span className="inline-block rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+                    {item.category}
+                  </span>
+                  <h3 className="mt-4 text-2xl font-bold sm:text-3xl">{item.title}</h3>
+                  <p className="mt-3 text-muted-foreground">{item.desc}</p>
+                  <Button asChild variant="outline" className="mt-6">
+                    <a href="#contact">Start Your Project <ArrowRight /></a>
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

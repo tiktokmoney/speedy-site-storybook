@@ -11,6 +11,7 @@ import imgLighting from "@/assets/service-lighting.jpg";
 import imgRoofing from "@/assets/service-roofing.jpg";
 import imgExcavation from "@/assets/service-excavation.jpg";
 import imgMaintenance from "@/assets/service-maintenance.jpg";
+import imgPergolas from "@/assets/service-pergolas.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -39,7 +40,7 @@ const services = [
   {
     title: "Pergolas, Gazebos & Pavilions",
     desc: "Custom shade structures crafted to enhance comfort and add a striking focal point to your outdoor space.",
-    image: null,
+    image: imgPergolas,
   },
   {
     title: "Outdoor Lighting",

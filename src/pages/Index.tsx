@@ -54,7 +54,7 @@ const Index = () => {
             <span className="hidden font-bold tracking-wide sm:inline">JONES SERVICE GROUP</span>
           </a>
           <nav className="hidden gap-6 text-sm font-medium md:flex">
-            <a href="#services" className="hover:text-primary">Services</a>
+            <Link to="/services" className="hover:text-primary">Services</Link>
             <a href="#about" className="hover:text-primary">About</a>
             <a href="#contact" className="hover:text-primary">Contact</a>
           </nav>

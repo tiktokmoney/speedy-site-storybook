@@ -8,6 +8,8 @@ import imgLandscape from "@/assets/service-landscape.jpg";
 import imgPatiosWalls from "@/assets/service-patios-walls.jpg";
 import imgKitchensFire from "@/assets/service-kitchens-fire.jpg";
 import imgLighting from "@/assets/service-lighting.jpg";
+import imgRoofing from "@/assets/service-roofing.jpg";
+import imgExcavation from "@/assets/service-excavation.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -51,12 +53,12 @@ const services = [
   {
     title: "Roofing, Gutters & Siding",
     desc: "Full exterior services to protect and beautify your home — installations, repairs and replacements.",
-    image: null,
+    image: imgRoofing,
   },
   {
     title: "Excavation & Drainage Solutions",
     desc: "Grading, excavation and drainage work to solve water problems and prepare sites the right way.",
-    image: null,
+    image: imgExcavation,
   },
 ];
 

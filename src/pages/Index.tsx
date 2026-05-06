@@ -9,6 +9,9 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
+import galleryFireplace from "@/assets/gallery-fireplace.jpg";
+import galleryLighting from "@/assets/gallery-lighting.jpg";
+import galleryPatio from "@/assets/gallery-patio.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -25,6 +28,12 @@ const services = [
   "Property Maintenance",
   "Roofing, Gutters & Siding",
   "Excavation & Drainage Solutions",
+];
+
+const gallery = [
+  { src: galleryPatio, alt: "Paver patio with fire pit and seating wall" },
+  { src: galleryFireplace, alt: "Custom outdoor stone fireplace on paver patio" },
+  { src: galleryLighting, alt: "Outdoor landscape lighting on stone wall at night" },
 ];
 
 const Index = () => {
@@ -149,6 +158,30 @@ const Index = () => {
             <Button asChild size="lg" variant="outline">
               <Link to="/services">Learn More <ArrowRight /></Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery */}
+      <section id="gallery" className="border-t border-border py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold sm:text-4xl">Recent Work</h2>
+            <p className="mt-3 text-muted-foreground">
+              A look at some of our latest hardscaping and outdoor living projects.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {gallery.map((img) => (
+              <div key={img.src} className="overflow-hidden rounded-lg border border-border">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading="lazy"
+                  className="aspect-[4/3] w-full object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>

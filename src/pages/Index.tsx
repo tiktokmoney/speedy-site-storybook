@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -52,6 +52,24 @@ const gallery = [
     title: "Landscape Lighting",
     category: "Lighting & Walls",
     desc: "Low-voltage column and step lighting on a custom retaining wall — beauty and safety after dark.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Mick Bode",
+    quote:
+      "Recently had Jones Service Group do a fairly large retaining wall, firepit and seat wall project for us. From start to finish, Dennis and his crew were professional, responsive, prompt and respectful of neighbors. The project was completed to our utter satisfaction and quicker than expected. The work site was left pristine at the end of the job. I can't recommend Dennis and Jones Service Group highly enough. Thank me later!",
+  },
+  {
+    name: "Logan Kremer",
+    quote:
+      "From inception to finish, Jones Service Group was fantastic. They took our outdoor patio vision and helped guide us to make informed decisions about several aspects. They asked us questions throughout the build to make sure things were made to our liking and their care was timely, professional, and finished the patio in nearly half the expected time. Would highly recommend Dennis & Jones Service Group!",
+  },
+  {
+    name: "Lois Bradford",
+    quote:
+      "Dennis owner of the Jones Service Group did an amazing job for us! They replaced a retaining wall that no one else wanted to tackle! It looks so great! They also built a pavered patio off our porch with fire pit, seat wall and lights. We are so impressed by the professional and work ethic of this company! Thank you so much Dennis and company! Forever grateful!",
   },
 ];
 
@@ -222,6 +240,46 @@ const Index = () => {
                   </QuoteDialog>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="border-t border-border bg-secondary/30 py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              What Our Clients Say
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">
+              Trusted Across Northern Kentucky
+            </h2>
+            <div className="mt-4 flex items-center justify-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+              ))}
+              <span className="ml-2 text-sm font-semibold">5-star rated on Google</span>
+            </div>
+          </div>
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {testimonials.map((t) => (
+              <Card key={t.name} className="border-border/60 transition-colors hover:border-primary">
+                <CardContent className="flex h-full flex-col p-6">
+                  <Quote className="h-7 w-7 text-primary" />
+                  <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    "{t.quote}"
+                  </p>
+                  <div className="mt-6 border-t border-border pt-4">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-3.5 w-3.5 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    <p className="mt-2 text-sm font-semibold">{t.name}</p>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>

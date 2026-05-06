@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -52,6 +52,24 @@ const gallery = [
     title: "Landscape Lighting",
     category: "Lighting & Walls",
     desc: "Low-voltage column and step lighting on a custom retaining wall — beauty and safety after dark.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Mick Bode",
+    quote:
+      "Recently had Jones Service Group do a fairly large retaining wall, firepit and seat wall project for us. From start to finish, Dennis and his crew were professional, responsive, prompt and respectful of neighbors. The project was completed to our utter satisfaction and quicker than expected. The work site was left pristine at the end of the job. I can't recommend Dennis and Jones Service Group highly enough. Thank me later!",
+  },
+  {
+    name: "Logan Kremer",
+    quote:
+      "From inception to finish, Jones Service Group was fantastic. They took our outdoor patio vision and helped guide us to make informed decisions about several aspects. They asked us questions throughout the build to make sure things were made to our liking and their care was timely, professional, and finished the patio in nearly half the expected time. Would highly recommend Dennis & Jones Service Group!",
+  },
+  {
+    name: "Lois Bradford",
+    quote:
+      "Dennis owner of the Jones Service Group did an amazing job for us! They replaced a retaining wall that no one else wanted to tackle! It looks so great! They also built a pavered patio off our porch with fire pit, seat wall and lights. We are so impressed by the professional and work ethic of this company! Thank you so much Dennis and company! Forever grateful!",
   },
 ];
 

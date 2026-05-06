@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import logo from "@/assets/jsg-logo.png";
 import { QuoteDialog } from "@/components/QuoteDialog";
+import { SiteFooter } from "@/components/SiteFooter";
 import imgOutdoorLiving from "@/assets/service-outdoor-living.jpg";
 import imgLandscape from "@/assets/service-landscape.jpg";
 import imgPatiosWalls from "@/assets/service-patios-walls.jpg";
@@ -335,11 +336,7 @@ const Services = () => {
         </div>
       </section>
 
-      <footer className="border-t border-border bg-secondary/30 py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Jones Service Group. All rights reserved.
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 };

@@ -182,9 +182,15 @@ const Services = () => {
             <Link to="/#about" className="hover:text-primary">About</Link>
             <Link to="/#contact" className="hover:text-primary">Contact</Link>
           </nav>
-          <Button asChild size="sm">
-            <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button asChild size="sm" className="hidden sm:inline-flex">
+              <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>
+            </Button>
+            <Button asChild size="icon" variant="outline" className="sm:hidden" aria-label="Call">
+              <a href={`tel:${PHONE_TEL}`}><Phone /></a>
+            </Button>
+            <MobileNav />
+          </div>
         </div>
       </header>
 

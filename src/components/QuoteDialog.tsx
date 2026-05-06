@@ -7,6 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -47,19 +54,15 @@ interface QuoteDialogProps {
 export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteDialogProps) => {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
-  const [services, setServices] = useState<string[]>(defaultService ? [defaultService] : []);
+  const [service, setService] = useState<string>(defaultService ?? "");
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
   const [smsConsent, setSmsConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const toggleService = (s: string) => {
-    setServices((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
-  };
-
   const reset = () => {
     setForm({ name: "", email: "", phone: "", message: "" });
-    setServices(defaultService ? [defaultService] : []);
+    setService(defaultService ?? "");
     setOtherService("");
     setContactMethod("email");
     setSmsConsent(false);
@@ -91,8 +94,8 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       name: form.name,
       email: form.email,
       phone: form.phone || null,
-      services,
-      other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
+      services: service ? [service] : [],
+      other_service: service === "Something else" ? otherService.slice(0, 200) : null,
       message: form.message,
       source,
       contact_method: contactMethod,
@@ -135,20 +138,18 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
           </div>
 
           <div>
-            <Label>Services you're interested in</Label>
-            <p className="mt-1 text-xs text-muted-foreground">Select all that apply.</p>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2">
-              {SERVICE_OPTIONS.map((s) => (
-                <label
-                  key={s}
-                  className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary"
-                >
-                  <Checkbox checked={services.includes(s)} onCheckedChange={() => toggleService(s)} />
-                  <span className="text-sm">{s}</span>
-                </label>
-              ))}
-            </div>
-            {services.includes("Something else") && (
+            <Label htmlFor="qd-service">Service you're interested in</Label>
+            <Select value={service} onValueChange={setService}>
+              <SelectTrigger id="qd-service" className="mt-2">
+                <SelectValue placeholder="Select a service" />
+              </SelectTrigger>
+              <SelectContent>
+                {SERVICE_OPTIONS.map((s) => (
+                  <SelectItem key={s} value={s}>{s}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {service === "Something else" && (
               <Input
                 className="mt-3"
                 placeholder="Tell us what you have in mind"
@@ -160,14 +161,14 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
           </div>
 
           <div>
-            <Label htmlFor="qd-message">Project Details *</Label>
+            <Label htmlFor="qd-message">Comment *</Label>
             <Textarea
               id="qd-message"
               rows={4}
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               maxLength={2000}
-              placeholder="Briefly describe your project, location, and timeline."
+              placeholder="Anything you'd like us to know? We'll cover the details on the call."
               required
             />
           </div>

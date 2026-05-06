@@ -11,6 +11,7 @@ import {
 import logo from "@/assets/jsg-logo.png";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
+import { MobileNav } from "@/components/MobileNav";
 import imgOutdoorLiving from "@/assets/service-outdoor-living.jpg";
 import imgLandscape from "@/assets/service-landscape.jpg";
 import imgPatiosWalls from "@/assets/service-patios-walls.jpg";

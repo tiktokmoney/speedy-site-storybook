@@ -11,6 +11,7 @@ import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
+import { MobileNav } from "@/components/MobileNav";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
@@ -106,9 +107,15 @@ const Index = () => {
             <a href="#about" className="hover:text-primary">About</a>
             <Link to="/contact" className="hover:text-primary">Contact</Link>
           </nav>
-          <Button asChild size="sm">
-            <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button asChild size="sm" className="hidden sm:inline-flex">
+              <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>
+            </Button>
+            <Button asChild size="icon" variant="outline" className="sm:hidden" aria-label="Call">
+              <a href={`tel:${PHONE_TEL}`}><Phone /></a>
+            </Button>
+            <MobileNav />
+          </div>
         </div>
       </header>
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Phone, Mail, MapPin, Facebook, Star, CheckCircle2 } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,7 +14,6 @@ const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
 const EMAIL = "Jonesservicegroup@gmail.com";
 const FB = "https://www.facebook.com/jonesservicegroup/";
-const GMAPS = "https://www.google.com/maps/search/?api=1&query=10959+Appaloosa+Dr+Walton+KY+41094+Jones+Service+Group";
 
 const services = [
   "Outdoor Living Spaces",
@@ -50,7 +50,7 @@ const Index = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <a href="#top" className="flex items-center gap-3">
-            <img src={logo} alt="Jones Service Group logo" className="h-14 w-14 rounded object-cover" />
+            <img src={logo} alt="Jones Service Group logo" className="h-20 w-20 sm:h-24 sm:w-24 rounded object-cover" />
             <span className="hidden font-bold tracking-wide sm:inline">JONES SERVICE GROUP</span>
           </a>
           <nav className="hidden gap-6 text-sm font-medium md:flex">
@@ -144,6 +144,11 @@ const Index = () => {
               </Card>
             ))}
           </div>
+          <div className="mt-10 text-center">
+            <Button asChild size="lg" variant="outline">
+              <Link to="/services">Learn More <ArrowRight /></Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -182,12 +187,6 @@ const Index = () => {
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary" />
                 <a href={`mailto:${EMAIL}`} className="break-all hover:text-primary">{EMAIL}</a>
-              </li>
-              <li className="flex items-center gap-3">
-                <MapPin className="h-5 w-5 text-primary" />
-                <a href={GMAPS} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
-                  10959 Appaloosa Dr, Walton, KY 41094
-                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Facebook className="h-5 w-5 text-primary" />

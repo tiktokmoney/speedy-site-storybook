@@ -10,6 +10,7 @@ import imgKitchensFire from "@/assets/service-kitchens-fire.jpg";
 import imgLighting from "@/assets/service-lighting.jpg";
 import imgRoofing from "@/assets/service-roofing.jpg";
 import imgExcavation from "@/assets/service-excavation.jpg";
+import imgMaintenance from "@/assets/service-maintenance.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -48,7 +49,7 @@ const services = [
   {
     title: "Property Maintenance",
     desc: "Seasonal lawn, bed and landscape maintenance to keep your property looking its best all year long.",
-    image: null,
+    image: imgMaintenance,
   },
   {
     title: "Roofing, Gutters & Siding",

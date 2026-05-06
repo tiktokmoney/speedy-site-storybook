@@ -10,6 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
+import { SiteFooter } from "@/components/SiteFooter";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
@@ -332,13 +333,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-secondary/30 py-8">
-        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 text-sm text-muted-foreground sm:flex-row">
-          <p>© {new Date().getFullYear()} Jones Service Group. All rights reserved.</p>
-          <p className="text-center">Built on quality. Driven by experience. Trusted for over 35 years.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 };

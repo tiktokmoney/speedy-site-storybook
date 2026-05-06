@@ -180,33 +180,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Services */}
-      <section id="services" className="border-t border-border bg-secondary/30 py-20">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold sm:text-4xl">Our Services</h2>
-            <p className="mt-3 text-muted-foreground">
-              Full-service hardscaping, landscaping and exterior solutions for your home.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => (
-              <Card key={s} className="border-border/60 transition-colors hover:border-primary">
-                <CardContent className="flex items-center gap-3 p-5">
-                  <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
-                  <span className="font-medium">{s}</span>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Button asChild size="lg" variant="outline">
-              <Link to="/services">Learn More <ArrowRight /></Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Gallery */}
       <section id="gallery" className="border-t border-border py-20">
         <div className="container mx-auto px-4">
@@ -249,6 +222,33 @@ const Index = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section id="services" className="border-t border-border bg-secondary/30 py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold sm:text-4xl">Our Services</h2>
+            <p className="mt-3 text-muted-foreground">
+              Full-service hardscaping, landscaping and exterior solutions for your home.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((s) => (
+              <Card key={s} className="border-border/60 transition-colors hover:border-primary">
+                <CardContent className="flex items-center gap-3 p-5">
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
+                  <span className="font-medium">{s}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button asChild size="lg" variant="outline">
+              <Link to="/services">Learn More <ArrowRight /></Link>
+            </Button>
           </div>
         </div>
       </section>

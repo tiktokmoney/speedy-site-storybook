@@ -9,6 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import logo from "@/assets/jsg-logo.png";
+import { QuoteDialog } from "@/components/QuoteDialog";
 import imgOutdoorLiving from "@/assets/service-outdoor-living.jpg";
 import imgLandscape from "@/assets/service-landscape.jpg";
 import imgPatiosWalls from "@/assets/service-patios-walls.jpg";
@@ -199,9 +200,9 @@ const Services = () => {
             and over 35 years of experience serving Northern Kentucky.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg">
-              <Link to="/#contact">Request a Free Estimate</Link>
-            </Button>
+            <QuoteDialog source="services_hero">
+              <Button size="lg">Request a Free Estimate</Button>
+            </QuoteDialog>
             <Button asChild size="lg" variant="outline">
               <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>
             </Button>
@@ -309,9 +310,9 @@ const Services = () => {
             <Button asChild size="lg" variant="outline">
               <Link to="/"><ArrowLeft /> Back to Home</Link>
             </Button>
-            <Button asChild size="lg">
-              <Link to="/#contact">Request a Free Estimate</Link>
-            </Button>
+            <QuoteDialog source="services_bottom">
+              <Button size="lg">Request a Free Estimate</Button>
+            </QuoteDialog>
           </div>
         </div>
       </section>

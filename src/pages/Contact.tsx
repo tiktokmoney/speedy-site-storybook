@@ -29,6 +29,7 @@ import logo from "@/assets/jsg-logo.png";
 import heroImg from "@/assets/contact-hero.jpg";
 import nkyImg from "@/assets/northern-kentucky.jpg";
 import { SiteFooter } from "@/components/SiteFooter";
+import { MobileNav } from "@/components/MobileNav";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";

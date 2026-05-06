@@ -17,6 +17,7 @@ export type Database = {
       contact_submissions: {
         Row: {
           budget: string | null
+          contact_method: string | null
           created_at: string
           email: string
           id: string
@@ -25,11 +26,13 @@ export type Database = {
           other_service: string | null
           phone: string | null
           services: string[]
+          sms_consent: boolean
           source: string | null
           timeline: string | null
         }
         Insert: {
           budget?: string | null
+          contact_method?: string | null
           created_at?: string
           email: string
           id?: string
@@ -38,11 +41,13 @@ export type Database = {
           other_service?: string | null
           phone?: string | null
           services?: string[]
+          sms_consent?: boolean
           source?: string | null
           timeline?: string | null
         }
         Update: {
           budget?: string | null
+          contact_method?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -51,6 +56,7 @@ export type Database = {
           other_service?: string | null
           phone?: string | null
           services?: string[]
+          sms_consent?: boolean
           source?: string | null
           timeline?: string | null
         }

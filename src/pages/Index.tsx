@@ -245,6 +245,46 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="border-t border-border bg-secondary/30 py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              What Our Clients Say
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">
+              Trusted Across Northern Kentucky
+            </h2>
+            <div className="mt-4 flex items-center justify-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+              ))}
+              <span className="ml-2 text-sm font-semibold">5-star rated on Google</span>
+            </div>
+          </div>
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {testimonials.map((t) => (
+              <Card key={t.name} className="border-border/60 transition-colors hover:border-primary">
+                <CardContent className="flex h-full flex-col p-6">
+                  <Quote className="h-7 w-7 text-primary" />
+                  <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    "{t.quote}"
+                  </p>
+                  <div className="mt-6 border-t border-border pt-4">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-3.5 w-3.5 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    <p className="mt-2 text-sm font-semibold">{t.name}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* About */}
       <section id="about" className="py-20">
         <div className="container mx-auto grid gap-12 px-4 lg:grid-cols-2 lg:items-center">

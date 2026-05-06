@@ -28,6 +28,7 @@ import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import heroImg from "@/assets/contact-hero.jpg";
 import nkyImg from "@/assets/northern-kentucky.jpg";
+import { SiteFooter } from "@/components/SiteFooter";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -422,11 +423,7 @@ const Contact = () => {
         </div>
       </section>
 
-      <footer className="border-t border-border bg-secondary/30 py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Jones Service Group. All rights reserved.
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 };

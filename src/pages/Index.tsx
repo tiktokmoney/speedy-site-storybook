@@ -84,7 +84,7 @@ const Index = () => {
             <Link to="/" className="hover:text-primary">Home</Link>
             <Link to="/services" className="hover:text-primary">Services</Link>
             <a href="#about" className="hover:text-primary">About</a>
-            <a href="#contact" className="hover:text-primary">Contact</a>
+            <Link to="/contact" className="hover:text-primary">Contact</Link>
           </nav>
           <Button asChild size="sm">
             <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>

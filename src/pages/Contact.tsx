@@ -66,7 +66,7 @@ const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>([]);
   const [otherService, setOtherService] = useState("");
-  const [contactMethod, setContactMethod] = useState<"email" | "text">("email");
+  const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
   const [smsConsent, setSmsConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -81,15 +81,21 @@ const Contact = () => {
       toast({ title: "Please check the form", description: result.error.issues[0].message });
       return;
     }
-    if (contactMethod === "text") {
+    if (contactMethod === "text" || contactMethod === "phone") {
       if (!form.phone.trim()) {
-        toast({ title: "Phone number required", description: "Please add a phone number to be contacted by text." });
+        toast({
+          title: "Phone number required",
+          description: `Please add a phone number to be contacted by ${contactMethod === "text" ? "text" : "phone call"}.`,
+        });
         return;
       }
-      if (!smsConsent) {
-        toast({ title: "SMS consent required", description: "Please agree to receive SMS messages or choose email instead." });
-        return;
-      }
+    }
+    if (contactMethod === "text" && !smsConsent) {
+      toast({
+        title: "SMS consent required",
+        description: "Please check the SMS consent box to be contacted by text, or choose another method.",
+      });
+      return;
     }
     setSubmitting(true);
     const { error } = await supabase.from("contact_submissions").insert({
@@ -342,8 +348,8 @@ const Contact = () => {
                   <Label>How would you like to be contacted? *</Label>
                   <RadioGroup
                     value={contactMethod}
-                    onValueChange={(v) => setContactMethod(v as "email" | "text")}
-                    className="mt-3 grid gap-2 sm:grid-cols-2"
+                    onValueChange={(v) => setContactMethod(v as "email" | "text" | "phone")}
+                    className="mt-3 grid gap-2 sm:grid-cols-3"
                   >
                     <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
                       <RadioGroupItem value="email" id="contact-email" />
@@ -353,15 +359,22 @@ const Contact = () => {
                       <RadioGroupItem value="text" id="contact-text" />
                       <span className="text-sm">Text (SMS)</span>
                     </label>
+                    <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
+                      <RadioGroupItem value="phone" id="contact-phone" />
+                      <span className="text-sm">Phone Call</span>
+                    </label>
                   </RadioGroup>
                   {contactMethod === "text" && (
-                    <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-3">
+                    <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-3 has-[:checked]:border-primary">
                       <Checkbox
                         checked={smsConsent}
                         onCheckedChange={(v) => setSmsConsent(v === true)}
                         className="mt-0.5"
+                        required
+                        aria-required="true"
                       />
                       <span className="text-xs leading-relaxed text-muted-foreground">
+                        <span className="font-semibold text-foreground">Required: </span>
                         By checking this box and submitting this form, I consent to receive SMS text
                         messages from Jones Service Group at the phone number provided regarding my
                         inquiry, estimates, and scheduling. Message and data rates may apply. Message

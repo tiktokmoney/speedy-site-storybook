@@ -69,9 +69,8 @@ const gallery = [
 
 const beforeAfterPhotos = [
   { src: beforeAfter1, alt: "Backyard transformation with paver patio and fire pit" },
-  { src: beforeAfter2, alt: "Stone steps and retaining wall transformation" },
-  { src: beforeAfter3, alt: "Paver patio and seating wall transformation" },
-  { src: beforeAfter4, alt: "Under-deck patio with outdoor fireplace transformation" },
+  { src: beforeAfter2, alt: "Backyard paver patio with fire pit and seating wall transformation" },
+  { src: beforeAfter3, alt: "Paver patio with outdoor stone fireplace transformation" },
 ];
 
 const testimonials = [

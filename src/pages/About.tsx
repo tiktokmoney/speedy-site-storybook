@@ -183,6 +183,63 @@ const About = () => {
       </section>
 
       {/* CTA */}
+      <section className="border-t border-border bg-secondary/30 py-20">
+        <div className="container mx-auto px-4">
+          <Card className="mx-auto max-w-2xl overflow-hidden border-primary/30 shadow-2xl">
+            <CardContent className="p-10 text-center sm:p-14">
+              <img
+                src={logo}
+                alt="Jones Service Group logo"
+                className="mx-auto h-32 w-32 object-contain sm:h-40 sm:w-40"
+              />
+              <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-primary sm:text-3xl">
+                NKY's Leading Hardscape Company
+              </h3>
+              <p className="mt-6 text-muted-foreground">
+                Our company is based on the belief that our customer's needs are of the utmost
+                importance. Our entire team is committed to meeting those needs. As a result, a
+                high percentage of our business is from repeat customers and referrals.
+              </p>
+              <p className="mt-4 text-muted-foreground">
+                We would welcome the opportunity to earn your trust and deliver you the best
+                service in the industry.
+              </p>
+              <p className="mt-6 text-xl font-bold text-primary">
+                Turning your dreams into reality!
+              </p>
+              <a
+                href={`tel:${PHONE_TEL}`}
+                className="mt-2 block text-2xl font-extrabold tracking-wide hover:text-primary"
+              >
+                {PHONE}
+              </a>
+              <div className="mt-6 space-y-1 text-sm text-muted-foreground">
+                <a
+                  href="https://www.facebook.com/jonesservicegroup/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block hover:text-primary"
+                >
+                  www.facebook.com/jonesservicegroup
+                </a>
+                <a
+                  href="https://www.instagram.com/jonesservicegroupllc"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block hover:text-primary"
+                >
+                  www.instagram.com/jonesservicegroupllc
+                </a>
+              </div>
+              <p className="mt-8 border-t border-border pt-6 text-base font-semibold italic">
+                "We go the extra mile, one 'yard' at a time!"
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* CTA */}
       <section className="py-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold sm:text-4xl">Ready to Start Your Project?</h2>

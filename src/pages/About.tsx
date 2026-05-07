@@ -3,6 +3,7 @@ import { Phone, ArrowLeft, ImageOff, Award, ShieldCheck, BadgeCheck, Clock, Star
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import logo from "@/assets/jsg-logo.png";
+import ownerDennis from "@/assets/owner-dennis.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
@@ -84,7 +85,14 @@ const About = () => {
       {/* Story + photo */}
       <section className="py-20">
         <div className="container mx-auto grid gap-12 px-4 lg:grid-cols-2 lg:items-center">
-          <PhotoPlaceholder label="Owner Dennis Jones" />
+          <div className="overflow-hidden rounded-lg border border-border shadow-lg">
+            <img
+              src={ownerDennis}
+              alt="Owner Dennis Jones with family on a custom paver patio"
+              loading="lazy"
+              className="aspect-[4/5] w-full object-cover"
+            />
+          </div>
           <div>
             <h2 className="text-3xl font-bold sm:text-4xl">Our Story</h2>
             <p className="mt-4 text-muted-foreground">

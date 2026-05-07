@@ -15,6 +15,17 @@ import { MobileNav } from "@/components/MobileNav";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
+import beforeAfter1 from "@/assets/before-after-1.jpg";
+import beforeAfter2 from "@/assets/before-after-2.jpg";
+import beforeAfter3 from "@/assets/before-after-3.jpg";
+import beforeAfter4 from "@/assets/before-after-4.jpg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -55,6 +66,13 @@ const gallery = [
     category: "Lighting & Walls",
     desc: "Low-voltage column and step lighting on a custom retaining wall — beauty and safety after dark.",
   },
+];
+
+const beforeAfterPhotos = [
+  { src: beforeAfter1, alt: "Backyard transformation with paver patio and fire pit" },
+  { src: beforeAfter2, alt: "Stone steps and retaining wall transformation" },
+  { src: beforeAfter3, alt: "Paver patio and seating wall transformation" },
+  { src: beforeAfter4, alt: "Under-deck patio with outdoor fireplace transformation" },
 ];
 
 const testimonials = [
@@ -251,6 +269,43 @@ const Index = () => {
               <Link to="/services">Learn More <ArrowRight /></Link>
             </Button>
           </div>
+        </div>
+      </section>
+
+      {/* Before & After Slider */}
+      <section className="border-t border-border py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Before & After
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Real Transformations</h2>
+            <p className="mt-3 text-muted-foreground">
+              See the difference our craftsmanship makes.
+            </p>
+          </div>
+
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            className="mt-12 mx-auto w-full max-w-6xl px-4 sm:px-12"
+          >
+            <CarouselContent>
+              {beforeAfterPhotos.map((photo) => (
+                <CarouselItem key={photo.src} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="overflow-hidden rounded-lg border border-border shadow-lg">
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      loading="lazy"
+                      className="aspect-[3/4] w-full object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+          </Carousel>
         </div>
       </section>
 

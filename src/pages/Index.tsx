@@ -18,6 +18,7 @@ import galleryPatio from "@/assets/gallery-patio.jpg";
 import beforeAfter1 from "@/assets/before-after-1.jpg";
 import beforeAfter2 from "@/assets/before-after-2.jpg";
 import beforeAfter3 from "@/assets/before-after-3.jpg";
+import beforeAfter4 from "@/assets/before-after-4.jpg";
 import {
   Carousel,
   CarouselContent,
@@ -71,6 +72,7 @@ const beforeAfterPhotos = [
   { src: beforeAfter1, alt: "Hillside stone steps and retaining wall transformation" },
   { src: beforeAfter2, alt: "Backyard paver patio with fire pit and seating wall transformation" },
   { src: beforeAfter3, alt: "Paver patio with outdoor stone fireplace transformation" },
+  { src: beforeAfter4, alt: "Backyard paver patio and outdoor fireplace transformation" },
 ];
 
 const testimonials = [

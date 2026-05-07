@@ -138,7 +138,7 @@ const Contact = () => {
           <nav className="hidden gap-6 text-sm font-medium md:flex">
             <Link to="/" className="hover:text-primary">Home</Link>
             <Link to="/services" className="hover:text-primary">Services</Link>
-            <Link to="/#about" className="hover:text-primary">About</Link>
+            <Link to="/about" className="hover:text-primary">About</Link>
             <Link to="/contact" className="hover:text-primary">Contact</Link>
           </nav>
           <Button asChild size="sm">

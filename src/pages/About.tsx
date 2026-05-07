@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, ArrowLeft, ImageOff, Award, ShieldCheck, BadgeCheck, Clock, Star } from "lucide-react";
+import { Phone, ArrowLeft, ImageOff, Award, ShieldCheck, BadgeCheck, Clock, Star, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import logo from "@/assets/jsg-logo.png";

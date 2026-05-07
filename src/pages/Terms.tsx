@@ -3,6 +3,7 @@ import { ArrowLeft, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/jsg-logo.png";
 import { SiteFooter } from "@/components/SiteFooter";
+import { MobileNav } from "@/components/MobileNav";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -20,11 +21,18 @@ const Terms = () => (
         <nav className="hidden gap-6 text-sm font-medium md:flex">
           <Link to="/" className="hover:text-primary">Home</Link>
           <Link to="/services" className="hover:text-primary">Services</Link>
+          <Link to="/about" className="hover:text-primary">About</Link>
           <Link to="/contact" className="hover:text-primary">Contact</Link>
         </nav>
-        <Button asChild size="sm">
-          <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild size="sm" className="hidden sm:inline-flex">
+            <a href={`tel:${PHONE_TEL}`}><Phone /> {PHONE}</a>
+          </Button>
+          <Button asChild size="icon" variant="outline" className="sm:hidden" aria-label="Call">
+            <a href={`tel:${PHONE_TEL}`}><Phone /></a>
+          </Button>
+          <MobileNav />
+        </div>
       </div>
     </header>
 

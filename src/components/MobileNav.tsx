@@ -16,6 +16,7 @@ const PHONE_TEL = "8597431546";
 const links = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
+  { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];
 

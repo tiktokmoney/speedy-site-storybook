@@ -152,68 +152,41 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team */}
+      {/* Why JSG flyer */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="text-xs font-semibold uppercase tracking-widest text-primary">Our Team</span>
-            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Meet the Crew</h2>
-            <p className="mt-3 text-muted-foreground">
-              The skilled craftspeople behind every Jones Service Group project.
-            </p>
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Why Jones Service Group
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">NKY's Leading Hardscape Company</h2>
           </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <PhotoPlaceholder label="Team Photo 1" />
-            <PhotoPlaceholder label="Team Photo 2" />
-            <PhotoPlaceholder label="Team Photo 3" />
-          </div>
-        </div>
-      </section>
-
-      {/* Trust badges */}
-      <section className="border-y border-border bg-secondary/30 py-8">
-        <div className="container mx-auto grid grid-cols-2 gap-6 px-4 sm:grid-cols-4">
-          {trustBadges.map((b) => (
-            <div key={b.label} className="flex items-center justify-center gap-3 text-center">
-              <b.icon className="h-6 w-6 shrink-0 text-primary" />
-              <span className="text-sm font-semibold">{b.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="border-t border-border bg-secondary/30 py-20">
-        <div className="container mx-auto px-4">
-          <Card className="mx-auto max-w-2xl overflow-hidden border-primary/30 shadow-2xl">
+          <Card className="mx-auto mt-12 max-w-3xl overflow-hidden border-primary/30 shadow-2xl">
             <CardContent className="p-10 text-center sm:p-14">
               <img
                 src={logo}
                 alt="Jones Service Group logo"
-                className="mx-auto h-32 w-32 object-contain sm:h-40 sm:w-40"
+                className="mx-auto h-36 w-36 object-contain sm:h-44 sm:w-44"
               />
-              <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-primary sm:text-3xl">
-                NKY's Leading Hardscape Company
-              </h3>
-              <p className="mt-6 text-muted-foreground">
+              <p className="mt-8 text-lg leading-relaxed text-muted-foreground sm:text-xl">
                 Our company is based on the belief that our customer's needs are of the utmost
                 importance. Our entire team is committed to meeting those needs. As a result, a
                 high percentage of our business is from repeat customers and referrals.
               </p>
-              <p className="mt-4 text-muted-foreground">
+              <p className="mt-5 text-lg leading-relaxed text-muted-foreground sm:text-xl">
                 We would welcome the opportunity to earn your trust and deliver you the best
                 service in the industry.
               </p>
-              <p className="mt-6 text-xl font-bold text-primary">
+              <p className="mt-8 text-2xl font-extrabold text-primary sm:text-3xl">
                 Turning your dreams into reality!
               </p>
               <a
                 href={`tel:${PHONE_TEL}`}
-                className="mt-2 block text-2xl font-extrabold tracking-wide hover:text-primary"
+                className="mt-3 block text-3xl font-extrabold tracking-wide hover:text-primary sm:text-4xl"
               >
                 {PHONE}
               </a>
-              <div className="mt-6 space-y-1 text-sm text-muted-foreground">
+              <div className="mt-8 space-y-2 text-sm text-muted-foreground sm:text-base">
                 <a
                   href="https://www.facebook.com/jonesservicegroup/"
                   target="_blank"
@@ -231,11 +204,23 @@ const About = () => {
                   www.instagram.com/jonesservicegroupllc
                 </a>
               </div>
-              <p className="mt-8 border-t border-border pt-6 text-base font-semibold italic">
+              <p className="mt-10 border-t border-border pt-8 text-xl font-bold italic sm:text-2xl">
                 "We go the extra mile, one 'yard' at a time!"
               </p>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* Trust badges */}
+      <section className="border-y border-border bg-secondary/30 py-8">
+        <div className="container mx-auto grid grid-cols-2 gap-6 px-4 sm:grid-cols-4">
+          {trustBadges.map((b) => (
+            <div key={b.label} className="flex items-center justify-center gap-3 text-center">
+              <b.icon className="h-6 w-6 shrink-0 text-primary" />
+              <span className="text-sm font-semibold">{b.label}</span>
+            </div>
+          ))}
         </div>
       </section>
 

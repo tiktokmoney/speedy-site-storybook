@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -93,6 +93,14 @@ const testimonials = [
     quote:
       "Dennis owner of the Jones Service Group did an amazing job for us! They replaced a retaining wall that no one else wanted to tackle! It looks so great! They also built a pavered patio off our porch with fire pit, seat wall and lights. We are so impressed by the professional and work ethic of this company! Thank you so much Dennis and company! Forever grateful!",
   },
+];
+
+const awards = [
+  "Unilock Authorized Contractor",
+  "Allen Block Certified Contractor",
+  "Voted NKY's Best 2021, 2022, 2023, 2025",
+  "Voted Next Door Neighbor Favorite 2023, 2024, 2025",
+  "Voted Top 3 in the State of KY 2025",
 ];
 
 const Index = () => {
@@ -308,6 +316,31 @@ const Index = () => {
             <CarouselPrevious className="hidden sm:flex" />
             <CarouselNext className="hidden sm:flex" />
           </Carousel>
+        </div>
+      </section>
+
+      {/* Awards */}
+      <section className="border-t border-border py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Awards & Recognition
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Certified. Awarded. Trusted.</h2>
+            <p className="mt-3 text-muted-foreground">
+              Recognized by leading manufacturers and voted a community favorite year after year.
+            </p>
+          </div>
+          <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-2">
+            {awards.map((a) => (
+              <Card key={a} className="border-border/60 transition-colors hover:border-primary">
+                <CardContent className="flex items-center gap-3 p-5">
+                  <Trophy className="h-5 w-5 shrink-0 text-primary" />
+                  <span className="font-medium">{a}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 

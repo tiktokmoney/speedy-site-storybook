@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, ArrowLeft, ImageOff, Award, ShieldCheck, BadgeCheck, Clock, Star } from "lucide-react";
+import { Phone, ArrowLeft, ImageOff, Award, ShieldCheck, BadgeCheck, Clock, Star, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import logo from "@/assets/jsg-logo.png";
@@ -16,6 +16,14 @@ const trustBadges = [
   { icon: ShieldCheck, label: "Licensed & Insured" },
   { icon: BadgeCheck, label: "Free Estimates" },
   { icon: Award, label: "Locally Owned" },
+];
+
+const awards = [
+  "Unilock Authorized Contractor",
+  "Allen Block Certified Contractor",
+  "Voted NKY's Best 2021, 2022, 2023, 2025",
+  "Voted Next Door Neighbor Favorite 2023, 2024, 2025",
+  "Voted Top 3 in the State of KY 2025",
 ];
 
 const values = [
@@ -221,6 +229,31 @@ const About = () => {
               <span className="text-sm font-semibold">{b.label}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Awards */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Awards & Recognition
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Certified. Awarded. Trusted.</h2>
+            <p className="mt-3 text-muted-foreground">
+              Recognized by leading manufacturers and voted a community favorite year after year.
+            </p>
+          </div>
+          <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-2">
+            {awards.map((a) => (
+              <Card key={a} className="border-border/60 transition-colors hover:border-primary">
+                <CardContent className="flex items-center gap-3 p-5">
+                  <Trophy className="h-5 w-5 shrink-0 text-primary" />
+                  <span className="font-medium">{a}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -42,7 +42,7 @@ const schema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(20).optional(),
-  message: z.string().trim().min(1, "Please tell us about your project").max(2000),
+  message: z.string().trim().max(2000).optional(),
 });
 
 interface QuoteDialogProps {
@@ -161,15 +161,14 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
           </div>
 
           <div>
-            <Label htmlFor="qd-message">Comment *</Label>
+            <Label htmlFor="qd-message">Comment</Label>
             <Textarea
               id="qd-message"
               rows={4}
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               maxLength={2000}
-              placeholder="Anything you'd like us to know? We'll cover the details on the call."
-              required
+              placeholder="Anything you'd like us to know?"
             />
           </div>
 

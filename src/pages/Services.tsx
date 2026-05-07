@@ -21,6 +21,9 @@ import imgRoofing from "@/assets/service-roofing.jpg";
 import imgExcavation from "@/assets/service-excavation.jpg";
 import imgMaintenance from "@/assets/service-maintenance.jpg";
 import imgPergolas from "@/assets/service-pergolas.jpg";
+import imgConcrete from "@/assets/service-concrete.jpg";
+import imgDriveways from "@/assets/service-driveways.jpg";
+import imgSidewalks from "@/assets/service-sidewalks.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -123,6 +126,39 @@ const services = [
       "French drains and downspout tie-ins",
       "Trenching for utilities",
       "Erosion control and regrading",
+    ],
+  },
+  {
+    title: "Concrete Work",
+    desc: "Professionally poured and finished concrete for patios, slabs, steps and more — built to last.",
+    image: imgConcrete,
+    features: [
+      "Patios, slabs and pads",
+      "Broom, smooth and stamped finishes",
+      "Proper base prep & control joints",
+      "Steps, footings and equipment pads",
+    ],
+  },
+  {
+    title: "Driveways",
+    desc: "New driveway installs and replacements designed for durability, drainage and serious curb appeal.",
+    image: imgDriveways,
+    features: [
+      "New driveway installation & tear-out",
+      "Concrete and paver driveway options",
+      "Engineered base for heavy loads",
+      "Aprons, expansions and repairs",
+    ],
+  },
+  {
+    title: "Sidewalks",
+    desc: "Safe, level walkways and front-entry paths that welcome guests and stand up to the seasons.",
+    image: imgSidewalks,
+    features: [
+      "Front walks and entry paths",
+      "Concrete and paver sidewalks",
+      "ADA-friendly grading available",
+      "Repairs, replacement and extensions",
     ],
   },
 ];

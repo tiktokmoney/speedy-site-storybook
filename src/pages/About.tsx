@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import logo from "@/assets/jsg-logo.png";
 import ownerDennis from "@/assets/owner-dennis.jpg";
+import aboutHeroBg from "@/assets/about-hero-bg.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
@@ -77,8 +78,12 @@ const About = () => {
       </header>
 
       {/* Hero */}
-      <section className="border-b border-border bg-secondary/30">
-        <div className="container mx-auto px-4 py-20 text-center sm:py-28">
+      <section
+        className="relative border-b border-border bg-cover bg-center"
+        style={{ backgroundImage: `url(${aboutHeroBg})` }}
+      >
+        <div className="absolute inset-0 bg-background/80" />
+        <div className="container relative mx-auto px-4 py-20 text-center sm:py-28">
           <span className="text-xs font-semibold uppercase tracking-widest text-primary">About Us</span>
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
             Built on Quality. Driven by Experience.

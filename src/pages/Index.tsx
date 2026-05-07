@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
@@ -105,19 +106,58 @@ const awards = [
 
 const Index = () => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
       toast({ title: "Please fill out all required fields" });
       return;
     }
-    const subject = encodeURIComponent(`New inquiry from ${form.name}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\n\n${form.message}`
+    setSubmitting(true);
+    const submissionId = crypto.randomUUID();
+    const { error } = await supabase.from("contact_submissions").insert({
+      id: submissionId,
+      name: form.name,
+      email: form.email,
+      phone: form.phone || null,
+      services: [],
+      message: form.message,
+      source: "home_hero",
+      contact_method: "email",
+      sms_consent: false,
+    });
+    if (error) {
+      setSubmitting(false);
+      toast({ title: "Something went wrong", description: "Please try again or call us directly." });
+      return;
+    }
+    const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
+    const templateData = {
+      name: form.name,
+      email: form.email,
+      phone: form.phone || "",
+      services: [],
+      message: form.message,
+      contactMethod: "email",
+      source: "home_hero",
+      submittedAt: new Date().toLocaleString(),
+    };
+    await Promise.all(
+      ownerEmails.map((to) =>
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "owner-form-notification",
+            recipientEmail: to,
+            idempotencyKey: `home-owner-${submissionId}-${to}`,
+            templateData,
+          },
+        }),
+      ),
     );
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    toast({ title: "Opening your email app...", description: "We'll be in touch shortly." });
+    setSubmitting(false);
+    toast({ title: "Message sent!", description: "Thanks — we'll get back to you within 24 hours." });
+    setForm({ name: "", email: "", phone: "", message: "" });
   };
 
   return (
@@ -206,7 +246,9 @@ const Index = () => {
                   <Label htmlFor="message">Project Details *</Label>
                   <Textarea id="message" rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} maxLength={1000} required />
                 </div>
-                <Button type="submit" className="w-full" size="lg">Send Message</Button>
+                <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+                  {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Message"}
+                </Button>
               </form>
             </CardContent>
           </Card>

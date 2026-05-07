@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -93,6 +93,14 @@ const testimonials = [
     quote:
       "Dennis owner of the Jones Service Group did an amazing job for us! They replaced a retaining wall that no one else wanted to tackle! It looks so great! They also built a pavered patio off our porch with fire pit, seat wall and lights. We are so impressed by the professional and work ethic of this company! Thank you so much Dennis and company! Forever grateful!",
   },
+];
+
+const awards = [
+  "Unilock Authorized Contractor",
+  "Allen Block Certified Contractor",
+  "Voted NKY's Best 2021, 2022, 2023, 2025",
+  "Voted Next Door Neighbor Favorite 2023, 2024, 2025",
+  "Voted Top 3 in the State of KY 2025",
 ];
 
 const Index = () => {

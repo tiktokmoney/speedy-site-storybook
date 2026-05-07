@@ -18,6 +18,14 @@ const trustBadges = [
   { icon: Award, label: "Locally Owned" },
 ];
 
+const awards = [
+  "Unilock Authorized Contractor",
+  "Allen Block Certified Contractor",
+  "Voted NKY's Best 2021, 2022, 2023, 2025",
+  "Voted Next Door Neighbor Favorite 2023, 2024, 2025",
+  "Voted Top 3 in the State of KY 2025",
+];
+
 const values = [
   {
     title: "Quality Craftsmanship",

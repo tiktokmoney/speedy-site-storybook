@@ -205,6 +205,7 @@ const Index = () => {
                     src={item.src}
                     alt={item.alt}
                     loading="lazy"
+                    style={item.title === "Landscape Lighting" ? { filter: "brightness(1.35) saturate(1.05)" } : undefined}
                     className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
                   />
                 </div>

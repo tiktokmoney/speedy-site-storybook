@@ -232,6 +232,31 @@ const About = () => {
         </div>
       </section>
 
+      {/* Awards */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Awards & Recognition
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Certified. Awarded. Trusted.</h2>
+            <p className="mt-3 text-muted-foreground">
+              Recognized by leading manufacturers and voted a community favorite year after year.
+            </p>
+          </div>
+          <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-2">
+            {awards.map((a) => (
+              <Card key={a} className="border-border/60 transition-colors hover:border-primary">
+                <CardContent className="flex items-center gap-3 p-5">
+                  <Trophy className="h-5 w-5 shrink-0 text-primary" />
+                  <span className="font-medium">{a}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20">
         <div className="container mx-auto px-4 text-center">

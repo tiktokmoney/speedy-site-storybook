@@ -96,14 +96,18 @@ const About = () => {
           <div>
             <h2 className="text-3xl font-bold sm:text-4xl">Our Story</h2>
             <p className="mt-4 text-muted-foreground">
-              Jones Service Group was founded by owner Dennis Jones with a simple mission: build
-              outdoor spaces homeowners love, the right way. Three-plus decades later, we're still
-              hands-on — designing, building and standing behind every project we complete.
+              Dennis Jones is a lifelong entrepreneur and proud owner of Jones Service Group,
+              bringing over 35 years of business experience and dedication to the Northern Kentucky
+              community. Beyond his professional career, Dennis has spent more than 40 years
+              volunteering as a coach and mentor, helping shape and inspire generations of young
+              athletes and families throughout the community.
             </p>
             <p className="mt-4 text-muted-foreground">
-              From custom paver patios and retaining walls to full outdoor living builds with
-              fireplaces, kitchens and lighting, our team blends craftsmanship with honest service.
-              We treat your property like our own and leave the job site clean every day.
+              Family has always been at the center of Dennis's life. He and his wife are proud
+              parents of three wonderful children, who have now blessed them with two grandchildren
+              and one more on the way. Dennis takes great pride in building not only successful
+              projects and businesses, but also strong relationships, lasting friendships, and a
+              legacy rooted in hard work, integrity, and community involvement.
             </p>
             <div className="mt-8 grid grid-cols-3 gap-6">
               <div>

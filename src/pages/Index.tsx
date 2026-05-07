@@ -272,6 +272,43 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Before & After Slider */}
+      <section className="border-t border-border py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Before & After
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Real Transformations</h2>
+            <p className="mt-3 text-muted-foreground">
+              See the difference our craftsmanship makes.
+            </p>
+          </div>
+
+          <Carousel
+            opts={{ align: "start", loop: true }}
+            className="mt-12 mx-auto w-full max-w-6xl px-4 sm:px-12"
+          >
+            <CarouselContent>
+              {beforeAfterPhotos.map((photo) => (
+                <CarouselItem key={photo.src} className="md:basis-1/2 lg:basis-1/3">
+                  <div className="overflow-hidden rounded-lg border border-border shadow-lg">
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      loading="lazy"
+                      className="aspect-[3/4] w-full object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden sm:flex" />
+            <CarouselNext className="hidden sm:flex" />
+          </Carousel>
+        </div>
+      </section>
+
       {/* Testimonials */}
       <section className="border-t border-border bg-secondary/30 py-20">
         <div className="container mx-auto px-4">

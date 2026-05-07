@@ -21,9 +21,6 @@ import imgRoofing from "@/assets/service-roofing.jpg";
 import imgExcavation from "@/assets/service-excavation.jpg";
 import imgMaintenance from "@/assets/service-maintenance.jpg";
 import imgPergolas from "@/assets/service-pergolas.jpg";
-import imgConcrete from "@/assets/service-concrete.jpg";
-import imgDriveways from "@/assets/service-driveways.jpg";
-import imgSidewalks from "@/assets/service-sidewalks.jpg";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -131,7 +128,7 @@ const services = [
   {
     title: "Concrete Work",
     desc: "Professionally poured and finished concrete for patios, slabs, steps and more — built to last.",
-    image: imgConcrete,
+    image: null,
     features: [
       "Patios, slabs and pads",
       "Broom, smooth and stamped finishes",
@@ -142,7 +139,7 @@ const services = [
   {
     title: "Driveways",
     desc: "New driveway installs and replacements designed for durability, drainage and serious curb appeal.",
-    image: imgDriveways,
+    image: null,
     features: [
       "New driveway installation & tear-out",
       "Concrete and paver driveway options",
@@ -153,7 +150,7 @@ const services = [
   {
     title: "Sidewalks",
     desc: "Safe, level walkways and front-entry paths that welcome guests and stand up to the seasons.",
-    image: imgSidewalks,
+    image: null,
     features: [
       "Front walks and entry paths",
       "Concrete and paver sidewalks",

@@ -207,7 +207,7 @@ const Services = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Jones Service Group logo" className="h-24 w-24 sm:h-28 sm:w-28 rounded-full object-cover ring-2 ring-primary/60 ring-offset-2 ring-offset-background shadow-lg shadow-primary/30 transition-transform hover:scale-105" />
+            <img src={logo} alt="Jones Service Group logo" className="h-20 w-20 sm:h-24 sm:w-24 rounded object-cover" />
             <span className="hidden font-bold tracking-wide sm:inline">JONES SERVICE GROUP</span>
           </Link>
           <nav className="hidden gap-6 text-sm font-medium md:flex">
@@ -235,6 +235,11 @@ const Services = () => {
       >
         <div className="absolute inset-0 bg-background/80" />
         <div className="container relative mx-auto px-4 py-24 text-center sm:py-32">
+          <img
+            src={logo}
+            alt="Jones Service Group logo"
+            className="mx-auto mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
+          />
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">Our Services</h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
             From custom hardscapes to full exterior solutions — everything we do is built on quality

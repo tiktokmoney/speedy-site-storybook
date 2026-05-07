@@ -126,7 +126,7 @@ const Index = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <a href="#top" className="flex items-center gap-3">
-            <img src={logo} alt="Jones Service Group logo" className="h-24 w-24 sm:h-28 sm:w-28 rounded-full object-cover ring-2 ring-primary/60 ring-offset-2 ring-offset-background shadow-lg shadow-primary/30 transition-transform hover:scale-105" />
+            <img src={logo} alt="Jones Service Group logo" className="h-20 w-20 sm:h-24 sm:w-24 rounded object-cover" />
             <span className="hidden font-bold tracking-wide sm:inline">JONES SERVICE GROUP</span>
           </a>
           <nav className="hidden gap-6 text-sm font-medium md:flex">
@@ -156,6 +156,11 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/30 to-background/0" />
         <div className="container relative mx-auto grid gap-10 px-4 py-20 lg:grid-cols-2 lg:py-32">
           <div className="flex flex-col justify-center">
+            <img
+              src={logo}
+              alt="Jones Service Group logo"
+              className="mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
+            />
             <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               <Star className="h-3 w-3 fill-primary" /> VOTED NKY's BEST · 35+ YEARS
             </span>

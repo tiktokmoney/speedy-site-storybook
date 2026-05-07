@@ -15,6 +15,17 @@ import { MobileNav } from "@/components/MobileNav";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
+import beforeAfter1 from "@/assets/before-after-1.jpg";
+import beforeAfter2 from "@/assets/before-after-2.jpg";
+import beforeAfter3 from "@/assets/before-after-3.jpg";
+import beforeAfter4 from "@/assets/before-after-4.jpg";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -55,6 +66,13 @@ const gallery = [
     category: "Lighting & Walls",
     desc: "Low-voltage column and step lighting on a custom retaining wall — beauty and safety after dark.",
   },
+];
+
+const beforeAfterPhotos = [
+  { src: beforeAfter1, alt: "Backyard transformation with paver patio and fire pit" },
+  { src: beforeAfter2, alt: "Stone steps and retaining wall transformation" },
+  { src: beforeAfter3, alt: "Paver patio and seating wall transformation" },
+  { src: beforeAfter4, alt: "Under-deck patio with outdoor fireplace transformation" },
 ];
 
 const testimonials = [

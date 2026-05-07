@@ -19,6 +19,7 @@ import beforeAfter1 from "@/assets/before-after-1.jpg";
 import beforeAfter2 from "@/assets/before-after-2.jpg";
 import beforeAfter3 from "@/assets/before-after-3.jpg";
 import beforeAfter4 from "@/assets/before-after-4.jpg";
+import beforeAfter5 from "@/assets/before-after-5.jpg";
 import {
   Carousel,
   CarouselContent,
@@ -73,6 +74,7 @@ const beforeAfterPhotos = [
   { src: beforeAfter2, alt: "Backyard paver patio with fire pit and seating wall transformation" },
   { src: beforeAfter3, alt: "Paver patio with outdoor stone fireplace transformation" },
   { src: beforeAfter4, alt: "Backyard paver patio and outdoor fireplace transformation" },
+  { src: beforeAfter5, alt: "Paver patio with seating wall and column lighting transformation" },
 ];
 
 const testimonials = [

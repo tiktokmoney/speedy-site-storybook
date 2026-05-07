@@ -84,6 +84,11 @@ const About = () => {
       >
         <div className="absolute inset-0 bg-background/80" />
         <div className="container relative mx-auto px-4 py-20 text-center sm:py-28">
+          <img
+            src={logo}
+            alt="Jones Service Group logo"
+            className="mx-auto mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
+          />
           <span className="text-xs font-semibold uppercase tracking-widest text-primary">About Us</span>
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
             Built on Quality. Driven by Experience.

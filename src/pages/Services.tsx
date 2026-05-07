@@ -235,6 +235,11 @@ const Services = () => {
       >
         <div className="absolute inset-0 bg-background/80" />
         <div className="container relative mx-auto px-4 py-24 text-center sm:py-32">
+          <img
+            src={logo}
+            alt="Jones Service Group logo"
+            className="mx-auto mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
+          />
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">Our Services</h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">
             From custom hardscapes to full exterior solutions — everything we do is built on quality

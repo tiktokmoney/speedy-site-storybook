@@ -94,7 +94,7 @@ const About = () => {
             />
           </div>
           <div>
-            <h2 className="text-3xl font-bold sm:text-4xl">Our Story</h2>
+            <h2 className="text-3xl font-bold sm:text-4xl">About the Owner</h2>
             <p className="mt-4 text-muted-foreground">
               Dennis Jones is a lifelong entrepreneur and proud owner of Jones Service Group,
               bringing over 35 years of business experience and dedication to the Northern Kentucky

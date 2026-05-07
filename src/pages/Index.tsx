@@ -289,17 +289,17 @@ const Index = () => {
 
           <Carousel
             opts={{ align: "start", loop: true }}
-            className="mt-12 mx-auto w-full max-w-6xl px-4 sm:px-12"
+            className="mt-12 mx-auto w-full max-w-7xl px-4 sm:px-12"
           >
             <CarouselContent>
               {beforeAfterPhotos.map((photo) => (
-                <CarouselItem key={photo.src} className="md:basis-1/2 lg:basis-1/3">
+                <CarouselItem key={photo.src} className="sm:basis-1/2 lg:basis-1/2">
                   <div className="overflow-hidden rounded-lg border border-border shadow-lg">
                     <img
                       src={photo.src}
                       alt={photo.alt}
                       loading="lazy"
-                      className="aspect-[3/4] w-full object-cover"
+                      className="aspect-[3/4] w-full object-cover sm:aspect-[4/5]"
                     />
                   </div>
                 </CarouselItem>

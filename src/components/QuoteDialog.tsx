@@ -90,7 +90,9 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       return;
     }
     setSubmitting(true);
+    const submissionId = crypto.randomUUID();
     const { error } = await supabase.from("contact_submissions").insert({
+      id: submissionId,
       name: form.name,
       email: form.email,
       phone: form.phone || null,
@@ -101,6 +103,32 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       contact_method: contactMethod,
       sms_consent: smsConsent,
     });
+    if (!error) {
+      const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
+      const templateData = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone || "",
+        services: service ? [service] : [],
+        otherService: service === "Something else" ? otherService : "",
+        message: form.message,
+        contactMethod,
+        source,
+        submittedAt: new Date().toLocaleString(),
+      };
+      await Promise.all(
+        ownerEmails.map((to) =>
+          supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "owner-form-notification",
+              recipientEmail: to,
+              idempotencyKey: `quote-owner-${submissionId}-${to}`,
+              templateData,
+            },
+          }),
+        ),
+      );
+    }
     setSubmitting(false);
     if (error) {
       toast({ title: "Something went wrong", description: "Please try again or call us directly." });

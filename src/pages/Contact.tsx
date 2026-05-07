@@ -100,7 +100,9 @@ const Contact = () => {
       return;
     }
     setSubmitting(true);
+    const submissionId = crypto.randomUUID();
     const { error } = await supabase.from("contact_submissions").insert({
+      id: submissionId,
       name: form.name,
       email: form.email,
       phone: form.phone || null,
@@ -111,6 +113,32 @@ const Contact = () => {
       contact_method: contactMethod,
       sms_consent: smsConsent,
     });
+    if (!error) {
+      const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
+      const templateData = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone || "",
+        services,
+        otherService: services.includes("Something else") ? otherService : "",
+        message: form.message,
+        contactMethod,
+        source: "contact_page",
+        submittedAt: new Date().toLocaleString(),
+      };
+      await Promise.all(
+        ownerEmails.map((to) =>
+          supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "owner-form-notification",
+              recipientEmail: to,
+              idempotencyKey: `contact-owner-${submissionId}-${to}`,
+              templateData,
+            },
+          }),
+        ),
+      );
+    }
     setSubmitting(false);
     if (error) {
       toast({ title: "Something went wrong", description: "Please try again or call us directly." });

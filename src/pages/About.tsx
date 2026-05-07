@@ -56,7 +56,7 @@ const About = () => {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Jones Service Group logo" className="h-20 w-20 sm:h-24 sm:w-24 rounded object-cover" />
+            <img src={logo} alt="Jones Service Group logo" className="h-24 w-24 sm:h-28 sm:w-28 rounded-full object-cover ring-2 ring-primary/60 ring-offset-2 ring-offset-background shadow-lg shadow-primary/30 transition-transform hover:scale-105" />
             <span className="hidden font-bold tracking-wide sm:inline">JONES SERVICE GROUP</span>
           </Link>
           <nav className="hidden gap-6 text-sm font-medium md:flex">

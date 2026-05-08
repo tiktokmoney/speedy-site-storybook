@@ -257,8 +257,6 @@ const Index = () => {
                     checked={transactionalConsent}
                     onCheckedChange={(v) => setTransactionalConsent(v === true)}
                     className="mt-0.5"
-                    required
-                    aria-required="true"
                   />
                   <span className="text-xs leading-relaxed text-muted-foreground">
                     I consent to receive transactional messages from Jones Service Group at the

@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -57,7 +58,8 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
   const [service, setService] = useState<string>(defaultService ?? "");
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
-  const [smsConsent, setSmsConsent] = useState(false);
+  const [transactionalConsent, setTransactionalConsent] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const reset = () => {
@@ -65,7 +67,8 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     setService(defaultService ?? "");
     setOtherService("");
     setContactMethod("email");
-    setSmsConsent(false);
+    setTransactionalConsent(false);
+    setMarketingConsent(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,10 +85,10 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       });
       return;
     }
-    if (contactMethod === "text" && !smsConsent) {
+    if (!transactionalConsent) {
       toast({
-        title: "SMS consent required",
-        description: "Please check the SMS consent box to be contacted by text.",
+        title: "Consent required",
+        description: "Please agree to receive transactional messages so we can respond.",
       });
       return;
     }
@@ -102,7 +105,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       message: messageToStore,
       source,
       contact_method: contactMethod,
-      sms_consent: smsConsent,
+      sms_consent: transactionalConsent,
     });
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
@@ -112,7 +115,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         phone: form.phone || "",
         services: service ? [service] : [],
         otherService: service === "Something else" ? otherService : "",
-        message: messageToStore,
+        message: `${messageToStore}\n\nTransactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
         contactMethod,
         source,
         submittedAt: new Date().toLocaleString(),
@@ -221,30 +224,44 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
                 <span className="text-sm">Phone Call</span>
               </label>
             </RadioGroup>
-            {contactMethod === "text" && (
-              <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-3 has-[:checked]:border-primary">
-                <Checkbox
-                  checked={smsConsent}
-                  onCheckedChange={(v) => setSmsConsent(v === true)}
-                  className="mt-0.5"
-                  required
-                  aria-required="true"
-                />
-                <span className="text-xs leading-relaxed text-muted-foreground">
-                  <span className="font-semibold text-foreground">Required: </span>
-                  By checking this box and submitting this form, I consent to receive SMS text
-                  messages from Jones Service Group at the phone number provided regarding my
-                  inquiry, estimates, and scheduling. Message and data rates may apply. Message
-                  frequency varies. Reply STOP to opt out at any time, or HELP for help. Consent
-                  is not a condition of purchase.
-                </span>
-              </label>
-            )}
           </div>
+
+          <label className="flex cursor-pointer items-start gap-3">
+            <Checkbox
+              checked={transactionalConsent}
+              onCheckedChange={(v) => setTransactionalConsent(v === true)}
+              className="mt-0.5"
+              required
+              aria-required="true"
+            />
+            <span className="text-xs leading-relaxed text-muted-foreground">
+              I consent to receive transactional messages from Jones Service Group at the
+              phone number provided. Message frequency may vary. Message &amp; Data rates may
+              apply. Reply HELP for help or STOP to opt-out.
+            </span>
+          </label>
+          <label className="flex cursor-pointer items-start gap-3">
+            <Checkbox
+              checked={marketingConsent}
+              onCheckedChange={(v) => setMarketingConsent(v === true)}
+              className="mt-0.5"
+            />
+            <span className="text-xs leading-relaxed text-muted-foreground">
+              I consent to receive marketing and promotional messages from Jones Service
+              Group at the phone number provided. Message frequency may vary. Message &amp;
+              Data rates may apply. Reply HELP for help or STOP to opt-out.
+            </span>
+          </label>
 
           <Button type="submit" size="lg" className="w-full" disabled={submitting}>
             {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Request"}
           </Button>
+
+          <p className="text-center text-xs text-muted-foreground">
+            <Link to="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
+            {" | "}
+            <Link to="/terms" className="underline hover:text-primary">Terms of Service</Link>
+          </p>
         </form>
       </DialogContent>
     </Dialog>

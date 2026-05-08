@@ -294,7 +294,6 @@ const Index = () => {
             <CardContent className="p-6">
               <h2 className="text-2xl font-bold">Request a Free Estimate</h2>
               <p className="mt-1 text-sm text-muted-foreground">We'll get back to you within 24 hours.</p>
-              <form onSubmit={handleSubmit} className="mt-5 space-y-4">
               <form onSubmit={handleHeroSubmit} className="mt-5 space-y-4">
                 <div>
                   <Label htmlFor="name">Name *</Label>

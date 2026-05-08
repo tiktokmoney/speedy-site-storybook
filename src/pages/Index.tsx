@@ -106,10 +106,64 @@ const awards = [
 ];
 
 const Index = () => {
+  const [heroForm, setHeroForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [heroSubmitting, setHeroSubmitting] = useState(false);
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "" });
   const [transactionalConsent, setTransactionalConsent] = useState(false);
   const [marketingConsent, setMarketingConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  const handleHeroSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!heroForm.name || !heroForm.email || !heroForm.message) {
+      toast({ title: "Please fill out all required fields" });
+      return;
+    }
+    setHeroSubmitting(true);
+    const submissionId = crypto.randomUUID();
+    const { error } = await supabase.from("contact_submissions").insert({
+      id: submissionId,
+      name: heroForm.name,
+      email: heroForm.email,
+      phone: heroForm.phone || null,
+      services: [],
+      message: heroForm.message,
+      source: "home_hero",
+      contact_method: "email",
+      sms_consent: false,
+    });
+    if (error) {
+      setHeroSubmitting(false);
+      toast({ title: "Something went wrong", description: "Please try again or call us directly." });
+      return;
+    }
+    const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
+    const templateData = {
+      name: heroForm.name,
+      email: heroForm.email,
+      phone: heroForm.phone || "",
+      services: [],
+      message: heroForm.message,
+      contactMethod: "email",
+      source: "home_hero",
+      submittedAt: new Date().toLocaleString(),
+    };
+    await Promise.all(
+      ownerEmails.map((to) =>
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "owner-form-notification",
+            recipientEmail: to,
+            idempotencyKey: `home-owner-${submissionId}-${to}`,
+            templateData,
+          },
+        }),
+      ),
+    );
+    setHeroSubmitting(false);
+    toast({ title: "Message sent!", description: "Thanks — we'll get back to you within 24 hours." });
+    setHeroForm({ name: "", email: "", phone: "", message: "" });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,7 +188,7 @@ const Index = () => {
       phone: form.phone || null,
       services: [],
       message: "(no comment provided)",
-      source: "home_hero",
+      source: "home_contact_bottom",
       contact_method: "email",
       sms_consent: transactionalConsent,
     });
@@ -151,7 +205,7 @@ const Index = () => {
       services: [],
       message: `Transactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
       contactMethod: "email",
-      source: "home_hero",
+      source: "home_contact_bottom",
       submittedAt: new Date().toLocaleString(),
     };
     await Promise.all(
@@ -160,7 +214,7 @@ const Index = () => {
           body: {
             templateName: "owner-form-notification",
             recipientEmail: to,
-            idempotencyKey: `home-owner-${submissionId}-${to}`,
+            idempotencyKey: `home-bottom-owner-${submissionId}-${to}`,
             templateData,
           },
         }),

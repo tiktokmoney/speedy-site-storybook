@@ -86,17 +86,58 @@ const Privacy = () => (
           If you opt in to text messages, we'll use your phone number to send messages related to
           your inquiry, estimate, or project. Message and data rates may apply. Message frequency
           varies. You can reply <strong>STOP</strong> at any time to opt out, or <strong>HELP</strong> for
-          help. Mobile opt-in data and consent are not shared with any third parties or affiliates
-          for marketing purposes.
+          help.
+        </p>
+        <p className="mt-3 text-muted-foreground">
+          <strong>
+            No mobile information will be shared with third parties or affiliates for
+            marketing or promotional purposes. Information sharing to subcontractors in support
+            services, such as customer service, is permitted. All other use case categories
+            exclude text messaging originator opt-in data and consent; this information will not
+            be shared with any third parties.
+          </strong>
         </p>
 
         <h2 className="mt-8 text-2xl font-bold">4. How We Share Information</h2>
         <p className="mt-3 text-muted-foreground">
-          We may share information only with trusted service providers who help us operate our
-          business — for example, our website hosting, database, and email providers. These
-          providers are required to safeguard your information and use it only to perform services
-          for us. We may also disclose information when required by law, subpoena, or to protect
-          our legal rights.
+          We may share Your personal information in the following limited situations:
+        </p>
+        <ul className="mt-3 list-disc space-y-2 pl-6 text-muted-foreground">
+          <li>
+            <strong>With Service Providers:</strong> We may share Your personal information with
+            service providers and subcontractors who help us operate our business — for example,
+            website hosting, database, email delivery, and customer service providers — to monitor
+            and analyze the use of our Service and to contact You.
+          </li>
+          <li>
+            <strong>For business transfers:</strong> We may share or transfer Your personal
+            information in connection with, or during negotiations of, any merger, sale of company
+            assets, financing, or acquisition of all or a portion of our business to another
+            company.
+          </li>
+          <li>
+            <strong>With Your consent:</strong> We may disclose Your personal information for any
+            other purpose with Your consent.
+          </li>
+          <li>
+            <strong>For legal reasons:</strong> We may disclose information when required by law,
+            subpoena, or to protect our legal rights.
+          </li>
+        </ul>
+        <p className="mt-4 text-muted-foreground">
+          <strong>
+            No mobile information will be shared with third parties or affiliates for
+            marketing or promotional purposes. Information sharing to subcontractors in support
+            services, such as customer service, is permitted. All other use case categories
+            exclude text messaging originator opt-in data and consent; this information will not
+            be shared with any third parties. Text messaging originator opt-in data and consent
+            will not be shared with any third parties, except for aggregators and providers of the
+            Text Message services.
+          </strong>
+        </p>
+        <p className="mt-3 text-muted-foreground">
+          We do not sell, rent, or share Your personal information with any third parties or
+          affiliates for their own marketing or promotional purposes.
         </p>
 
         <h2 className="mt-8 text-2xl font-bold">5. Cookies & Analytics</h2>

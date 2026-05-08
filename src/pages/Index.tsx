@@ -116,13 +116,6 @@ const Index = () => {
       toast({ title: "Please fill out all required fields" });
       return;
     }
-    if (!transactionalConsent) {
-      toast({
-        title: "Consent required",
-        description: "Please agree to receive transactional messages so we can respond.",
-      });
-      return;
-    }
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
     const fullName = `${form.firstName} ${form.lastName}`.trim();

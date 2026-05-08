@@ -74,11 +74,68 @@ const Terms = () => (
         <h2 className="mt-8 text-2xl font-bold">4. Communications & SMS Consent</h2>
         <p className="mt-3 text-muted-foreground">
           By submitting a contact form and providing your phone number, you authorize Jones Service
-          Group to contact you by phone, email, or text message regarding your inquiry. If you opt
-          in to SMS, message and data rates may apply, message frequency may vary, and you may
-          reply <strong>STOP</strong> to opt out at any time or <strong>HELP</strong> for help.
-          Consent to SMS is not a condition of any purchase.
+          Group to contact you by phone, email, or text message regarding your inquiry. Consent to
+          receive SMS messages is not a condition of any purchase.
         </p>
+
+        <h3 className="mt-6 text-xl font-semibold">Jones Service Group SMS Program</h3>
+        <p className="mt-3 text-muted-foreground">
+          <strong>Program Name:</strong> Jones Service Group (the "Program Name" refers to the
+          legal business name operating this SMS messaging program).
+        </p>
+        <p className="mt-3 text-muted-foreground">
+          <strong>Program Description:</strong> Jones Service Group sends SMS messages to customers
+          and prospective customers who have opted in by submitting a request through our website
+          or by providing their phone number directly to us. Messages may include estimate
+          confirmations, appointment scheduling, project updates, follow-up communications, and
+          responses to your inquiries.
+        </p>
+        <ol className="mt-4 list-decimal space-y-3 pl-6 text-muted-foreground">
+          <li>
+            Jones Service Group sends transactional and informational SMS messages including
+            estimate confirmations, scheduling, project updates, and replies to your questions.
+          </li>
+          <li>
+            <strong>Opt-Out:</strong> You can cancel the SMS service at any time. Simply text
+            <strong> "STOP"</strong> to the shortcode or number you received messages from. Upon
+            sending "STOP," we will confirm your unsubscribe status via SMS. Following this
+            confirmation, you will no longer receive SMS messages from us. To rejoin, sign up as
+            you did initially, and we will resume sending SMS messages to you.
+          </li>
+          <li>
+            <strong>Help:</strong> If you experience issues with the messaging program, reply with
+            the keyword <strong>HELP</strong> for more assistance, or reach out directly to{" "}
+            <a href={`mailto:${EMAIL}`} className="hover:text-primary">{EMAIL}</a> or{" "}
+            <a href={`tel:${PHONE_TEL}`} className="hover:text-primary">{PHONE}</a>.
+          </li>
+          <li>
+            <strong>Carrier Liability:</strong> Carriers are not liable for delayed or undelivered
+            messages.
+          </li>
+          <li>
+            <strong>Message and Data Rates:</strong> As always, message and data rates may apply
+            for messages sent to you from us and to us from you. Message frequency varies. For
+            questions about your text plan or data plan, contact your wireless provider.
+          </li>
+          <li>
+            <strong>Privacy:</strong> For privacy-related inquiries, please refer to our{" "}
+            <Link to="/privacy" className="hover:text-primary">Privacy Policy</Link>. No mobile
+            information will be shared with third parties or affiliates for marketing or
+            promotional purposes. All categories of information sharing exclude text messaging
+            originator opt-in data and consent; this information will not be shared with any third
+            parties.
+          </li>
+          <li>
+            <strong>Compliance with Industry Standards:</strong> Our SMS program is operated in
+            compliance with the CTIA Messaging Principles and Best Practices and applicable
+            carrier guidelines.
+          </li>
+          <li>
+            <strong>Legal Compliance:</strong> Our SMS program complies with the Telephone
+            Consumer Protection Act (TCPA), the CAN-SPAM Act, and other applicable federal and
+            state laws governing electronic communications.
+          </li>
+        </ol>
 
         <h2 className="mt-8 text-2xl font-bold">5. Intellectual Property</h2>
         <p className="mt-3 text-muted-foreground">

@@ -513,6 +513,17 @@ const Index = () => {
                 <Mail className="h-5 w-5 text-primary" />
                 <a href={`mailto:${EMAIL}`} className="break-all hover:text-primary">{EMAIL}</a>
               </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 shrink-0 text-primary" />
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=10959+Appaloosa+Dr,+Walton,+KY+41094"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary"
+                >
+                  10959 Appaloosa Dr, Walton, KY 41094
+                </a>
+              </li>
               <li className="flex items-center gap-3">
                 <Facebook className="h-5 w-5 text-primary" />
                 <a href={FB} target="_blank" rel="noopener noreferrer" className="hover:text-primary">

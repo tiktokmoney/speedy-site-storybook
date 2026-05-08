@@ -545,6 +545,82 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Bottom contact form */}
+      <section id="contact-bottom" className="border-t border-border bg-secondary/30 py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+              Contact Us
+            </span>
+            <h2 className="mt-2 text-3xl font-bold sm:text-4xl">Get In Touch</h2>
+            <p className="mt-3 text-muted-foreground">
+              Have a quick question or want us to reach out? Send us your info and we'll be in touch.
+            </p>
+          </div>
+          <Card className="mx-auto mt-10 max-w-xl border-primary/20 shadow-2xl">
+            <CardContent className="p-6 sm:p-8">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input id="firstName" placeholder="First Name" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Input id="lastName" placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} required />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="contact-phone">Phone *</Label>
+                  <Input id="contact-phone" type="tel" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} required />
+                </div>
+                <div>
+                  <Label htmlFor="contact-email">Email *</Label>
+                  <Input id="contact-email" type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+                </div>
+
+                <label className="flex cursor-pointer items-start gap-3">
+                  <Checkbox
+                    checked={transactionalConsent}
+                    onCheckedChange={(v) => setTransactionalConsent(v === true)}
+                    className="mt-0.5"
+                    required
+                    aria-required="true"
+                  />
+                  <span className="text-xs leading-relaxed text-muted-foreground">
+                    I consent to receive transactional messages from Jones Service Group at the
+                    phone number provided. Message frequency may vary. Message &amp; Data rates may
+                    apply. Reply HELP for help or STOP to opt-out.
+                  </span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-3">
+                  <Checkbox
+                    checked={marketingConsent}
+                    onCheckedChange={(v) => setMarketingConsent(v === true)}
+                    className="mt-0.5"
+                  />
+                  <span className="text-xs leading-relaxed text-muted-foreground">
+                    I consent to receive marketing and promotional messages from Jones Service
+                    Group at the phone number provided. Message frequency may vary. Message &amp;
+                    Data rates may apply. Reply HELP for help or STOP to opt-out.
+                  </span>
+                </label>
+
+                <Button type="submit" className="w-full" size="lg" disabled={submitting}>
+                  {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Message"}
+                </Button>
+
+                <p className="text-center text-xs text-muted-foreground">
+                  <Link to="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
+                  {" | "}
+                  <Link to="/terms" className="underline hover:text-primary">Terms of Service</Link>
+                </p>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
       <SiteFooter />
     </div>
   );

@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
@@ -105,27 +106,37 @@ const awards = [
 ];
 
 const Index = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "" });
+  const [transactionalConsent, setTransactionalConsent] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
+    if (!form.firstName || !form.lastName || !form.phone || !form.email) {
       toast({ title: "Please fill out all required fields" });
+      return;
+    }
+    if (!transactionalConsent) {
+      toast({
+        title: "Consent required",
+        description: "Please agree to receive transactional messages so we can respond.",
+      });
       return;
     }
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
     const { error } = await supabase.from("contact_submissions").insert({
       id: submissionId,
-      name: form.name,
+      name: fullName,
       email: form.email,
       phone: form.phone || null,
       services: [],
-      message: form.message,
+      message: "(no comment provided)",
       source: "home_hero",
       contact_method: "email",
-      sms_consent: false,
+      sms_consent: transactionalConsent,
     });
     if (error) {
       setSubmitting(false);
@@ -134,11 +145,11 @@ const Index = () => {
     }
     const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
     const templateData = {
-      name: form.name,
+      name: fullName,
       email: form.email,
       phone: form.phone || "",
       services: [],
-      message: form.message,
+      message: `Transactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
       contactMethod: "email",
       source: "home_hero",
       submittedAt: new Date().toLocaleString(),
@@ -157,7 +168,9 @@ const Index = () => {
     );
     setSubmitting(false);
     toast({ title: "Message sent!", description: "Thanks — we'll get back to you within 24 hours." });
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setForm({ firstName: "", lastName: "", email: "", phone: "" });
+    setTransactionalConsent(false);
+    setMarketingConsent(false);
   };
 
   return (
@@ -228,27 +241,61 @@ const Index = () => {
               <h2 className="text-2xl font-bold">Request a Free Estimate</h2>
               <p className="mt-1 text-sm text-muted-foreground">We'll get back to you within 24 hours.</p>
               <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-                <div>
-                  <Label htmlFor="name">Name *</Label>
-                  <Input id="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
-                </div>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <Label htmlFor="email">Email *</Label>
-                    <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input id="firstName" placeholder="First Name" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
                   </div>
                   <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} />
+                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Input id="lastName" placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} required />
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="message">Project Details *</Label>
-                  <Textarea id="message" rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} maxLength={1000} required />
+                  <Label htmlFor="phone">Phone *</Label>
+                  <Input id="phone" type="tel" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} required />
                 </div>
+                <div>
+                  <Label htmlFor="email">Email *</Label>
+                  <Input id="email" type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+                </div>
+
+                <label className="flex cursor-pointer items-start gap-3">
+                  <Checkbox
+                    checked={transactionalConsent}
+                    onCheckedChange={(v) => setTransactionalConsent(v === true)}
+                    className="mt-0.5"
+                    required
+                    aria-required="true"
+                  />
+                  <span className="text-xs leading-relaxed text-muted-foreground">
+                    I consent to receive transactional messages from Jones Service Group at the
+                    phone number provided. Message frequency may vary. Message &amp; Data rates may
+                    apply. Reply HELP for help or STOP to opt-out.
+                  </span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-3">
+                  <Checkbox
+                    checked={marketingConsent}
+                    onCheckedChange={(v) => setMarketingConsent(v === true)}
+                    className="mt-0.5"
+                  />
+                  <span className="text-xs leading-relaxed text-muted-foreground">
+                    I consent to receive marketing and promotional messages from Jones Service
+                    Group at the phone number provided. Message frequency may vary. Message &amp;
+                    Data rates may apply. Reply HELP for help or STOP to opt-out.
+                  </span>
+                </label>
+
                 <Button type="submit" className="w-full" size="lg" disabled={submitting}>
                   {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Message"}
                 </Button>
+
+                <p className="text-center text-xs text-muted-foreground">
+                  <Link to="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
+                  {" | "}
+                  <Link to="/terms" className="underline hover:text-primary">Terms of Service</Link>
+                </p>
               </form>
             </CardContent>
           </Card>

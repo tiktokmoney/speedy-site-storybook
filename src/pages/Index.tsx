@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
@@ -134,7 +133,7 @@ const Index = () => {
       phone: form.phone || null,
       services: [],
       message: "(no comment provided)",
-      source: "home_contact_bottom",
+      source: "home_hero",
       contact_method: "email",
       sms_consent: transactionalConsent,
     });
@@ -151,7 +150,7 @@ const Index = () => {
       services: [],
       message: `Transactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
       contactMethod: "email",
-      source: "home_contact_bottom",
+      source: "home_hero",
       submittedAt: new Date().toLocaleString(),
     };
     await Promise.all(

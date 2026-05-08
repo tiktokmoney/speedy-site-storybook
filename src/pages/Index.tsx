@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2 } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

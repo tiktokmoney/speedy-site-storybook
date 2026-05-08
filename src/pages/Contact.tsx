@@ -93,13 +93,6 @@ const Contact = () => {
         return;
       }
     }
-    if (!transactionalConsent) {
-      toast({
-        title: "Consent required",
-        description: "Please agree to receive transactional messages so we can respond.",
-      });
-      return;
-    }
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
     const { error } = await supabase.from("contact_submissions").insert({
@@ -408,8 +401,6 @@ const Contact = () => {
                     checked={transactionalConsent}
                     onCheckedChange={(v) => setTransactionalConsent(v === true)}
                     className="mt-0.5"
-                    required
-                    aria-required="true"
                   />
                   <span className="text-xs leading-relaxed text-muted-foreground">
                     I consent to receive transactional messages from Jones Service Group at the

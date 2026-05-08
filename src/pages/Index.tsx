@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2 } from "lucide-react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -512,6 +512,17 @@ const Index = () => {
               <li className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary" />
                 <a href={`mailto:${EMAIL}`} className="break-all hover:text-primary">{EMAIL}</a>
+              </li>
+              <li className="flex items-start gap-3">
+                <MapPin className="h-5 w-5 shrink-0 text-primary" />
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=10959+Appaloosa+Dr,+Walton,+KY+41094"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary"
+                >
+                  10959 Appaloosa Dr, Walton, KY 41094
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Facebook className="h-5 w-5 text-primary" />

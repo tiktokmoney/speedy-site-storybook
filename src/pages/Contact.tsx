@@ -69,7 +69,8 @@ const Contact = () => {
   const [services, setServices] = useState<string[]>([]);
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
-  const [smsConsent, setSmsConsent] = useState(false);
+  const [transactionalConsent, setTransactionalConsent] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const toggleService = (s: string) => {
@@ -92,10 +93,10 @@ const Contact = () => {
         return;
       }
     }
-    if (contactMethod === "text" && !smsConsent) {
+    if (!transactionalConsent) {
       toast({
-        title: "SMS consent required",
-        description: "Please check the SMS consent box to be contacted by text, or choose another method.",
+        title: "Consent required",
+        description: "Please agree to receive transactional messages so we can respond.",
       });
       return;
     }
@@ -111,7 +112,7 @@ const Contact = () => {
       message: form.message,
       source: "contact_page",
       contact_method: contactMethod,
-      sms_consent: smsConsent,
+      sms_consent: transactionalConsent,
     });
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
@@ -121,7 +122,7 @@ const Contact = () => {
         phone: form.phone || "",
         services,
         otherService: services.includes("Something else") ? otherService : "",
-        message: form.message,
+        message: `${form.message}\n\nTransactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
         contactMethod,
         source: "contact_page",
         submittedAt: new Date().toLocaleString(),
@@ -152,7 +153,8 @@ const Contact = () => {
     setServices([]);
     setOtherService("");
     setContactMethod("email");
-    setSmsConsent(false);
+    setTransactionalConsent(false);
+    setMarketingConsent(false);
   };
 
   return (
@@ -399,26 +401,34 @@ const Contact = () => {
                       <span className="text-sm">Phone Call</span>
                     </label>
                   </RadioGroup>
-                  {contactMethod === "text" && (
-                    <label className="mt-3 flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-3 has-[:checked]:border-primary">
-                      <Checkbox
-                        checked={smsConsent}
-                        onCheckedChange={(v) => setSmsConsent(v === true)}
-                        className="mt-0.5"
-                        required
-                        aria-required="true"
-                      />
-                      <span className="text-xs leading-relaxed text-muted-foreground">
-                        <span className="font-semibold text-foreground">Required: </span>
-                        By checking this box and submitting this form, I consent to receive SMS text
-                        messages from Jones Service Group at the phone number provided regarding my
-                        inquiry, estimates, and scheduling. Message and data rates may apply. Message
-                        frequency varies. Reply STOP to opt out at any time, or HELP for help. Consent
-                        is not a condition of purchase.
-                      </span>
-                    </label>
-                  )}
                 </div>
+
+                <label className="flex cursor-pointer items-start gap-3">
+                  <Checkbox
+                    checked={transactionalConsent}
+                    onCheckedChange={(v) => setTransactionalConsent(v === true)}
+                    className="mt-0.5"
+                    required
+                    aria-required="true"
+                  />
+                  <span className="text-xs leading-relaxed text-muted-foreground">
+                    I consent to receive transactional messages from Jones Service Group at the
+                    phone number provided. Message frequency may vary. Message &amp; Data rates may
+                    apply. Reply HELP for help or STOP to opt-out.
+                  </span>
+                </label>
+                <label className="flex cursor-pointer items-start gap-3">
+                  <Checkbox
+                    checked={marketingConsent}
+                    onCheckedChange={(v) => setMarketingConsent(v === true)}
+                    className="mt-0.5"
+                  />
+                  <span className="text-xs leading-relaxed text-muted-foreground">
+                    I consent to receive marketing and promotional messages from Jones Service
+                    Group at the phone number provided. Message frequency may vary. Message &amp;
+                    Data rates may apply. Reply HELP for help or STOP to opt-out.
+                  </span>
+                </label>
 
                 <div className="flex flex-wrap gap-3">
                   <Button type="submit" size="lg" disabled={submitting}>
@@ -428,6 +438,12 @@ const Contact = () => {
                     <Link to="/"><ArrowLeft /> Back to Home</Link>
                   </Button>
                 </div>
+
+                <p className="text-xs text-muted-foreground">
+                  <Link to="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
+                  {" | "}
+                  <Link to="/terms" className="underline hover:text-primary">Terms of Service</Link>
+                </p>
               </form>
             </CardContent>
           </Card>

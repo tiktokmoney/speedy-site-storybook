@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,13 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Dialog,
   DialogContent,
@@ -55,7 +49,7 @@ interface QuoteDialogProps {
 export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteDialogProps) => {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
-  const [service, setService] = useState<string>(defaultService ?? "");
+  const [services, setServices] = useState<string[]>(defaultService ? [defaultService] : []);
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
   const [transactionalConsent, setTransactionalConsent] = useState(false);
@@ -64,11 +58,15 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
 
   const reset = () => {
     setForm({ name: "", email: "", phone: "", message: "" });
-    setService(defaultService ?? "");
+    setServices(defaultService ? [defaultService] : []);
     setOtherService("");
     setContactMethod("email");
     setTransactionalConsent(false);
     setMarketingConsent(false);
+  };
+
+  const toggleService = (s: string) => {
+    setServices((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -93,8 +91,8 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       name: form.name,
       email: form.email,
       phone: form.phone || null,
-      services: service ? [service] : [],
-      other_service: service === "Something else" ? otherService.slice(0, 200) : null,
+      services,
+      other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
       message: messageToStore,
       source,
       contact_method: contactMethod,
@@ -106,8 +104,8 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         name: form.name,
         email: form.email,
         phone: form.phone || "",
-        services: service ? [service] : [],
-        otherService: service === "Something else" ? otherService : "",
+        services,
+        otherService: services.includes("Something else") ? otherService : "",
         message: `${messageToStore}\n\nTransactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
         contactMethod,
         source,
@@ -164,17 +162,42 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
 
           <div>
             <Label htmlFor="qd-service">Service you're interested in</Label>
-            <Select value={service} onValueChange={setService}>
-              <SelectTrigger id="qd-service" className="mt-2">
-                <SelectValue placeholder="Select a service" />
-              </SelectTrigger>
-              <SelectContent>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  id="qd-service"
+                  className="mt-2 flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                >
+                  <span className={services.length === 0 ? "text-muted-foreground" : "truncate text-left"}>
+                    {services.length === 0
+                      ? "Select services"
+                      : services.length === 1
+                        ? services[0]
+                        : `${services.length} selected`}
+                  </span>
+                  <ChevronDown className="h-4 w-4 opacity-50" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                className="w-[--radix-popover-trigger-width] max-h-[300px] overflow-y-auto p-1"
+              >
                 {SERVICE_OPTIONS.map((s) => (
-                  <SelectItem key={s} value={s}>{s}</SelectItem>
+                  <label
+                    key={s}
+                    className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent"
+                  >
+                    <Checkbox
+                      checked={services.includes(s)}
+                      onCheckedChange={() => toggleService(s)}
+                    />
+                    <span>{s}</span>
+                  </label>
                 ))}
-              </SelectContent>
-            </Select>
-            {service === "Something else" && (
+              </PopoverContent>
+            </Popover>
+            {services.includes("Something else") && (
               <Input
                 className="mt-3"
                 placeholder="Tell us what you have in mind"

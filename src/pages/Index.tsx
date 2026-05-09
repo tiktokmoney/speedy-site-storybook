@@ -213,7 +213,7 @@ const Index = () => {
               Premier Hardscaping &<br />
               <span className="text-primary">Outdoor Living</span> in Northern Kentucky
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-muted-foreground">
+            <p className="mt-5 max-w-xl text-lg max-sm:text-foreground sm:text-muted-foreground">
               Patios, retaining walls, fire features, outdoor kitchens and more — built on quality,
               driven by experience, trusted for over 35 years.
             </p>

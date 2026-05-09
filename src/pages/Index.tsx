@@ -213,7 +213,7 @@ const Index = () => {
               Premier Hardscaping &<br />
               <span className="text-primary">Outdoor Living</span> in Northern Kentucky
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-muted-foreground">
+            <p className="mt-5 max-w-xl text-lg max-sm:text-foreground sm:text-muted-foreground">
               Patios, retaining walls, fire features, outdoor kitchens and more — built on quality,
               driven by experience, trusted for over 35 years.
             </p>
@@ -397,9 +397,12 @@ const Index = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
+            <CarouselPrevious className="left-2 flex h-8 w-8 opacity-80 sm:-left-12 sm:opacity-100" />
+            <CarouselNext className="right-2 flex h-8 w-8 opacity-80 sm:-right-12 sm:opacity-100" />
           </Carousel>
+          <p className="mt-4 text-center text-xs text-muted-foreground sm:hidden">
+            Swipe to browse more photos
+          </p>
         </div>
       </section>
 

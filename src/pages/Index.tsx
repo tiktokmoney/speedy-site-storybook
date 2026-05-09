@@ -397,9 +397,12 @@ const Index = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
+            <CarouselPrevious className="left-2 flex h-8 w-8 opacity-80 sm:-left-12 sm:opacity-100" />
+            <CarouselNext className="right-2 flex h-8 w-8 opacity-80 sm:-right-12 sm:opacity-100" />
           </Carousel>
+          <p className="mt-4 text-center text-xs text-muted-foreground sm:hidden">
+            Swipe to browse more photos
+          </p>
         </div>
       </section>
 

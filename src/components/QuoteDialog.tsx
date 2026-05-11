@@ -148,12 +148,12 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         <form onSubmit={handleSubmit} className="mt-2 space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="qd-name">Name *</Label>
-              <Input id="qd-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
+              <Label htmlFor="qd-firstName">First Name *</Label>
+              <Input id="qd-firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
             </div>
             <div>
-              <Label htmlFor="qd-phone">Phone</Label>
-              <Input id="qd-phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} />
+              <Label htmlFor="qd-lastName">Last Name</Label>
+              <Input id="qd-lastName" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
             </div>
           </div>
           <div>

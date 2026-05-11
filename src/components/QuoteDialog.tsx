@@ -48,7 +48,7 @@ interface QuoteDialogProps {
 
 export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteDialogProps) => {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>(defaultService ? [defaultService] : []);
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
@@ -57,7 +57,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
   const [submitting, setSubmitting] = useState(false);
 
   const reset = () => {
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     setServices(defaultService ? [defaultService] : []);
     setOtherService("");
     setContactMethod("email");

@@ -112,7 +112,7 @@ const Index = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.firstName || !form.lastName || !form.phone || !form.email) {
+    if (!form.firstName || !form.phone || !form.email) {
       toast({ title: "Please fill out all required fields" });
       return;
     }

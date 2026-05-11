@@ -19,7 +19,6 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-
 const SERVICE_OPTIONS = [
   "Outdoor Living Spaces",
   "Landscape Design & Installation",
@@ -34,7 +33,8 @@ const SERVICE_OPTIONS = [
 ];
 
 const schema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100),
+  firstName: z.string().trim().min(1, "First name is required").max(50),
+  lastName: z.string().trim().max(50).optional(),
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(20).optional(),
   message: z.string().trim().max(2000).optional(),
@@ -48,7 +48,7 @@ interface QuoteDialogProps {
 
 export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteDialogProps) => {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>(defaultService ? [defaultService] : []);
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
@@ -57,7 +57,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
   const [submitting, setSubmitting] = useState(false);
 
   const reset = () => {
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     setServices(defaultService ? [defaultService] : []);
     setOtherService("");
     setContactMethod("email");
@@ -86,9 +86,10 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
     const messageToStore = form.message.trim() || "(no comment provided)";
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
     const { error } = await supabase.from("contact_submissions").insert({
       id: submissionId,
-      name: form.name,
+      name: fullName,
       email: form.email,
       phone: form.phone || null,
       services,
@@ -101,7 +102,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
-        name: form.name,
+        name: fullName,
         email: form.email,
         phone: form.phone || "",
         services,
@@ -147,12 +148,12 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         <form onSubmit={handleSubmit} className="mt-2 space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="qd-name">Name *</Label>
-              <Input id="qd-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
+              <Label htmlFor="qd-firstName">First Name *</Label>
+              <Input id="qd-firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
             </div>
             <div>
-              <Label htmlFor="qd-phone">Phone</Label>
-              <Input id="qd-phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} />
+              <Label htmlFor="qd-lastName">Last Name</Label>
+              <Input id="qd-lastName" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
             </div>
           </div>
           <div>

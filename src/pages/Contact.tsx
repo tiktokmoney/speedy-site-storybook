@@ -58,14 +58,15 @@ const trustBadges = [
 ];
 
 const contactSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100),
+  firstName: z.string().trim().min(1, "First name is required").max(50),
+  lastName: z.string().trim().max(50).optional(),
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(20).optional(),
   message: z.string().trim().min(1, "Please tell us about your project").max(2000),
 });
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>([]);
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
@@ -95,9 +96,10 @@ const Contact = () => {
     }
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
     const { error } = await supabase.from("contact_submissions").insert({
       id: submissionId,
-      name: form.name,
+      name: fullName,
       email: form.email,
       phone: form.phone || null,
       services,
@@ -110,7 +112,7 @@ const Contact = () => {
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
-        name: form.name,
+        name: fullName,
         email: form.email,
         phone: form.phone || "",
         services,
@@ -142,7 +144,7 @@ const Contact = () => {
       title: "Message sent!",
       description: "Thanks — we'll get back to you within 24 hours.",
     });
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     setServices([]);
     setOtherService("");
     setContactMethod("email");
@@ -320,12 +322,12 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <Label htmlFor="name">Name *</Label>
-                    <Input id="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input id="firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
                   </div>
                   <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} />
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input id="lastName" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
                   </div>
                 </div>
                 <div>

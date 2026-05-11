@@ -112,7 +112,7 @@ const Index = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.firstName || !form.lastName || !form.phone || !form.email) {
+    if (!form.firstName || !form.phone || !form.email) {
       toast({ title: "Please fill out all required fields" });
       return;
     }
@@ -239,8 +239,8 @@ const Index = () => {
                     <Input id="firstName" placeholder="First Name" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
                   </div>
                   <div>
-                    <Label htmlFor="lastName">Last Name *</Label>
-                    <Input id="lastName" placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} required />
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input id="lastName" placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
                   </div>
                 </div>
                 <div>

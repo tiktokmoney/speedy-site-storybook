@@ -137,7 +137,6 @@ const Terms = () => (
           </li>
         </ol>
 
-        <h2 className="mt-8 text-2xl font-bold">5. Intellectual Property</h2>
         <h2 className="mt-8 text-2xl font-bold">5. Age Restriction</h2>
         <p className="mt-3 text-muted-foreground">
           You must be at least 18 years old to use this website, submit a request, or opt in to

@@ -86,9 +86,10 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
     const messageToStore = form.message.trim() || "(no comment provided)";
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
     const { error } = await supabase.from("contact_submissions").insert({
       id: submissionId,
-      name: form.name,
+      name: fullName,
       email: form.email,
       phone: form.phone || null,
       services,
@@ -101,7 +102,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
-        name: form.name,
+        name: fullName,
         email: form.email,
         phone: form.phone || "",
         services,

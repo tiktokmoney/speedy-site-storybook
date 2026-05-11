@@ -58,7 +58,8 @@ const trustBadges = [
 ];
 
 const contactSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100),
+  firstName: z.string().trim().min(1, "First name is required").max(50),
+  lastName: z.string().trim().max(50).optional(),
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(20).optional(),
   message: z.string().trim().min(1, "Please tell us about your project").max(2000),

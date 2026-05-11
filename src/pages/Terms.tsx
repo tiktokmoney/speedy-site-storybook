@@ -138,6 +138,15 @@ const Terms = () => (
         </ol>
 
         <h2 className="mt-8 text-2xl font-bold">5. Intellectual Property</h2>
+        <h2 className="mt-8 text-2xl font-bold">5. Age Restriction</h2>
+        <p className="mt-3 text-muted-foreground">
+          You must be at least 18 years old to use this website, submit a request, or opt in to
+          our SMS messaging program. By using our services or providing your phone number, you
+          represent and warrant that you are 18 years of age or older. We do not knowingly
+          collect information from, contact, or send SMS messages to anyone under 18.
+        </p>
+
+        <h2 className="mt-8 text-2xl font-bold">6. Intellectual Property</h2>
         <p className="mt-3 text-muted-foreground">
           All content on this website — including text, photos, graphics, logos, and the Jones
           Service Group name — is the property of Jones Service Group or its licensors and is
@@ -145,14 +154,14 @@ const Terms = () => (
           derivative works without our prior written permission.
         </p>
 
-        <h2 className="mt-8 text-2xl font-bold">6. Third-Party Links</h2>
+        <h2 className="mt-8 text-2xl font-bold">7. Third-Party Links</h2>
         <p className="mt-3 text-muted-foreground">
           Our website may include links to third-party sites (such as Google or Facebook). We do
           not control and are not responsible for the content, policies, or practices of any
           third-party site.
         </p>
 
-        <h2 className="mt-8 text-2xl font-bold">7. Disclaimer of Warranties</h2>
+        <h2 className="mt-8 text-2xl font-bold">8. Disclaimer of Warranties</h2>
         <p className="mt-3 text-muted-foreground">
           The website and its content are provided "as is" and "as available" without warranties of
           any kind, express or implied. We do not warrant that the website will be uninterrupted,
@@ -160,35 +169,35 @@ const Terms = () => (
           provided separately in your signed services agreement.
         </p>
 
-        <h2 className="mt-8 text-2xl font-bold">8. Limitation of Liability</h2>
+        <h2 className="mt-8 text-2xl font-bold">9. Limitation of Liability</h2>
         <p className="mt-3 text-muted-foreground">
           To the fullest extent permitted by law, Jones Service Group will not be liable for any
           indirect, incidental, special, consequential, or punitive damages arising out of your use
           of or inability to use the website.
         </p>
 
-        <h2 className="mt-8 text-2xl font-bold">9. Indemnification</h2>
+        <h2 className="mt-8 text-2xl font-bold">10. Indemnification</h2>
         <p className="mt-3 text-muted-foreground">
           You agree to indemnify and hold harmless Jones Service Group, its owners, employees, and
           affiliates from any claims, losses, or expenses (including reasonable attorneys' fees)
           arising from your misuse of the website or violation of these Terms.
         </p>
 
-        <h2 className="mt-8 text-2xl font-bold">10. Governing Law</h2>
+        <h2 className="mt-8 text-2xl font-bold">11. Governing Law</h2>
         <p className="mt-3 text-muted-foreground">
           These Terms are governed by the laws of the Commonwealth of Kentucky, without regard to
           its conflict-of-laws rules. Any disputes will be resolved in the state or federal courts
           located in Kenton County, Kentucky.
         </p>
 
-        <h2 className="mt-8 text-2xl font-bold">11. Changes to These Terms</h2>
+        <h2 className="mt-8 text-2xl font-bold">12. Changes to These Terms</h2>
         <p className="mt-3 text-muted-foreground">
           We may update these Terms from time to time. Updates take effect when posted to this
           page. Your continued use of the website after changes are posted means you accept the
           updated Terms.
         </p>
 
-        <h2 className="mt-8 text-2xl font-bold">12. Contact</h2>
+        <h2 className="mt-8 text-2xl font-bold">13. Contact</h2>
         <p className="mt-3 text-muted-foreground">
           Questions about these Terms? Contact us at:
         </p>

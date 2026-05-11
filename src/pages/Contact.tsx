@@ -322,12 +322,12 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <Label htmlFor="name">Name *</Label>
-                    <Input id="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} maxLength={100} required />
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input id="firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
                   </div>
                   <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input id="phone" type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} />
+                    <Label htmlFor="lastName">Last Name</Label>
+                    <Input id="lastName" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
                   </div>
                 </div>
                 <div>

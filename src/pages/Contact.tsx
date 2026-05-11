@@ -96,9 +96,10 @@ const Contact = () => {
     }
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
     const { error } = await supabase.from("contact_submissions").insert({
       id: submissionId,
-      name: form.name,
+      name: fullName,
       email: form.email,
       phone: form.phone || null,
       services,
@@ -111,7 +112,7 @@ const Contact = () => {
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
-        name: form.name,
+        name: fullName,
         email: form.email,
         phone: form.phone || "",
         services,
@@ -143,7 +144,7 @@ const Contact = () => {
       title: "Message sent!",
       description: "Thanks — we'll get back to you within 24 hours.",
     });
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     setServices([]);
     setOtherService("");
     setContactMethod("email");

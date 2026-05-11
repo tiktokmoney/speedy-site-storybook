@@ -66,7 +66,7 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>([]);
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");

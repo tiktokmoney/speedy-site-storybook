@@ -19,7 +19,6 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-
 const SERVICE_OPTIONS = [
   "Outdoor Living Spaces",
   "Landscape Design & Installation",

@@ -213,11 +213,9 @@ const Index = () => {
                   </span>
                   <h3 className="mt-4 text-2xl font-bold sm:text-3xl">{item.title}</h3>
                   <p className="mt-3 text-muted-foreground">{item.desc}</p>
-                  <QuoteDialog source={`home_gallery_${item.title}`}>
-                    <Button variant="outline" className="mt-6">
-                      Start Your Project <ArrowRight />
-                    </Button>
-                  </QuoteDialog>
+                  <Button asChild variant="outline" className="mt-6">
+                    <Link to="/contact">Start Your Project <ArrowRight /></Link>
+                  </Button>
                 </div>
               </div>
             ))}

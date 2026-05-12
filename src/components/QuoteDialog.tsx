@@ -52,8 +52,6 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
   const [services, setServices] = useState<string[]>(defaultService ? [defaultService] : []);
   const [otherService, setOtherService] = useState("");
   const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
-  const [transactionalConsent, setTransactionalConsent] = useState(false);
-  const [marketingConsent, setMarketingConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const reset = () => {
@@ -61,8 +59,6 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     setServices(defaultService ? [defaultService] : []);
     setOtherService("");
     setContactMethod("email");
-    setTransactionalConsent(false);
-    setMarketingConsent(false);
   };
 
   const toggleService = (s: string) => {
@@ -97,7 +93,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       message: messageToStore,
       source,
       contact_method: contactMethod,
-      sms_consent: transactionalConsent,
+      sms_consent: false,
     });
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
@@ -107,7 +103,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         phone: form.phone || "",
         services,
         otherService: services.includes("Something else") ? otherService : "",
-        message: `${messageToStore}\n\nTransactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
+        message: messageToStore,
         contactMethod,
         source,
         submittedAt: new Date().toLocaleString(),
@@ -242,31 +238,6 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
               </label>
             </RadioGroup>
           </div>
-
-          <label className="flex cursor-pointer items-start gap-3">
-            <Checkbox
-              checked={transactionalConsent}
-              onCheckedChange={(v) => setTransactionalConsent(v === true)}
-              className="mt-0.5"
-            />
-            <span className="text-xs leading-relaxed text-muted-foreground">
-              I consent to receive transactional messages from Jones Service Group at the
-              phone number provided. Message frequency may vary. Message &amp; Data rates may
-              apply. Reply HELP for help or STOP to opt-out.
-            </span>
-          </label>
-          <label className="flex cursor-pointer items-start gap-3">
-            <Checkbox
-              checked={marketingConsent}
-              onCheckedChange={(v) => setMarketingConsent(v === true)}
-              className="mt-0.5"
-            />
-            <span className="text-xs leading-relaxed text-muted-foreground">
-              I consent to receive marketing and promotional messages from Jones Service
-              Group at the phone number provided. Message frequency may vary. Message &amp;
-              Data rates may apply. Reply HELP for help or STOP to opt-out.
-            </span>
-          </label>
 
           <Button type="submit" size="lg" className="w-full" disabled={submitting}>
             {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Request"}

@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";

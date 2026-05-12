@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Dialog,
@@ -51,14 +50,12 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>(defaultService ? [defaultService] : []);
   const [otherService, setOtherService] = useState("");
-  const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
   const [submitting, setSubmitting] = useState(false);
 
   const reset = () => {
     setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     setServices(defaultService ? [defaultService] : []);
     setOtherService("");
-    setContactMethod("email");
   };
 
   const toggleService = (s: string) => {
@@ -70,13 +67,6 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     const result = schema.safeParse(form);
     if (!result.success) {
       toast({ title: "Please check the form", description: result.error.issues[0].message });
-      return;
-    }
-    if ((contactMethod === "text" || contactMethod === "phone") && !form.phone.trim()) {
-      toast({
-        title: "Phone number required",
-        description: `Please add a phone number to be contacted by ${contactMethod === "text" ? "text" : "phone call"}.`,
-      });
       return;
     }
     setSubmitting(true);
@@ -92,7 +82,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
       message: messageToStore,
       source,
-      contact_method: contactMethod,
+      contact_method: "email",
       sms_consent: false,
     });
     if (!error) {
@@ -104,7 +94,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         services,
         otherService: services.includes("Something else") ? otherService : "",
         message: messageToStore,
-        contactMethod,
+        contactMethod: "email",
         source,
         submittedAt: new Date().toLocaleString(),
       };
@@ -215,28 +205,6 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
               maxLength={2000}
               placeholder="Anything you'd like us to know?"
             />
-          </div>
-
-          <div>
-            <Label>How would you like to be contacted? *</Label>
-            <RadioGroup
-              value={contactMethod}
-              onValueChange={(v) => setContactMethod(v as "email" | "text" | "phone")}
-              className="mt-3 grid gap-2 sm:grid-cols-3"
-            >
-              <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
-                <RadioGroupItem value="email" id="qd-c-email" />
-                <span className="text-sm">Email</span>
-              </label>
-              <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
-                <RadioGroupItem value="text" id="qd-c-text" />
-                <span className="text-sm">Text (SMS)</span>
-              </label>
-              <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
-                <RadioGroupItem value="phone" id="qd-c-phone" />
-                <span className="text-sm">Phone Call</span>
-              </label>
-            </RadioGroup>
           </div>
 
           <Button type="submit" size="lg" className="w-full" disabled={submitting}>

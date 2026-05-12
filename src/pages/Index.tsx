@@ -109,8 +109,12 @@ const Index = () => {
     script.async = true;
     document.body.appendChild(script);
     return () => {
-      document.body.removeChild(script);
-      document.querySelectorAll('[id^="lc_text-widget"], [id^="chat-widget"], iframe[src*="leadconnector"]').forEach((el) => el.remove());
+      if (script.parentNode) script.parentNode.removeChild(script);
+      document
+        .querySelectorAll(
+          '[id^="lc_text-widget"], [id^="chat-widget"], [class*="lc_text-widget"], [class*="leadconnector"], iframe[src*="leadconnector"], iframe[src*="msgsndr"], script[src*="leadconnectorhq"]',
+        )
+        .forEach((el) => el.remove());
     };
   }, []);
 

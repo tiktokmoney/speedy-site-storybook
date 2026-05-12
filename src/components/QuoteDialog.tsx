@@ -212,9 +212,9 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
           </Button>
 
           <p className="text-center text-xs text-muted-foreground">
-            <Link to="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
+            <a href="https://www.leadconnectorhq.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Privacy Policy</a>
             {" | "}
-            <Link to="/terms" className="underline hover:text-primary">Terms of Service</Link>
+            <a href="https://www.leadconnectorhq.com/terms2" target="_blank" rel="noopener noreferrer" className="underline hover:text-primary">Terms of Service</a>
           </p>
         </form>
       </DialogContent>

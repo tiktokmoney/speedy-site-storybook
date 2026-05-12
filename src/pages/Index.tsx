@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
@@ -105,14 +104,26 @@ const awards = [
 ];
 
 const Index = () => {
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "" });
-  const [transactionalConsent, setTransactionalConsent] = useState(false);
-  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "" });
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://widgets.leadconnectorhq.com/loader.js";
+    script.setAttribute("data-resources-url", "https://widgets.leadconnectorhq.com/chat-widget/loader.js");
+    script.setAttribute("data-widget-id", "69fe03aa4c428b71fc81ba46");
+    script.setAttribute("data-source", "WEB_USER");
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+      document.querySelectorAll('[id^="lc_text-widget"], [id^="chat-widget"], iframe[src*="leadconnector"]').forEach((el) => el.remove());
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.firstName || !form.phone || !form.email) {
+    if (!form.firstName || !form.email) {
       toast({ title: "Please fill out all required fields" });
       return;
     }
@@ -123,12 +134,12 @@ const Index = () => {
       id: submissionId,
       name: fullName,
       email: form.email,
-      phone: form.phone || null,
+      phone: null,
       services: [],
       message: "(no comment provided)",
       source: "home_hero",
       contact_method: "email",
-      sms_consent: transactionalConsent,
+      sms_consent: false,
     });
     if (error) {
       setSubmitting(false);
@@ -139,9 +150,9 @@ const Index = () => {
     const templateData = {
       name: fullName,
       email: form.email,
-      phone: form.phone || "",
+      phone: "",
       services: [],
-      message: `Transactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
+      message: "(no comment provided)",
       contactMethod: "email",
       source: "home_hero",
       submittedAt: new Date().toLocaleString(),
@@ -160,9 +171,7 @@ const Index = () => {
     );
     setSubmitting(false);
     toast({ title: "Message sent!", description: "Thanks — we'll get back to you within 24 hours." });
-    setForm({ firstName: "", lastName: "", email: "", phone: "" });
-    setTransactionalConsent(false);
-    setMarketingConsent(false);
+    setForm({ firstName: "", lastName: "", email: "" });
   };
 
   return (
@@ -244,38 +253,9 @@ const Index = () => {
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="contact-phone">Phone *</Label>
-                  <Input id="contact-phone" type="tel" placeholder="Phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} maxLength={20} required />
-                </div>
-                <div>
                   <Label htmlFor="contact-email">Email *</Label>
                   <Input id="contact-email" type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
                 </div>
-
-                <label className="flex cursor-pointer items-start gap-3">
-                  <Checkbox
-                    checked={transactionalConsent}
-                    onCheckedChange={(v) => setTransactionalConsent(v === true)}
-                    className="mt-0.5"
-                  />
-                  <span className="text-xs leading-relaxed text-muted-foreground">
-                    I consent to receive transactional messages from Jones Service Group at the
-                    phone number provided. Message frequency may vary. Message &amp; Data rates may
-                    apply. Reply HELP for help or STOP to opt-out.
-                  </span>
-                </label>
-                <label className="flex cursor-pointer items-start gap-3">
-                  <Checkbox
-                    checked={marketingConsent}
-                    onCheckedChange={(v) => setMarketingConsent(v === true)}
-                    className="mt-0.5"
-                  />
-                  <span className="text-xs leading-relaxed text-muted-foreground">
-                    I consent to receive marketing and promotional messages from Jones Service
-                    Group at the phone number provided. Message frequency may vary. Message &amp;
-                    Data rates may apply. Reply HELP for help or STOP to opt-out.
-                  </span>
-                </label>
 
                 <Button type="submit" className="w-full" size="lg" disabled={submitting}>
                   {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Message"}

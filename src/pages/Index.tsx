@@ -1,12 +1,8 @@
-import { useEffect, useState } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, Loader2, MapPin } from "lucide-react";
+import { useEffect } from "react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
@@ -104,9 +100,6 @@ const awards = [
 ];
 
 const Index = () => {
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "" });
-  const [submitting, setSubmitting] = useState(false);
-
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://widgets.leadconnectorhq.com/loader.js";
@@ -120,59 +113,6 @@ const Index = () => {
       document.querySelectorAll('[id^="lc_text-widget"], [id^="chat-widget"], iframe[src*="leadconnector"]').forEach((el) => el.remove());
     };
   }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.firstName || !form.email) {
-      toast({ title: "Please fill out all required fields" });
-      return;
-    }
-    setSubmitting(true);
-    const submissionId = crypto.randomUUID();
-    const fullName = `${form.firstName} ${form.lastName}`.trim();
-    const { error } = await supabase.from("contact_submissions").insert({
-      id: submissionId,
-      name: fullName,
-      email: form.email,
-      phone: null,
-      services: [],
-      message: "(no comment provided)",
-      source: "home_hero",
-      contact_method: "email",
-      sms_consent: false,
-    });
-    if (error) {
-      setSubmitting(false);
-      toast({ title: "Something went wrong", description: "Please try again or call us directly." });
-      return;
-    }
-    const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
-    const templateData = {
-      name: fullName,
-      email: form.email,
-      phone: "",
-      services: [],
-      message: "(no comment provided)",
-      contactMethod: "email",
-      source: "home_hero",
-      submittedAt: new Date().toLocaleString(),
-    };
-    await Promise.all(
-      ownerEmails.map((to) =>
-        supabase.functions.invoke("send-transactional-email", {
-          body: {
-            templateName: "owner-form-notification",
-            recipientEmail: to,
-          idempotencyKey: `home-owner-${submissionId}-${to}`,
-            templateData,
-          },
-        }),
-      ),
-    );
-    setSubmitting(false);
-    toast({ title: "Message sent!", description: "Thanks — we'll get back to you within 24 hours." });
-    setForm({ firstName: "", lastName: "", email: "" });
-  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -208,14 +148,14 @@ const Index = () => {
           style={{ backgroundImage: `url(${hero})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/30 to-background/0" />
-        <div className="container relative mx-auto grid gap-10 px-4 py-20 lg:grid-cols-2 lg:py-32">
-          <div className="flex flex-col justify-center">
+        <div className="container relative mx-auto px-4 py-20 lg:py-32">
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <img
               src={logo}
               alt="Jones Service Group logo"
               className="mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
             />
-            <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               <Star className="h-3 w-3 fill-primary" /> VOTED NKY's BEST · 35+ YEARS
             </span>
             <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
@@ -226,49 +166,15 @@ const Index = () => {
               Patios, retaining walls, fire features, outdoor kitchens and more — built on quality,
               driven by experience, trusted for over 35 years.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <QuoteDialog source="home_hero">
-                <Button size="lg">Get a Free Quote</Button>
-              </QuoteDialog>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Button asChild size="lg">
+                <Link to="/contact">Get a Free Quote</Link>
+              </Button>
               <Button asChild size="lg" variant="outline">
                 <a href={`tel:${PHONE_TEL}`}><Phone /> Call {PHONE}</a>
               </Button>
             </div>
           </div>
-
-          {/* Contact form on hero */}
-          <Card id="contact" className="border-primary/20 shadow-2xl lg:ml-auto lg:max-w-md">
-            <CardContent className="p-6">
-              <h2 className="text-2xl font-bold">Request a Free Estimate</h2>
-              <p className="mt-1 text-sm text-muted-foreground">We'll get back to you within 24 hours.</p>
-              <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <Label htmlFor="firstName">First Name *</Label>
-                    <Input id="firstName" placeholder="First Name" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="contact-email">Email *</Label>
-                  <Input id="contact-email" type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
-                </div>
-
-                <Button type="submit" className="w-full" size="lg" disabled={submitting}>
-                  {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Message"}
-                </Button>
-
-                <p className="text-center text-xs text-muted-foreground">
-                  <Link to="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
-                  {" | "}
-                  <Link to="/terms" className="underline hover:text-primary">Terms of Service</Link>
-                </p>
-              </form>
-            </CardContent>
-          </Card>
         </div>
       </section>
 

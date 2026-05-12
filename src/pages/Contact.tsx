@@ -21,7 +21,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -69,9 +68,6 @@ const Contact = () => {
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>([]);
   const [otherService, setOtherService] = useState("");
-  const [contactMethod, setContactMethod] = useState<"email" | "text" | "phone">("email");
-  const [transactionalConsent, setTransactionalConsent] = useState(false);
-  const [marketingConsent, setMarketingConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const toggleService = (s: string) => {
@@ -85,15 +81,6 @@ const Contact = () => {
       toast({ title: "Please check the form", description: result.error.issues[0].message });
       return;
     }
-    if (contactMethod === "text" || contactMethod === "phone") {
-      if (!form.phone.trim()) {
-        toast({
-          title: "Phone number required",
-          description: `Please add a phone number to be contacted by ${contactMethod === "text" ? "text" : "phone call"}.`,
-        });
-        return;
-      }
-    }
     setSubmitting(true);
     const submissionId = crypto.randomUUID();
     const fullName = `${form.firstName} ${form.lastName}`.trim();
@@ -106,8 +93,8 @@ const Contact = () => {
       other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
       message: form.message,
       source: "contact_page",
-      contact_method: contactMethod,
-      sms_consent: transactionalConsent,
+      contact_method: "email",
+      sms_consent: false,
     });
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
@@ -117,8 +104,8 @@ const Contact = () => {
         phone: form.phone || "",
         services,
         otherService: services.includes("Something else") ? otherService : "",
-        message: `${form.message}\n\nTransactional consent: ${transactionalConsent ? "Yes" : "No"} · Marketing consent: ${marketingConsent ? "Yes" : "No"}`,
-        contactMethod,
+        message: form.message,
+        contactMethod: "email",
         source: "contact_page",
         submittedAt: new Date().toLocaleString(),
       };
@@ -147,9 +134,6 @@ const Contact = () => {
     setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     setServices([]);
     setOtherService("");
-    setContactMethod("email");
-    setTransactionalConsent(false);
-    setMarketingConsent(false);
   };
 
   return (
@@ -375,53 +359,6 @@ const Contact = () => {
                     required
                   />
                 </div>
-
-                <div>
-                  <Label>How would you like to be contacted? *</Label>
-                  <RadioGroup
-                    value={contactMethod}
-                    onValueChange={(v) => setContactMethod(v as "email" | "text" | "phone")}
-                    className="mt-3 grid gap-2 sm:grid-cols-3"
-                  >
-                    <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
-                      <RadioGroupItem value="email" id="contact-email" />
-                      <span className="text-sm">Email</span>
-                    </label>
-                    <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
-                      <RadioGroupItem value="text" id="contact-text" />
-                      <span className="text-sm">Text (SMS)</span>
-                    </label>
-                    <label className="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card p-3 transition-colors hover:border-primary">
-                      <RadioGroupItem value="phone" id="contact-phone" />
-                      <span className="text-sm">Phone Call</span>
-                    </label>
-                  </RadioGroup>
-                </div>
-
-                <label className="flex cursor-pointer items-start gap-3">
-                  <Checkbox
-                    checked={transactionalConsent}
-                    onCheckedChange={(v) => setTransactionalConsent(v === true)}
-                    className="mt-0.5"
-                  />
-                  <span className="text-xs leading-relaxed text-muted-foreground">
-                    I consent to receive transactional messages from Jones Service Group at the
-                    phone number provided. Message frequency may vary. Message &amp; Data rates may
-                    apply. Reply HELP for help or STOP to opt-out.
-                  </span>
-                </label>
-                <label className="flex cursor-pointer items-start gap-3">
-                  <Checkbox
-                    checked={marketingConsent}
-                    onCheckedChange={(v) => setMarketingConsent(v === true)}
-                    className="mt-0.5"
-                  />
-                  <span className="text-xs leading-relaxed text-muted-foreground">
-                    I consent to receive marketing and promotional messages from Jones Service
-                    Group at the phone number provided. Message frequency may vary. Message &amp;
-                    Data rates may apply. Reply HELP for help or STOP to opt-out.
-                  </span>
-                </label>
 
                 <div className="flex flex-wrap gap-3">
                   <Button type="submit" size="lg" disabled={submitting}>

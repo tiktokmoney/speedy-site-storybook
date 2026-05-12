@@ -108,13 +108,25 @@ const Index = () => {
     script.setAttribute("data-source", "WEB_USER");
     script.async = true;
     document.body.appendChild(script);
-    return () => {
-      if (script.parentNode) script.parentNode.removeChild(script);
+
+    const cleanup = () => {
       document
         .querySelectorAll(
-          '[id^="lc_text-widget"], [id^="chat-widget"], [class*="lc_text-widget"], [class*="leadconnector"], iframe[src*="leadconnector"], iframe[src*="msgsndr"], script[src*="leadconnectorhq"]',
+          'chat-widget, lc-chat-widget, [id^="lc_text-widget"], [id^="chat-widget"], [class*="lc_text-widget"], [class*="leadconnector"], iframe[src*="leadconnector"], iframe[src*="msgsndr"], script[src*="leadconnectorhq"], script[src*="chat-widget"], link[href*="leadconnector"], link[href*="chat-widget"], style[data-leadconnector]',
         )
         .forEach((el) => el.remove());
+    };
+
+    return () => {
+      if (script.parentNode) script.parentNode.removeChild(script);
+      cleanup();
+      // The widget may re-inject elements asynchronously after teardown, so
+      // sweep again over a few seconds to catch late insertions.
+      const intervals = [100, 300, 800, 1500, 3000].map((ms) =>
+        window.setTimeout(cleanup, ms),
+      );
+      // Stop calling once everything is gone
+      window.setTimeout(() => intervals.forEach((id) => window.clearTimeout(id)), 4000);
     };
   }, []);
 

@@ -109,24 +109,13 @@ const Index = () => {
     script.async = true;
     document.body.appendChild(script);
 
-    const cleanup = () => {
-      document
-        .querySelectorAll(
-          'chat-widget, lc-chat-widget, [id^="lc_text-widget"], [id^="chat-widget"], [class*="lc_text-widget"], [class*="leadconnector"], iframe[src*="leadconnector"], iframe[src*="msgsndr"], script[src*="leadconnectorhq"], script[src*="chat-widget"], link[href*="leadconnector"], link[href*="chat-widget"], style[data-leadconnector]',
-        )
-        .forEach((el) => el.remove());
-    };
-
     return () => {
-      if (script.parentNode) script.parentNode.removeChild(script);
-      cleanup();
-      // The widget may re-inject elements asynchronously after teardown, so
-      // sweep again over a few seconds to catch late insertions.
-      const intervals = [100, 300, 800, 1500, 3000].map((ms) =>
-        window.setTimeout(cleanup, ms),
-      );
-      // Stop calling once everything is gone
-      window.setTimeout(() => intervals.forEach((id) => window.clearTimeout(id)), 4000);
+      // The LeadConnector chat widget injects shadow DOM, listeners, and
+      // global state that can't be reliably torn down from JS. Force a full
+      // page reload on the destination so the widget is fully gone.
+      const target =
+        window.location.pathname + window.location.search + window.location.hash;
+      window.location.replace(target);
     };
   }, []);
 

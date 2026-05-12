@@ -109,7 +109,26 @@ const Index = () => {
     script.async = true;
     document.body.appendChild(script);
 
+    // Intercept in-app navigation away from the home page and convert it to
+    // a full page load. This way the destination page loads fresh from the
+    // server with no widget ever rendered — the user only sees the normal
+    // browser page transition, never a flash of the chat bubble.
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const anchor = (e.target as HTMLElement)?.closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href || !href.startsWith("/") || href.startsWith("//")) return;
+      if (anchor.target && anchor.target !== "_self") return;
+      if (href === window.location.pathname + window.location.search) return;
+      e.preventDefault();
+      window.location.href = href;
+    };
+    document.addEventListener("click", onClick, true);
+
     return () => {
+      document.removeEventListener("click", onClick, true);
       // The LeadConnector chat widget injects shadow DOM, listeners, and
       // global state that can't be reliably torn down from JS. Force a full
       // page reload on the destination so the widget is fully gone.

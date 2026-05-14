@@ -8,6 +8,7 @@ import aboutHeroBg from "@/assets/about-hero-bg.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
+import { Seo } from "@/components/Seo";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -53,6 +54,11 @@ const PhotoPlaceholder = ({ label }: { label: string }) => (
 const About = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="About — Jones Service Group | 35+ Years in NKY"
+        description="Family-owned Jones Service Group has served Northern Kentucky for 35+ years with award-winning hardscaping, patios, and outdoor living craftsmanship."
+        path="/about"
+      />
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-3">

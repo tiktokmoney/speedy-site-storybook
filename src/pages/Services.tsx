@@ -12,6 +12,7 @@ import logo from "@/assets/jsg-logo.png";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
+import { Seo } from "@/components/Seo";
 import imgOutdoorLiving from "@/assets/service-outdoor-living.jpg";
 import imgLandscape from "@/assets/service-landscape.jpg";
 import imgPatiosWalls from "@/assets/service-patios-walls.jpg";
@@ -143,6 +144,7 @@ const services = [
     title: "Driveways",
     desc: "New driveway installs and replacements designed for durability, drainage and serious curb appeal.",
     image: imgDriveways,
+    alt: "New concrete and paver driveway installation",
     features: [
       "New driveway installation & tear-out",
       "Concrete and paver driveway options",
@@ -154,6 +156,7 @@ const services = [
     title: "Sidewalks",
     desc: "Safe, level walkways and front-entry paths that welcome guests and stand up to the seasons.",
     image: imgSidewalks,
+    alt: "Paver sidewalk and front entry walkway",
     features: [
       "Front walks and entry paths",
       "Concrete and paver sidewalks",

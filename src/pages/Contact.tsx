@@ -29,6 +29,7 @@ import heroImg from "@/assets/contact-hero.jpg";
 import nkyImg from "@/assets/northern-kentucky.jpg";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
+import { Seo } from "@/components/Seo";
 
 const PHONE = "859.743.1546";
 const PHONE_TEL = "8597431546";
@@ -138,6 +139,11 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Contact — Free Estimate | Jones Service Group NKY"
+        description="Get a free, no-obligation hardscaping estimate from Jones Service Group. Call 859.743.1546 or send a message — we respond within 24 hours."
+        path="/contact"
+      />
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-3">

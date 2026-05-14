@@ -309,7 +309,7 @@ const Index = () => {
           </div>
           <div className="mt-10 text-center">
             <Button asChild size="lg" variant="outline">
-              <Link to="/services">Learn More <ArrowRight /></Link>
+              <Link to="/services">Explore all services <ArrowRight /></Link>
             </Button>
           </div>
         </div>

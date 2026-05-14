@@ -16,6 +16,7 @@ import hero from "@/assets/hero-hardscape.jpg";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
 import { Seo } from "@/components/Seo";
+import { QuoteDialog } from "@/components/QuoteDialog";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
@@ -309,9 +310,9 @@ const Index = () => {
               driven by experience, trusted for over 35 years.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button asChild size="lg">
-                <Link to="/contact">Get a Free Quote</Link>
-              </Button>
+              <QuoteDialog source="home_hero">
+                <Button size="lg">Get a Free Quote</Button>
+              </QuoteDialog>
               <Button asChild size="lg" variant="outline">
                 <a href={`tel:${PHONE_TEL}`}><Phone /> Call {PHONE}</a>
               </Button>
@@ -355,9 +356,9 @@ const Index = () => {
                   </span>
                   <h3 className="mt-4 text-2xl font-bold sm:text-3xl">{item.title}</h3>
                   <p className="mt-3 text-muted-foreground">{item.desc}</p>
-                  <Button asChild variant="outline" className="mt-6">
-                    <Link to="/contact">Start Your Project <ArrowRight /></Link>
-                  </Button>
+                  <QuoteDialog source={`home_gallery_${item.title}`} defaultService={item.category}>
+                    <Button variant="outline" className="mt-6">Start Your Project <ArrowRight /></Button>
+                  </QuoteDialog>
                 </div>
               </div>
             ))}

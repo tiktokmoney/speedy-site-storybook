@@ -1,0 +1,19 @@
+# Jones Service Group
+
+> Award-winning hardscaping, patios, retaining walls, outdoor kitchens, and outdoor living spaces in Northern Kentucky. Family-owned with 35+ years of experience.
+
+Phone: 859.743.1546
+Email: Jonesservicegroup@gmail.com
+Service area: Northern Kentucky (Boone, Kenton, Campbell counties and surrounding region).
+
+## Pages
+
+- [Home](/): Overview, featured projects, awards, and testimonials.
+- [Services](/services): Patios, retaining walls, outdoor kitchens, fire features, pergolas, lighting, roofing, gutters, siding, excavation, driveways, sidewalks, and property maintenance. Includes FAQ.
+- [About](/about): Company story, owner Dennis Jones, values, and recognition.
+- [Contact](/contact): Request a free, no-obligation estimate (response within 24 hours).
+
+## Optional
+
+- [Privacy Policy](/privacy)
+- [Terms of Service](/terms)

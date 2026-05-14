@@ -210,6 +210,20 @@ const faqs = [
 const Services = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Services — Hardscaping, Patios & Outdoor Living | JSG"
+        description="Patios, retaining walls, outdoor kitchens, lighting, pergolas, roofing & more. Full-service hardscaping in Northern Kentucky. Free estimates."
+        path="/services"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }}
+      />
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-3">

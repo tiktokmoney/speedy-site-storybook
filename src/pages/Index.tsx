@@ -8,6 +8,7 @@ import hero from "@/assets/hero-hardscape.jpg";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
+import { Seo } from "@/components/Seo";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
@@ -140,6 +141,46 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Jones Service Group — Hardscaping & Outdoor Living in NKY"
+        description="Award-winning patios, retaining walls, outdoor kitchens & fire features in Northern Kentucky. 35+ years experience. Call 859.743.1546 for a free estimate."
+        path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Jones Service Group",
+            url: "https://jonesservicegroup.net",
+            logo: "https://jonesservicegroup.net/favicon.ico",
+            sameAs: [
+              "https://www.facebook.com/jonesservicegroup/",
+              "https://www.instagram.com/jonesservicegroupllc",
+            ],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Jones Service Group",
+            url: "https://jonesservicegroup.net",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "Jones Service Group",
+            telephone: "+1-859-743-1546",
+            email: "Jonesservicegroup@gmail.com",
+            url: "https://jonesservicegroup.net",
+            areaServed: "Northern Kentucky",
+            address: {
+              "@type": "PostalAddress",
+              addressRegion: "KY",
+              addressCountry: "US",
+            },
+            openingHours: "Mo-Fr 08:00-18:00",
+            priceRange: "$$",
+          },
+        ]}
+      />
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">

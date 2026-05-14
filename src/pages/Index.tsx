@@ -1,11 +1,18 @@
-import { useEffect } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, MapPin } from "lucide-react";
+import { useState } from "react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Trophy, MapPin, Loader2, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "@/hooks/use-toast";
+import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
-import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
 import { Seo } from "@/components/Seo";
@@ -41,6 +48,27 @@ const services = [
   "Roofing, Gutters & Siding",
   "Excavation & Drainage Solutions",
 ];
+
+const SERVICE_OPTIONS = [
+  "Outdoor Living Spaces",
+  "Landscape Design & Installation",
+  "Patios & Retaining Walls",
+  "Outdoor Kitchens & Fire Features",
+  "Pergolas, Gazebos & Pavilions",
+  "Outdoor Lighting",
+  "Property Maintenance",
+  "Roofing, Gutters & Siding",
+  "Excavation & Drainage Solutions",
+  "Something else",
+];
+
+const homeContactSchema = z.object({
+  firstName: z.string().trim().max(50).optional(),
+  lastName: z.string().trim().max(50).optional(),
+  email: z.string().trim().email("Please enter a valid email").max(255),
+  phone: z.string().trim().max(20).optional(),
+  message: z.string().trim().max(2000).optional(),
+});
 
 const gallery = [
   {
@@ -101,43 +129,92 @@ const awards = [
 ];
 
 const Index = () => {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://widgets.leadconnectorhq.com/loader.js";
-    script.setAttribute("data-resources-url", "https://widgets.leadconnectorhq.com/chat-widget/loader.js");
-    script.setAttribute("data-widget-id", "69fe03aa4c428b71fc81ba46");
-    script.setAttribute("data-source", "WEB_USER");
-    script.async = true;
-    document.body.appendChild(script);
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [otherService, setOtherService] = useState("");
+  const [contactMethod, setContactMethod] = useState<"email" | "call" | "text">("email");
+  const [callConsent, setCallConsent] = useState(false);
+  const [smsConsent, setSmsConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-    // Intercept in-app navigation away from the home page and convert it to
-    // a full page load. This way the destination page loads fresh from the
-    // server with no widget ever rendered — the user only sees the normal
-    // browser page transition, never a flash of the chat bubble.
-    const onClick = (e: MouseEvent) => {
-      if (e.defaultPrevented || e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const anchor = (e.target as HTMLElement)?.closest("a");
-      if (!anchor) return;
-      const href = anchor.getAttribute("href");
-      if (!href || !href.startsWith("/") || href.startsWith("//")) return;
-      if (anchor.target && anchor.target !== "_self") return;
-      if (href === window.location.pathname + window.location.search) return;
-      e.preventDefault();
-      window.location.href = href;
-    };
-    document.addEventListener("click", onClick, true);
+  const toggleService = (s: string) => {
+    setSelectedServices((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
+  };
 
-    return () => {
-      document.removeEventListener("click", onClick, true);
-      // The LeadConnector chat widget injects shadow DOM, listeners, and
-      // global state that can't be reliably torn down from JS. Force a full
-      // page reload on the destination so the widget is fully gone.
-      const target =
-        window.location.pathname + window.location.search + window.location.hash;
-      window.location.replace(target);
-    };
-  }, []);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = homeContactSchema.safeParse(form);
+    if (!result.success) {
+      toast({ title: "Please check the form", description: result.error.issues[0].message });
+      return;
+    }
+    if ((contactMethod === "call" || contactMethod === "text") && !form.phone.trim()) {
+      toast({ title: "Phone number required", description: "Please enter a phone number so we can reach you." });
+      return;
+    }
+    if (contactMethod === "call" && !callConsent) {
+      toast({ title: "Permission to call required", description: "Please check the box giving us permission to call you." });
+      return;
+    }
+    if (contactMethod === "text" && !smsConsent) {
+      toast({ title: "Permission to text required", description: "Please check the box giving us permission to text you." });
+      return;
+    }
+    setSubmitting(true);
+    const submissionId = crypto.randomUUID();
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
+    const messageToStore = form.message.trim() || "(no comment provided)";
+    const { error } = await supabase.from("contact_submissions").insert({
+      id: submissionId,
+      name: fullName,
+      email: form.email,
+      phone: form.phone || null,
+      services: selectedServices,
+      other_service: selectedServices.includes("Something else") ? otherService.slice(0, 200) : null,
+      message: messageToStore,
+      source: "home_page",
+      contact_method: contactMethod,
+      sms_consent: contactMethod === "text" ? smsConsent : false,
+    });
+    if (!error) {
+      const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
+      const templateData = {
+        name: fullName,
+        email: form.email,
+        phone: form.phone || "",
+        services: selectedServices,
+        otherService: selectedServices.includes("Something else") ? otherService : "",
+        message: messageToStore,
+        contactMethod,
+        source: "home_page",
+        submittedAt: new Date().toLocaleString(),
+      };
+      await Promise.all(
+        ownerEmails.map((to) =>
+          supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "owner-form-notification",
+              recipientEmail: to,
+              idempotencyKey: `home-owner-${submissionId}-${to}`,
+              templateData,
+            },
+          }),
+        ),
+      );
+    }
+    setSubmitting(false);
+    if (error) {
+      toast({ title: "Something went wrong", description: "Please try again or call us directly." });
+      return;
+    }
+    toast({ title: "Message sent!", description: "Thanks — we'll get back to you within 24 hours." });
+    setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+    setSelectedServices([]);
+    setOtherService("");
+    setContactMethod("email");
+    setCallConsent(false);
+    setSmsConsent(false);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -445,36 +522,154 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="rounded-lg border border-border bg-card p-8">
-            <h3 className="text-xl font-bold">Get In Touch</h3>
-            <ul className="mt-5 space-y-4">
-              <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-primary" />
-                <a href={`tel:${PHONE_TEL}`} className="hover:text-primary">{PHONE}</a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-primary" />
-                <a href={`mailto:${EMAIL}`} className="break-all hover:text-primary">{EMAIL}</a>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 shrink-0 text-primary" />
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=10959+Appaloosa+Dr,+Walton,+KY+41094"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-primary"
-                >
-                  10959 Appaloosa Dr, Walton, KY 41094
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Facebook className="h-5 w-5 text-primary" />
-                <a href={FB} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
-                  Follow us on Facebook
-                </a>
-              </li>
-            </ul>
-          </div>
+          <Card className="border-primary/20 shadow-lg">
+            <CardContent className="p-6 sm:p-8">
+              <h3 className="text-2xl font-bold">Request a Free Estimate</h3>
+              <p className="mt-1 text-sm text-muted-foreground">We'll get back to you within 24 hours.</p>
+              <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <Label htmlFor="home-firstName">First Name</Label>
+                    <Input id="home-firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} />
+                  </div>
+                  <div>
+                    <Label htmlFor="home-lastName">Last Name</Label>
+                    <Input id="home-lastName" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="home-email">Email *</Label>
+                  <Input id="home-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+                </div>
+                <div>
+                  <Label htmlFor="home-phone">Phone Number{contactMethod !== "email" && " *"}</Label>
+                  <Input
+                    id="home-phone"
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    maxLength={20}
+                    placeholder="(859) 555-1234"
+                    required={contactMethod !== "email"}
+                  />
+                </div>
+                <div>
+                  <Label>How would you like us to contact you? *</Label>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                    {([
+                      { value: "email", label: "Email me" },
+                      { value: "call", label: "Call me" },
+                      { value: "text", label: "Text me" },
+                    ] as const).map((opt) => (
+                      <label
+                        key={opt.value}
+                        className={`flex cursor-pointer items-center gap-2 rounded-md border bg-card p-3 transition-colors ${
+                          contactMethod === opt.value ? "border-primary" : "border-border hover:border-primary"
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="home-contactMethod"
+                          value={opt.value}
+                          checked={contactMethod === opt.value}
+                          onChange={() => setContactMethod(opt.value)}
+                          className="h-4 w-4 accent-primary"
+                        />
+                        <span className="text-sm font-medium">{opt.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {contactMethod === "call" && (
+                  <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
+                    <Checkbox checked={callConsent} onCheckedChange={(c) => setCallConsent(c === true)} className="mt-0.5" />
+                    <span className="text-xs text-muted-foreground">
+                      <strong className="text-foreground">Permission to call:</strong> By checking this
+                      box, I give Jones Service Group express written consent to contact me by phone at
+                      the number provided, including using automated technology, regarding my project
+                      inquiry. Consent is not a condition of purchase. Standard call rates may apply.
+                    </span>
+                  </label>
+                )}
+
+                {contactMethod === "text" && (
+                  <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
+                    <Checkbox checked={smsConsent} onCheckedChange={(c) => setSmsConsent(c === true)} className="mt-0.5" />
+                    <span className="text-xs text-muted-foreground">
+                      <strong className="text-foreground">Permission to text:</strong> By checking this
+                      box, I give Jones Service Group express written consent to send me text messages
+                      (SMS) at the number provided, including using automated technology, regarding my
+                      project inquiry. Consent is not a condition of purchase. Msg & data rates may
+                      apply. Msg frequency varies. Reply STOP to opt out, HELP for help.
+                    </span>
+                  </label>
+                )}
+
+                <div>
+                  <Label htmlFor="home-service">Service you're interested in</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        id="home-service"
+                        className="mt-2 flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      >
+                        <span className={selectedServices.length === 0 ? "text-muted-foreground" : "truncate text-left"}>
+                          {selectedServices.length === 0
+                            ? "Select services"
+                            : selectedServices.length === 1
+                              ? selectedServices[0]
+                              : `${selectedServices.length} selected`}
+                        </span>
+                        <ChevronDown className="h-4 w-4 opacity-50" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="w-[--radix-popover-trigger-width] max-h-[300px] overflow-y-auto p-1">
+                      {SERVICE_OPTIONS.map((s) => (
+                        <label key={s} className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent">
+                          <Checkbox checked={selectedServices.includes(s)} onCheckedChange={() => toggleService(s)} />
+                          <span>{s}</span>
+                        </label>
+                      ))}
+                    </PopoverContent>
+                  </Popover>
+                  {selectedServices.includes("Something else") && (
+                    <Input
+                      className="mt-3"
+                      placeholder="Tell us what you have in mind"
+                      value={otherService}
+                      onChange={(e) => setOtherService(e.target.value)}
+                      maxLength={200}
+                    />
+                  )}
+                </div>
+
+                <div>
+                  <Label htmlFor="home-message">Comment</Label>
+                  <Textarea
+                    id="home-message"
+                    rows={4}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    maxLength={2000}
+                    placeholder="Anything you'd like us to know?"
+                  />
+                </div>
+
+                <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+                  {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Request"}
+                </Button>
+
+                <div className="border-t border-border pt-4 text-sm text-muted-foreground">
+                  <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> <a href={`tel:${PHONE_TEL}`} className="hover:text-primary">{PHONE}</a></p>
+                  <p className="mt-2 flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href={`mailto:${EMAIL}`} className="break-all hover:text-primary">{EMAIL}</a></p>
+                  <p className="mt-2 flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <a href="https://www.google.com/maps/search/?api=1&query=10959+Appaloosa+Dr,+Walton,+KY+41094" target="_blank" rel="noopener noreferrer" className="hover:text-primary">10959 Appaloosa Dr, Walton, KY 41094</a></p>
+                  <p className="mt-2 flex items-center gap-2"><Facebook className="h-4 w-4 text-primary" /> <a href={FB} target="_blank" rel="noopener noreferrer" className="hover:text-primary">Follow us on Facebook</a></p>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </section>
 

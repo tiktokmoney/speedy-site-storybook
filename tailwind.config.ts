@@ -80,10 +80,34 @@ export default {
             height: "0",
           },
         },
+        "logo-pulse": {
+          "0%, 100%": {
+            transform: "scale(1)",
+            boxShadow: "0 0 0 0 hsl(var(--primary) / 0.45), 0 10px 25px -5px hsl(var(--primary) / 0.4)",
+          },
+          "50%": {
+            transform: "scale(1.04)",
+            boxShadow: "0 0 0 14px hsl(var(--primary) / 0), 0 18px 35px -5px hsl(var(--primary) / 0.55)",
+          },
+        },
+        "stone-fall": {
+          "0%": {
+            transform: "translate3d(0, -10vh, 0) rotate(0deg)",
+            opacity: "0",
+          },
+          "10%": { opacity: "1" },
+          "90%": { opacity: "1" },
+          "100%": {
+            transform: "translate3d(var(--drift, 20px), 110vh, 0) rotate(var(--spin, 360deg))",
+            opacity: "0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "logo-pulse": "logo-pulse 2.8s ease-in-out infinite",
+        "stone-fall": "stone-fall linear infinite",
       },
     },
   },

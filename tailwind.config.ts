@@ -95,8 +95,14 @@ export default {
             transform: "translate3d(0, -10vh, 0) rotate(0deg)",
             opacity: "0",
           },
-          "10%": { opacity: "1" },
-          "90%": { opacity: "1" },
+          "10%": {
+            transform: "translate3d(calc(var(--drift, 20px) * 0.1), 2vh, 0) rotate(calc(var(--spin, 360deg) * 0.1))",
+            opacity: "0.7",
+          },
+          "90%": {
+            transform: "translate3d(calc(var(--drift, 20px) * 0.9), 98vh, 0) rotate(calc(var(--spin, 360deg) * 0.9))",
+            opacity: "0.7",
+          },
           "100%": {
             transform: "translate3d(var(--drift, 20px), 110vh, 0) rotate(var(--spin, 360deg))",
             opacity: "0",

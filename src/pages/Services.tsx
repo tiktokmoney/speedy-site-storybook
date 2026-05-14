@@ -319,7 +319,7 @@ const Services = () => {
                   {s.image ? (
                     <img
                       src={s.image}
-                      alt={s.title}
+                      alt={("alt" in s && (s as { alt?: string }).alt) || `${s.title} project by Jones Service Group`}
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                     />

@@ -12,6 +12,7 @@ import logo from "@/assets/jsg-logo.png";
 import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
+import { Seo } from "@/components/Seo";
 import imgOutdoorLiving from "@/assets/service-outdoor-living.jpg";
 import imgLandscape from "@/assets/service-landscape.jpg";
 import imgPatiosWalls from "@/assets/service-patios-walls.jpg";
@@ -143,6 +144,7 @@ const services = [
     title: "Driveways",
     desc: "New driveway installs and replacements designed for durability, drainage and serious curb appeal.",
     image: imgDriveways,
+    alt: "New concrete and paver driveway installation",
     features: [
       "New driveway installation & tear-out",
       "Concrete and paver driveway options",
@@ -154,6 +156,7 @@ const services = [
     title: "Sidewalks",
     desc: "Safe, level walkways and front-entry paths that welcome guests and stand up to the seasons.",
     image: imgSidewalks,
+    alt: "Paver sidewalk and front entry walkway",
     features: [
       "Front walks and entry paths",
       "Concrete and paver sidewalks",
@@ -207,6 +210,20 @@ const faqs = [
 const Services = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo
+        title="Services — Hardscaping, Patios & Outdoor Living | JSG"
+        description="Patios, retaining walls, outdoor kitchens, lighting, pergolas, roofing & more. Full-service hardscaping in Northern Kentucky. Free estimates."
+        path="/services"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }}
+      />
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-3">
@@ -316,7 +333,7 @@ const Services = () => {
                   {s.image ? (
                     <img
                       src={s.image}
-                      alt={s.title}
+                      alt={("alt" in s && (s as { alt?: string }).alt) || `${s.title} project by Jones Service Group`}
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                     />

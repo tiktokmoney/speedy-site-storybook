@@ -296,7 +296,7 @@ const Index = () => {
             <img
               src={logo}
               alt="Jones Service Group logo"
-              className="mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
+              className="mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 animate-logo-pulse sm:h-36 sm:w-36"
             />
             <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               <Star className="h-3 w-3 fill-primary" /> VOTED NKY's BEST · 35+ YEARS

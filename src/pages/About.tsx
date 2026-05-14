@@ -93,7 +93,7 @@ const About = () => {
           <img
             src={logo}
             alt="Jones Service Group logo"
-            className="mx-auto mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
+            className="mx-auto mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 animate-logo-pulse sm:h-36 sm:w-36"
           />
           <span className="text-xs font-semibold uppercase tracking-widest text-primary">About Us</span>
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">

@@ -17,6 +17,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
 import { Seo } from "@/components/Seo";
 import { QuoteDialog } from "@/components/QuoteDialog";
+import { FallingStones } from "@/components/FallingStones";
 import galleryFireplace from "@/assets/gallery-fireplace.jpg";
 import galleryLighting from "@/assets/gallery-lighting.jpg";
 import galleryPatio from "@/assets/gallery-patio.jpg";
@@ -291,6 +292,7 @@ const Index = () => {
           style={{ backgroundImage: `url(${hero})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/30 to-background/0" />
+        <FallingStones />
         <div className="container relative mx-auto px-4 py-20 lg:py-32">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <img

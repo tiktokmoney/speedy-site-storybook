@@ -258,7 +258,7 @@ const Services = () => {
           <img
             src={logo}
             alt="Jones Service Group logo"
-            className="mx-auto mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 sm:h-36 sm:w-36"
+            className="mx-auto mb-6 h-28 w-28 rounded-full object-cover ring-4 ring-primary/70 ring-offset-4 ring-offset-background shadow-2xl shadow-primary/40 animate-logo-pulse sm:h-36 sm:w-36"
           />
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">Our Services</h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground sm:text-lg">

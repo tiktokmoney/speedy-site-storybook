@@ -50,12 +50,18 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
   const [services, setServices] = useState<string[]>(defaultService ? [defaultService] : []);
   const [otherService, setOtherService] = useState("");
+  const [contactMethod, setContactMethod] = useState<"email" | "call" | "text">("email");
+  const [callConsent, setCallConsent] = useState(false);
+  const [smsConsent, setSmsConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const reset = () => {
     setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     setServices(defaultService ? [defaultService] : []);
     setOtherService("");
+    setContactMethod("email");
+    setCallConsent(false);
+    setSmsConsent(false);
   };
 
   const toggleService = (s: string) => {
@@ -67,6 +73,18 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     const result = schema.safeParse(form);
     if (!result.success) {
       toast({ title: "Please check the form", description: result.error.issues[0].message });
+      return;
+    }
+    if ((contactMethod === "call" || contactMethod === "text") && !form.phone.trim()) {
+      toast({ title: "Phone number required", description: "Please enter a phone number so we can reach you." });
+      return;
+    }
+    if (contactMethod === "call" && !callConsent) {
+      toast({ title: "Permission to call required", description: "Please check the box giving us permission to call you." });
+      return;
+    }
+    if (contactMethod === "text" && !smsConsent) {
+      toast({ title: "Permission to text required", description: "Please check the box giving us permission to text you." });
       return;
     }
     setSubmitting(true);
@@ -82,8 +100,8 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
       message: messageToStore,
       source,
-      contact_method: "email",
-      sms_consent: false,
+      contact_method: contactMethod,
+      sms_consent: contactMethod === "text" ? smsConsent : false,
     });
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
@@ -94,7 +112,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         services,
         otherService: services.includes("Something else") ? otherService : "",
         message: messageToStore,
-        contactMethod: "email",
+        contactMethod,
         source,
         submittedAt: new Date().toLocaleString(),
       };
@@ -146,6 +164,80 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
             <Label htmlFor="qd-email">Email *</Label>
             <Input id="qd-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
           </div>
+
+          <div>
+            <Label htmlFor="qd-phone">Phone Number{contactMethod !== "email" && " *"}</Label>
+            <Input
+              id="qd-phone"
+              type="tel"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              maxLength={20}
+              placeholder="(859) 555-1234"
+              required={contactMethod !== "email"}
+            />
+          </div>
+
+          <div>
+            <Label>How would you like us to contact you? *</Label>
+            <div className="mt-2 grid gap-2 sm:grid-cols-3">
+              {([
+                { value: "email", label: "Email me" },
+                { value: "call", label: "Call me" },
+                { value: "text", label: "Text me" },
+              ] as const).map((opt) => (
+                <label
+                  key={opt.value}
+                  className={`flex cursor-pointer items-center gap-2 rounded-md border bg-card p-3 transition-colors ${
+                    contactMethod === opt.value ? "border-primary" : "border-border hover:border-primary"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="qd-contactMethod"
+                    value={opt.value}
+                    checked={contactMethod === opt.value}
+                    onChange={() => setContactMethod(opt.value)}
+                    className="h-4 w-4 accent-primary"
+                  />
+                  <span className="text-sm font-medium">{opt.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {contactMethod === "call" && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
+              <Checkbox
+                checked={callConsent}
+                onCheckedChange={(c) => setCallConsent(c === true)}
+                className="mt-0.5"
+              />
+              <span className="text-xs text-muted-foreground">
+                <strong className="text-foreground">Permission to call:</strong> By checking this box, I
+                give Jones Service Group express written consent to contact me by phone at the number
+                provided, including using automated technology, regarding my project inquiry. Consent is
+                not a condition of purchase. Standard call rates may apply.
+              </span>
+            </label>
+          )}
+
+          {contactMethod === "text" && (
+            <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
+              <Checkbox
+                checked={smsConsent}
+                onCheckedChange={(c) => setSmsConsent(c === true)}
+                className="mt-0.5"
+              />
+              <span className="text-xs text-muted-foreground">
+                <strong className="text-foreground">Permission to text:</strong> By checking this box, I
+                give Jones Service Group express written consent to send me text messages (SMS) at the
+                number provided, including using automated technology, regarding my project inquiry.
+                Consent is not a condition of purchase. Msg & data rates may apply. Msg frequency varies.
+                Reply STOP to opt out, HELP for help.
+              </span>
+            </label>
+          )}
 
           <div>
             <Label htmlFor="qd-service">Service you're interested in</Label>

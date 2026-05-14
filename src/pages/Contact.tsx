@@ -58,11 +58,11 @@ const trustBadges = [
 ];
 
 const contactSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required").max(50),
+  firstName: z.string().trim().max(50).optional(),
   lastName: z.string().trim().max(50).optional(),
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(20).optional(),
-  message: z.string().trim().min(1, "Please tell us about your project").max(2000),
+  message: z.string().trim().max(2000).optional(),
 });
 
 const Contact = () => {
@@ -330,8 +330,8 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <Label htmlFor="firstName">First Name *</Label>
-                    <Input id="firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
+                    <Label htmlFor="firstName">First Name</Label>
+                    <Input id="firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} />
                   </div>
                   <div>
                     <Label htmlFor="lastName">Last Name</Label>
@@ -446,7 +446,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="message">Project Details *</Label>
+                  <Label htmlFor="message">Project Details</Label>
                   <Textarea
                     id="message"
                     rows={6}
@@ -454,7 +454,6 @@ const Contact = () => {
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     maxLength={2000}
                     placeholder="Briefly describe your project, location, and timeline."
-                    required
                   />
                 </div>
 

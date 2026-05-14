@@ -32,7 +32,7 @@ const SERVICE_OPTIONS = [
 ];
 
 const schema = z.object({
-  firstName: z.string().trim().min(1, "First name is required").max(50),
+  firstName: z.string().trim().max(50).optional(),
   lastName: z.string().trim().max(50).optional(),
   email: z.string().trim().email("Please enter a valid email").max(255),
   phone: z.string().trim().max(20).optional(),
@@ -152,8 +152,8 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         <form onSubmit={handleSubmit} className="mt-2 space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="qd-firstName">First Name *</Label>
-              <Input id="qd-firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} required />
+              <Label htmlFor="qd-firstName">First Name</Label>
+              <Input id="qd-firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} />
             </div>
             <div>
               <Label htmlFor="qd-lastName">Last Name</Label>

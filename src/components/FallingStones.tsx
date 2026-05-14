@@ -53,8 +53,9 @@ export const FallingStones = ({ count = 22 }: { count?: number }) => {
             borderRadius: s.rounded,
             animationDelay: `${s.delay}s`,
             animationDuration: `${s.duration}s`,
+            animationFillMode: "both",
             boxShadow: "0 1px 2px hsl(0 0% 0% / 0.4), inset -1px -2px 2px hsl(0 0% 0% / 0.3), inset 1px 1px 2px hsl(0 0% 100% / 0.15)",
-            opacity: 0.7,
+            opacity: 0,
             ["--drift" as never]: `${s.drift}px`,
             ["--spin" as never]: `${s.spin}deg`,
           }}

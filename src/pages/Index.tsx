@@ -1,11 +1,18 @@
-import { useEffect } from "react";
-import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Award, Trophy, MapPin } from "lucide-react";
+import { useState } from "react";
+import { Phone, Mail, Facebook, Star, CheckCircle2, ArrowRight, Quote, Trophy, MapPin, Loader2, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "@/hooks/use-toast";
+import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
-import { QuoteDialog } from "@/components/QuoteDialog";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
 import { Seo } from "@/components/Seo";
@@ -41,6 +48,27 @@ const services = [
   "Roofing, Gutters & Siding",
   "Excavation & Drainage Solutions",
 ];
+
+const SERVICE_OPTIONS = [
+  "Outdoor Living Spaces",
+  "Landscape Design & Installation",
+  "Patios & Retaining Walls",
+  "Outdoor Kitchens & Fire Features",
+  "Pergolas, Gazebos & Pavilions",
+  "Outdoor Lighting",
+  "Property Maintenance",
+  "Roofing, Gutters & Siding",
+  "Excavation & Drainage Solutions",
+  "Something else",
+];
+
+const homeContactSchema = z.object({
+  firstName: z.string().trim().max(50).optional(),
+  lastName: z.string().trim().max(50).optional(),
+  email: z.string().trim().email("Please enter a valid email").max(255),
+  phone: z.string().trim().max(20).optional(),
+  message: z.string().trim().max(2000).optional(),
+});
 
 const gallery = [
   {
@@ -101,43 +129,92 @@ const awards = [
 ];
 
 const Index = () => {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://widgets.leadconnectorhq.com/loader.js";
-    script.setAttribute("data-resources-url", "https://widgets.leadconnectorhq.com/chat-widget/loader.js");
-    script.setAttribute("data-widget-id", "69fe03aa4c428b71fc81ba46");
-    script.setAttribute("data-source", "WEB_USER");
-    script.async = true;
-    document.body.appendChild(script);
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [otherService, setOtherService] = useState("");
+  const [contactMethod, setContactMethod] = useState<"email" | "call" | "text">("email");
+  const [callConsent, setCallConsent] = useState(false);
+  const [smsConsent, setSmsConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-    // Intercept in-app navigation away from the home page and convert it to
-    // a full page load. This way the destination page loads fresh from the
-    // server with no widget ever rendered — the user only sees the normal
-    // browser page transition, never a flash of the chat bubble.
-    const onClick = (e: MouseEvent) => {
-      if (e.defaultPrevented || e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const anchor = (e.target as HTMLElement)?.closest("a");
-      if (!anchor) return;
-      const href = anchor.getAttribute("href");
-      if (!href || !href.startsWith("/") || href.startsWith("//")) return;
-      if (anchor.target && anchor.target !== "_self") return;
-      if (href === window.location.pathname + window.location.search) return;
-      e.preventDefault();
-      window.location.href = href;
-    };
-    document.addEventListener("click", onClick, true);
+  const toggleService = (s: string) => {
+    setSelectedServices((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
+  };
 
-    return () => {
-      document.removeEventListener("click", onClick, true);
-      // The LeadConnector chat widget injects shadow DOM, listeners, and
-      // global state that can't be reliably torn down from JS. Force a full
-      // page reload on the destination so the widget is fully gone.
-      const target =
-        window.location.pathname + window.location.search + window.location.hash;
-      window.location.replace(target);
-    };
-  }, []);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = homeContactSchema.safeParse(form);
+    if (!result.success) {
+      toast({ title: "Please check the form", description: result.error.issues[0].message });
+      return;
+    }
+    if ((contactMethod === "call" || contactMethod === "text") && !form.phone.trim()) {
+      toast({ title: "Phone number required", description: "Please enter a phone number so we can reach you." });
+      return;
+    }
+    if (contactMethod === "call" && !callConsent) {
+      toast({ title: "Permission to call required", description: "Please check the box giving us permission to call you." });
+      return;
+    }
+    if (contactMethod === "text" && !smsConsent) {
+      toast({ title: "Permission to text required", description: "Please check the box giving us permission to text you." });
+      return;
+    }
+    setSubmitting(true);
+    const submissionId = crypto.randomUUID();
+    const fullName = `${form.firstName} ${form.lastName}`.trim();
+    const messageToStore = form.message.trim() || "(no comment provided)";
+    const { error } = await supabase.from("contact_submissions").insert({
+      id: submissionId,
+      name: fullName,
+      email: form.email,
+      phone: form.phone || null,
+      services: selectedServices,
+      other_service: selectedServices.includes("Something else") ? otherService.slice(0, 200) : null,
+      message: messageToStore,
+      source: "home_page",
+      contact_method: contactMethod,
+      sms_consent: contactMethod === "text" ? smsConsent : false,
+    });
+    if (!error) {
+      const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
+      const templateData = {
+        name: fullName,
+        email: form.email,
+        phone: form.phone || "",
+        services: selectedServices,
+        otherService: selectedServices.includes("Something else") ? otherService : "",
+        message: messageToStore,
+        contactMethod,
+        source: "home_page",
+        submittedAt: new Date().toLocaleString(),
+      };
+      await Promise.all(
+        ownerEmails.map((to) =>
+          supabase.functions.invoke("send-transactional-email", {
+            body: {
+              templateName: "owner-form-notification",
+              recipientEmail: to,
+              idempotencyKey: `home-owner-${submissionId}-${to}`,
+              templateData,
+            },
+          }),
+        ),
+      );
+    }
+    setSubmitting(false);
+    if (error) {
+      toast({ title: "Something went wrong", description: "Please try again or call us directly." });
+      return;
+    }
+    toast({ title: "Message sent!", description: "Thanks — we'll get back to you within 24 hours." });
+    setForm({ firstName: "", lastName: "", email: "", phone: "", message: "" });
+    setSelectedServices([]);
+    setOtherService("");
+    setContactMethod("email");
+    setCallConsent(false);
+    setSmsConsent(false);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">

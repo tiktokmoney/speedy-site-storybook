@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import logo from "@/assets/jsg-logo.png";
 import { supabase } from "@/integrations/supabase/client";
+import { Seo } from "@/components/Seo";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
@@ -75,6 +76,11 @@ const Unsubscribe = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <Seo
+        title="Unsubscribe — Jones Service Group"
+        description="Unsubscribe from Jones Service Group emails."
+        path="/unsubscribe"
+      />
       <header className="border-b border-border">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-3">
@@ -87,6 +93,7 @@ const Unsubscribe = () => {
       <main className="container mx-auto flex flex-1 items-center justify-center px-4 py-16">
         <Card className="w-full max-w-md border-border/60 shadow-lg">
           <CardContent className="p-8 text-center">
+            <h1 className="mb-6 text-2xl font-bold">Email Unsubscribe</h1>
             {state.status === "loading" && (
               <>
                 <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" />
@@ -97,8 +104,7 @@ const Unsubscribe = () => {
             {state.status === "valid" && (
               <>
                 <MailX className="mx-auto h-12 w-12 text-primary" />
-                <h1 className="mt-4 text-2xl font-bold">Unsubscribe</h1>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p className="mt-4 text-sm text-muted-foreground">
                   Confirm to stop receiving emails from Jones Service Group.
                 </p>
                 <Button onClick={confirm} size="lg" className="mt-6 w-full">
@@ -117,7 +123,7 @@ const Unsubscribe = () => {
             {state.status === "success" && (
               <>
                 <CheckCircle2 className="mx-auto h-12 w-12 text-primary" />
-                <h1 className="mt-4 text-2xl font-bold">You're unsubscribed</h1>
+                <p className="mt-4 text-lg font-semibold">You're unsubscribed</p>
                 <p className="mt-2 text-sm text-muted-foreground">
                   You won't receive further emails from us. You can still call or text us anytime.
                 </p>
@@ -130,7 +136,7 @@ const Unsubscribe = () => {
             {state.status === "already" && (
               <>
                 <CheckCircle2 className="mx-auto h-12 w-12 text-primary" />
-                <h1 className="mt-4 text-2xl font-bold">Already unsubscribed</h1>
+                <p className="mt-4 text-lg font-semibold">Already unsubscribed</p>
                 <p className="mt-2 text-sm text-muted-foreground">
                   This email address is already removed from our list.
                 </p>
@@ -143,7 +149,7 @@ const Unsubscribe = () => {
             {state.status === "invalid" && (
               <>
                 <AlertTriangle className="mx-auto h-12 w-12 text-destructive" />
-                <h1 className="mt-4 text-2xl font-bold">Invalid link</h1>
+                <p className="mt-4 text-lg font-semibold">Invalid link</p>
                 <p className="mt-2 text-sm text-muted-foreground">
                   This unsubscribe link is invalid or has expired.
                 </p>
@@ -156,7 +162,7 @@ const Unsubscribe = () => {
             {state.status === "error" && (
               <>
                 <AlertTriangle className="mx-auto h-12 w-12 text-destructive" />
-                <h1 className="mt-4 text-2xl font-bold">Something went wrong</h1>
+                <p className="mt-4 text-lg font-semibold">Something went wrong</p>
                 <p className="mt-2 text-sm text-muted-foreground">{state.message}</p>
               </>
             )}

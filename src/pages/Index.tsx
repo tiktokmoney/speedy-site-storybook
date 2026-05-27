@@ -331,7 +331,8 @@ const Index = () => {
                 src={bestOfNky}
                 alt="Best of NKY 2026 — Jones Service Group voted Best Landscaper"
                 loading="lazy"
-                className="w-full scale-[1.32] origin-center"
+                className="w-full"
+                style={{ clipPath: "inset(14% 0 14% 0)", marginTop: "-7%", marginBottom: "-7%" }}
               />
             </div>
             <div className="p-6 sm:p-10">

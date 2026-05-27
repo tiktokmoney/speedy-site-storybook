@@ -13,6 +13,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
+import bestOfNky from "@/assets/best-of-nky-2026.png";
 import { SiteFooter } from "@/components/SiteFooter";
 import { MobileNav } from "@/components/MobileNav";
 import { Seo } from "@/components/Seo";
@@ -316,6 +317,63 @@ const Index = () => {
               <Button asChild size="lg" variant="outline">
                 <a href={`tel:${PHONE_TEL}`}><Phone /> Call {PHONE}</a>
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Best of NKY 2026 Announcement */}
+      <section className="border-t border-border bg-gradient-to-b from-primary/10 via-background to-background py-16 sm:py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border-2 border-primary/40 bg-card shadow-2xl shadow-primary/20">
+            <img
+              src={bestOfNky}
+              alt="Best of NKY 2026 — Jones Service Group voted Best Landscaper"
+              loading="lazy"
+              className="w-full object-contain"
+            />
+            <div className="p-6 sm:p-10">
+              <div className="text-center">
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+                  <Trophy className="h-4 w-4" /> 2026 Best of NKY — Landscaper
+                </span>
+                <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+                  Thank You, Northern Kentucky!
+                </h2>
+              </div>
+              <div className="mx-auto mt-6 max-w-3xl space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p>
+                  We are truly humbled and honored to announce that Jones Service Group has been voted the
+                  <span className="font-semibold text-foreground"> 2026 Best of NKY Winner for Landscaper</span>.
+                </p>
+                <p>
+                  Awards like this are never earned by one person or one company alone. They are made possible
+                  by the incredible customers, friends, family members, and community supporters who trust us
+                  to be a part of their homes and outdoor living projects.
+                </p>
+                <p>
+                  For over 35 years, our goal has been simple: treat people right, do quality work, and stand
+                  behind what we build. To know that so many of you took the time to vote for us is both
+                  gratifying and deeply appreciated.
+                </p>
+                <p>
+                  Every patio, retaining wall, outdoor kitchen, firepit, landscape project, and outdoor living
+                  space we create is built with pride, and we never take your trust for granted.
+                </p>
+                <p>
+                  From the bottom of our hearts, thank you for your continued support, referrals, reviews, and
+                  friendship. We are blessed to serve Northern Kentucky and look forward to helping families
+                  create beautiful outdoor spaces for many years to come.
+                </p>
+              </div>
+              <div className="mt-8 border-t border-border pt-6 text-center">
+                <p className="text-sm italic text-muted-foreground">With sincere gratitude,</p>
+                <p className="mt-1 font-bold">Dennis Jones &amp; the Jones Service Group Team</p>
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-semibold">
+                  <span className="inline-flex items-center gap-1.5"><Trophy className="h-4 w-4 text-primary" /> 2026 Best of NKY – Landscaper</span>
+                  <span className="inline-flex items-center gap-1.5"><Star className="h-4 w-4 fill-primary text-primary" /> Over 35 Years of Experience</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

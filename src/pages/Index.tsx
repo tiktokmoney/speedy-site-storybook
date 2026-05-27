@@ -326,15 +326,12 @@ const Index = () => {
       <section className="border-t border-border bg-gradient-to-b from-primary/10 via-background to-background py-16 sm:py-20">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border-2 border-primary/40 bg-card shadow-2xl shadow-primary/20">
-            <div className="overflow-hidden bg-white">
-              <img
-                src={bestOfNky}
-                alt="Best of NKY 2026 — Jones Service Group voted Best Landscaper"
-                loading="lazy"
-                className="w-full"
-                style={{ clipPath: "inset(14% 0 14% 0)", marginTop: "-7%", marginBottom: "-7%" }}
-              />
-            </div>
+            <img
+              src={bestOfNky}
+              alt="Best of NKY 2026 — Jones Service Group voted Best Landscaper"
+              loading="lazy"
+              className="block w-full bg-white"
+            />
             <div className="p-6 sm:p-10">
               <div className="text-center">
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">

@@ -18,6 +18,7 @@ import {
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { sendToGhlWebhook } from "@/lib/ghlWebhook";
 const SERVICE_OPTIONS = [
   "Outdoor Living Spaces",
   "Landscape Design & Installation",
@@ -128,6 +129,22 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
           }),
         ),
       );
+
+      await sendToGhlWebhook({
+        submissionId,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        fullName,
+        email: form.email,
+        phone: form.phone || "",
+        contactMethod,
+        smsConsent: contactMethod === "text" ? smsConsent : false,
+        callConsent: contactMethod === "call" ? callConsent : false,
+        services,
+        otherService: services.includes("Something else") ? otherService : "",
+        message: messageToStore,
+        source,
+      });
     }
     setSubmitting(false);
     if (error) {

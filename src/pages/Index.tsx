@@ -11,6 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { sendToGhlWebhook } from "@/lib/ghlWebhook";
 import logo from "@/assets/jsg-logo.png";
 import hero from "@/assets/hero-hardscape.jpg";
 import bestOfNky from "@/assets/best-of-nky-2026.png";
@@ -203,6 +204,21 @@ const Index = () => {
           }),
         ),
       );
+      await sendToGhlWebhook({
+        submissionId,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        fullName,
+        email: form.email,
+        phone: form.phone || "",
+        contactMethod,
+        smsConsent: contactMethod === "text" ? smsConsent : false,
+        callConsent: contactMethod === "call" ? callConsent : false,
+        services: selectedServices,
+        otherService: selectedServices.includes("Something else") ? otherService : "",
+        message: messageToStore,
+        source: "home_page",
+      });
     }
     setSubmitting(false);
     if (error) {

@@ -128,6 +128,37 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
           }),
         ),
       );
+
+      // Forward submission to GoHighLevel webhook (fires text/automation flows).
+      try {
+        await fetch(
+          "https://services.leadconnectorhq.com/hooks/wZtX3SzZytYTiq6TPaVo/webhook-trigger/540ba383-20d4-4cc6-ace2-4ac805b91d7c",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            mode: "no-cors",
+            body: JSON.stringify({
+              submissionId,
+              firstName: form.firstName,
+              lastName: form.lastName,
+              fullName,
+              email: form.email,
+              phone: form.phone || "",
+              contactMethod,
+              smsConsent: contactMethod === "text" ? smsConsent : false,
+              callConsent: contactMethod === "call" ? callConsent : false,
+              services,
+              otherService: services.includes("Something else") ? otherService : "",
+              message: messageToStore,
+              source,
+              submittedAt: new Date().toISOString(),
+              pageUrl: typeof window !== "undefined" ? window.location.href : "",
+            }),
+          },
+        );
+      } catch (webhookError) {
+        console.error("GoHighLevel webhook failed", webhookError);
+      }
     }
     setSubmitting(false);
     if (error) {

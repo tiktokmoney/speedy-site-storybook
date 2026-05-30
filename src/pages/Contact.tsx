@@ -24,6 +24,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { sendToGhlWebhook } from "@/lib/ghlWebhook";
 import logo from "@/assets/jsg-logo.png";
 import heroImg from "@/assets/contact-hero.jpg";
 import nkyImg from "@/assets/northern-kentucky.jpg";
@@ -137,6 +138,21 @@ const Contact = () => {
           }),
         ),
       );
+      await sendToGhlWebhook({
+        submissionId,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        fullName,
+        email: form.email,
+        phone: form.phone || "",
+        contactMethod,
+        smsConsent: contactMethod === "text" ? smsConsent : false,
+        callConsent: contactMethod === "call" ? callConsent : false,
+        services,
+        otherService: services.includes("Something else") ? otherService : "",
+        message: form.message,
+        source: "contact_page",
+      });
     }
     setSubmitting(false);
     if (error) {

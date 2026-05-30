@@ -1,5 +1,5 @@
 const GHL_WEBHOOK_URL =
-  "https://services.leadconnectorhq.com/hooks/wZtX3SzZytYTiq6TPaVo/webhook-trigger/540ba383-20d4-4cc6-ace2-4ac805b91d7c";
+  "https://services.leadconnectorhq.com/hooks/wZtX3SzZytYTiq6TPaVo/webhook-trigger/5493299d-d961-497a-8893-9cff31013ef0";
 
 export interface GhlPayload {
   submissionId: string;

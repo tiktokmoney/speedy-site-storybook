@@ -35,7 +35,7 @@ const SERVICE_OPTIONS = [
 const schema = z.object({
   firstName: z.string().trim().max(50).optional(),
   lastName: z.string().trim().max(50).optional(),
-  email: z.string().trim().email("Please enter a valid email").max(255),
+  email: z.string().trim().max(255).optional().or(z.literal("")),
   phone: z.string().trim().max(20).optional(),
   message: z.string().trim().max(2000).optional(),
 });
@@ -76,6 +76,15 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       toast({ title: "Please check the form", description: result.error.issues[0].message });
       return;
     }
+    const emailTrimmed = form.email.trim();
+    if (emailTrimmed && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed)) {
+      toast({ title: "Please check the form", description: "Please enter a valid email" });
+      return;
+    }
+    if (contactMethod === "email" && !emailTrimmed) {
+      toast({ title: "Email required", description: "Please enter your email so we can reach you." });
+      return;
+    }
     if ((contactMethod === "call" || contactMethod === "text") && !form.phone.trim()) {
       toast({ title: "Phone number required", description: "Please enter a phone number so we can reach you." });
       return;
@@ -95,7 +104,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
     const { error } = await supabase.from("contact_submissions").insert({
       id: submissionId,
       name: fullName,
-      email: form.email,
+      email: emailTrimmed || "no-email-provided@placeholder.local",
       phone: form.phone || null,
       services,
       other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
@@ -108,7 +117,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
         name: fullName,
-        email: form.email,
+        email: emailTrimmed,
         phone: form.phone || "",
         services,
         otherService: services.includes("Something else") ? otherService : "",
@@ -130,12 +139,31 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
         ),
       );
 
+      // Send confirmation to the customer only when they provided an email
+      // AND chose email or call (not text — per request).
+      if (emailTrimmed && contactMethod !== "text") {
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "customer-confirmation",
+            recipientEmail: emailTrimmed,
+            idempotencyKey: `quote-customer-${submissionId}`,
+            templateData: {
+              name: form.firstName || fullName,
+              services,
+              otherService: services.includes("Something else") ? otherService : "",
+              message: form.message.trim(),
+              contactMethod,
+            },
+          },
+        });
+      }
+
       await sendToGhlWebhook({
         submissionId,
         firstName: form.firstName,
         lastName: form.lastName,
         fullName,
-        email: form.email,
+        email: emailTrimmed,
         phone: form.phone || "",
         contactMethod,
         smsConsent: contactMethod === "text" ? smsConsent : false,

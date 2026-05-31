@@ -1,5 +1,4 @@
-const GHL_WEBHOOK_URL =
-  "https://services.leadconnectorhq.com/hooks/wZtX3SzZytYTiq6TPaVo/webhook-trigger/5493299d-d961-497a-8893-9cff31013ef0";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface GhlPayload {
   submissionId: string;
@@ -18,18 +17,15 @@ export interface GhlPayload {
 }
 
 export async function sendToGhlWebhook(payload: GhlPayload): Promise<void> {
-  try {
-    await fetch(GHL_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      mode: "no-cors",
-      body: JSON.stringify({
-        ...payload,
-        submittedAt: new Date().toISOString(),
-        pageUrl: typeof window !== "undefined" ? window.location.href : "",
-      }),
-    });
-  } catch (err) {
-    console.error("GoHighLevel webhook failed", err);
+  const { error } = await supabase.functions.invoke("send-ghl-webhook", {
+    body: {
+      ...payload,
+      pageUrl: typeof window !== "undefined" ? window.location.href : "",
+    },
+  });
+
+  if (error) {
+    console.error("GoHighLevel webhook failed", error);
+    throw error;
   }
 }

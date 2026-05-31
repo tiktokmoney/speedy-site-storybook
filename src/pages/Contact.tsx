@@ -122,6 +122,7 @@ const Contact = () => {
       contact_method: contactMethod,
       sms_consent: contactMethod === "text" ? smsConsent : false,
     });
+    let webhookError = false;
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
@@ -135,6 +136,26 @@ const Contact = () => {
         source: "contact_page",
         submittedAt: new Date().toLocaleString(),
       };
+      try {
+        await sendToGhlWebhook({
+          submissionId,
+          firstName: form.firstName,
+          lastName: form.lastName,
+          fullName,
+          email: emailTrimmed,
+          phone: form.phone || "",
+          contactMethod,
+          smsConsent: contactMethod === "text" ? smsConsent : false,
+          callConsent: contactMethod === "call" ? callConsent : false,
+          services,
+          otherService: services.includes("Something else") ? otherService : "",
+          message: form.message,
+          source: "contact_page",
+        });
+      } catch {
+        webhookError = true;
+      }
+
       await Promise.all(
         ownerEmails.map((to) =>
           supabase.functions.invoke("send-transactional-email", {
@@ -165,24 +186,9 @@ const Contact = () => {
         });
       }
 
-      await sendToGhlWebhook({
-        submissionId,
-        firstName: form.firstName,
-        lastName: form.lastName,
-        fullName,
-        email: emailTrimmed,
-        phone: form.phone || "",
-        contactMethod,
-        smsConsent: contactMethod === "text" ? smsConsent : false,
-        callConsent: contactMethod === "call" ? callConsent : false,
-        services,
-        otherService: services.includes("Something else") ? otherService : "",
-        message: form.message,
-        source: "contact_page",
-      });
     }
     setSubmitting(false);
-    if (error) {
+    if (error || webhookError) {
       toast({ title: "Something went wrong", description: "Please try again or call us directly." });
       return;
     }

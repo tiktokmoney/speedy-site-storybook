@@ -179,6 +179,7 @@ const Index = () => {
       contact_method: contactMethod,
       sms_consent: contactMethod === "text" ? smsConsent : false,
     });
+    let webhookError = false;
     if (!error) {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
@@ -192,6 +193,26 @@ const Index = () => {
         source: "home_page",
         submittedAt: new Date().toLocaleString(),
       };
+      try {
+        await sendToGhlWebhook({
+          submissionId,
+          firstName: form.firstName,
+          lastName: form.lastName,
+          fullName,
+          email: form.email,
+          phone: form.phone || "",
+          contactMethod,
+          smsConsent: contactMethod === "text" ? smsConsent : false,
+          callConsent: contactMethod === "call" ? callConsent : false,
+          services: selectedServices,
+          otherService: selectedServices.includes("Something else") ? otherService : "",
+          message: messageToStore,
+          source: "home_page",
+        });
+      } catch {
+        webhookError = true;
+      }
+
       await Promise.all(
         ownerEmails.map((to) =>
           supabase.functions.invoke("send-transactional-email", {
@@ -204,24 +225,9 @@ const Index = () => {
           }),
         ),
       );
-      await sendToGhlWebhook({
-        submissionId,
-        firstName: form.firstName,
-        lastName: form.lastName,
-        fullName,
-        email: form.email,
-        phone: form.phone || "",
-        contactMethod,
-        smsConsent: contactMethod === "text" ? smsConsent : false,
-        callConsent: contactMethod === "call" ? callConsent : false,
-        services: selectedServices,
-        otherService: selectedServices.includes("Something else") ? otherService : "",
-        message: messageToStore,
-        source: "home_page",
-      });
     }
     setSubmitting(false);
-    if (error) {
+    if (error || webhookError) {
       toast({ title: "Something went wrong", description: "Please try again or call us directly." });
       return;
     }

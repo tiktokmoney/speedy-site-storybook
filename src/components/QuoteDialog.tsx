@@ -206,8 +206,15 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
             </div>
           </div>
           <div>
-            <Label htmlFor="qd-email">Email *</Label>
-            <Input id="qd-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+            <Label htmlFor="qd-email">Email{contactMethod === "email" ? " *" : ""}</Label>
+            <Input
+              id="qd-email"
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              maxLength={255}
+              required={contactMethod === "email"}
+            />
           </div>
 
           <div>

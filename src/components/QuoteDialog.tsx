@@ -141,7 +141,7 @@ export const QuoteDialog = ({ children, source = "cta", defaultService }: QuoteD
 
       // Send confirmation to the customer only when they provided an email
       // AND chose email or call (not text — per request).
-      if (emailTrimmed && contactMethod !== "text") {
+      if (Boolean(emailTrimmed)) {
         await supabase.functions.invoke("send-transactional-email", {
           body: {
             templateName: "customer-confirmation",

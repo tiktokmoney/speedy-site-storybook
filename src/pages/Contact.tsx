@@ -148,7 +148,7 @@ const Contact = () => {
         ),
       );
 
-      if (emailTrimmed && contactMethod !== "text") {
+      if (Boolean(emailTrimmed)) {
         await supabase.functions.invoke("send-transactional-email", {
           body: {
             templateName: "customer-confirmation",

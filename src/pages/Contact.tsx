@@ -61,7 +61,7 @@ const trustBadges = [
 const contactSchema = z.object({
   firstName: z.string().trim().max(50).optional(),
   lastName: z.string().trim().max(50).optional(),
-  email: z.string().trim().email("Please enter a valid email").max(255),
+  email: z.string().trim().max(255).optional().or(z.literal("")),
   phone: z.string().trim().max(20).optional(),
   message: z.string().trim().max(2000).optional(),
 });
@@ -86,6 +86,15 @@ const Contact = () => {
       toast({ title: "Please check the form", description: result.error.issues[0].message });
       return;
     }
+    const emailTrimmed = form.email.trim();
+    if (emailTrimmed && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed)) {
+      toast({ title: "Please check the form", description: "Please enter a valid email" });
+      return;
+    }
+    if (contactMethod === "email" && !emailTrimmed) {
+      toast({ title: "Email required", description: "Please enter your email so we can reach you." });
+      return;
+    }
     if ((contactMethod === "call" || contactMethod === "text") && !form.phone.trim()) {
       toast({ title: "Phone number required", description: "Please enter a phone number so we can reach you." });
       return;
@@ -104,7 +113,7 @@ const Contact = () => {
     const { error } = await supabase.from("contact_submissions").insert({
       id: submissionId,
       name: fullName,
-      email: form.email,
+      email: emailTrimmed || "no-email-provided@placeholder.local",
       phone: form.phone || null,
       services,
       other_service: services.includes("Something else") ? otherService.slice(0, 200) : null,
@@ -117,7 +126,7 @@ const Contact = () => {
       const ownerEmails = ["Jonesservicegroup@gmail.com", "info@evercall.us"];
       const templateData = {
         name: fullName,
-        email: form.email,
+        email: emailTrimmed,
         phone: form.phone || "",
         services,
         otherService: services.includes("Something else") ? otherService : "",
@@ -138,12 +147,30 @@ const Contact = () => {
           }),
         ),
       );
+
+      if (emailTrimmed && contactMethod !== "text") {
+        await supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "customer-confirmation",
+            recipientEmail: emailTrimmed,
+            idempotencyKey: `contact-customer-${submissionId}`,
+            templateData: {
+              name: form.firstName || fullName,
+              services,
+              otherService: services.includes("Something else") ? otherService : "",
+              message: form.message,
+              contactMethod,
+            },
+          },
+        });
+      }
+
       await sendToGhlWebhook({
         submissionId,
         firstName: form.firstName,
         lastName: form.lastName,
         fullName,
-        email: form.email,
+        email: emailTrimmed,
         phone: form.phone || "",
         contactMethod,
         smsConsent: contactMethod === "text" ? smsConsent : false,
@@ -355,8 +382,15 @@ const Contact = () => {
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="email">Email *</Label>
-                  <Input id="email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+                  <Label htmlFor="email">Email{contactMethod === "email" ? " *" : ""}</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    maxLength={255}
+                    required={contactMethod === "email"}
+                  />
                 </div>
 
                 <div>

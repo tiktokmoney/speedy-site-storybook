@@ -128,8 +128,8 @@ const About = () => {
             </p>
             <p className="mt-4 text-muted-foreground">
               Family has always been at the center of Dennis's life. He and his wife are proud
-              parents of three wonderful children, who have now blessed them with two grandchildren
-              and one more on the way. Dennis takes great pride in building not only successful
+              parents of three wonderful children, who have now blessed them with three grandchildren.
+              Dennis takes great pride in building not only successful
               projects and businesses, but also strong relationships, lasting friendships, and a
               legacy rooted in hard work, integrity, and community involvement.
             </p>

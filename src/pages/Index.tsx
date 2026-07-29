@@ -314,8 +314,8 @@ const Index = () => {
           style={{ backgroundImage: `url(${hero})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/30 to-background/0" />
-        <div className="container relative mx-auto grid gap-12 px-4 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+        <div className="container relative mx-auto px-4 py-20 lg:py-32">
+          <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <img
               src={logo}
               alt="Jones Service Group logo"
@@ -332,7 +332,7 @@ const Index = () => {
               Patios, retaining walls, fire features, outdoor kitchens and more — built on quality,
               driven by experience, trusted for over 35 years.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               <QuoteDialog source="home_hero">
                 <Button size="lg">Get a Free Quote</Button>
               </QuoteDialog>
@@ -341,154 +341,6 @@ const Index = () => {
               </Button>
             </div>
           </div>
-            <Card className="border-primary/20 shadow-lg">
-              <CardContent className="p-6 sm:p-8">
-                <h3 className="text-2xl font-bold">Request a Free Estimate</h3>
-                <p className="mt-1 text-sm text-muted-foreground">We'll get back to you within 24 hours.</p>
-                <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <Label htmlFor="home-firstName">First Name</Label>
-                      <Input id="home-firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} />
-                    </div>
-                    <div>
-                      <Label htmlFor="home-lastName">Last Name</Label>
-                      <Input id="home-lastName" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="home-email">Email *</Label>
-                    <Input id="home-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
-                  </div>
-                  <div>
-                    <Label htmlFor="home-phone">Phone Number{contactMethod !== "email" && " *"}</Label>
-                    <Input
-                      id="home-phone"
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      maxLength={20}
-                      placeholder="(859) 555-1234"
-                      required={contactMethod !== "email"}
-                    />
-                  </div>
-                  <div>
-                    <Label>How would you like us to contact you? *</Label>
-                    <div className="mt-2 grid gap-2 sm:grid-cols-3">
-                      {([
-                        { value: "email", label: "Email me" },
-                        { value: "call", label: "Call me" },
-                        { value: "text", label: "Text me" },
-                      ] as const).map((opt) => (
-                        <label
-                          key={opt.value}
-                          className={`flex cursor-pointer items-center gap-2 rounded-md border bg-card p-3 transition-colors ${
-                            contactMethod === opt.value ? "border-primary" : "border-border hover:border-primary"
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="home-contactMethod"
-                            value={opt.value}
-                            checked={contactMethod === opt.value}
-                            onChange={() => setContactMethod(opt.value)}
-                            className="h-4 w-4 accent-primary"
-                          />
-                          <span className="text-sm font-medium">{opt.label}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  {contactMethod === "call" && (
-                    <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
-                      <Checkbox checked={callConsent} onCheckedChange={(c) => setCallConsent(c === true)} className="mt-0.5" />
-                      <span className="text-xs text-muted-foreground">
-                        <strong className="text-foreground">Permission to call:</strong> By checking this
-                        box, I give Jones Service Group express written consent to contact me by phone at
-                        the number provided, including using automated technology, regarding my project
-                        inquiry. Consent is not a condition of purchase. Standard call rates may apply.
-                      </span>
-                    </label>
-                  )}
-
-                  {contactMethod === "text" && (
-                    <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
-                      <Checkbox checked={smsConsent} onCheckedChange={(c) => setSmsConsent(c === true)} className="mt-0.5" />
-                      <span className="text-xs text-muted-foreground">
-                        <strong className="text-foreground">Permission to text:</strong> By checking this
-                        box, I give Jones Service Group express written consent to send me text messages
-                        (SMS) at the number provided, including using automated technology, regarding my
-                        project inquiry. Consent is not a condition of purchase. Msg & data rates may
-                        apply. Msg frequency varies. Reply STOP to opt out, HELP for help.
-                      </span>
-                    </label>
-                  )}
-
-                  <div>
-                    <Label htmlFor="home-service">Service you're interested in</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <button
-                          type="button"
-                          id="home-service"
-                          className="mt-2 flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                        >
-                          <span className={selectedServices.length === 0 ? "text-muted-foreground" : "truncate text-left"}>
-                            {selectedServices.length === 0
-                              ? "Select services"
-                              : selectedServices.length === 1
-                                ? selectedServices[0]
-                                : `${selectedServices.length} selected`}
-                          </span>
-                          <ChevronDown className="h-4 w-4 opacity-50" />
-                        </button>
-                      </PopoverTrigger>
-                      <PopoverContent align="start" className="w-[--radix-popover-trigger-width] max-h-[300px] overflow-y-auto p-1">
-                        {SERVICE_OPTIONS.map((s) => (
-                          <label key={s} className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent">
-                            <Checkbox checked={selectedServices.includes(s)} onCheckedChange={() => toggleService(s)} />
-                            <span>{s}</span>
-                          </label>
-                        ))}
-                      </PopoverContent>
-                    </Popover>
-                    {selectedServices.includes("Something else") && (
-                      <Input
-                        className="mt-3"
-                        placeholder="Tell us what you have in mind"
-                        value={otherService}
-                        onChange={(e) => setOtherService(e.target.value)}
-                        maxLength={200}
-                      />
-                    )}
-                  </div>
-
-                  <div>
-                    <Label htmlFor="home-message">Comment</Label>
-                    <Textarea
-                      id="home-message"
-                      rows={4}
-                      value={form.message}
-                      onChange={(e) => setForm({ ...form, message: e.target.value })}
-                      maxLength={2000}
-                      placeholder="Anything you'd like us to know?"
-                    />
-                  </div>
-
-                  <Button type="submit" size="lg" className="w-full" disabled={submitting}>
-                    {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Request"}
-                  </Button>
-
-                  <div className="border-t border-border pt-4 text-sm text-muted-foreground">
-                    <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> <a href={`tel:${PHONE_TEL}`} className="hover:text-primary">{PHONE}</a></p>
-                    <p className="mt-2 flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href={`mailto:${EMAIL}`} className="break-all hover:text-primary">{EMAIL}</a></p>
-                    <p className="mt-2 flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <a href="https://www.google.com/maps/search/?api=1&query=10959+Appaloosa+Dr,+Walton,+KY+41094" target="_blank" rel="noopener noreferrer" className="hover:text-primary">10959 Appaloosa Dr, Walton, KY 41094</a></p>
-                    <p className="mt-2 flex items-center gap-2"><Facebook className="h-4 w-4 text-primary" /> <a href={FB} target="_blank" rel="noopener noreferrer" className="hover:text-primary">Follow us on Facebook</a></p>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
         </div>
       </section>
 
@@ -728,7 +580,7 @@ const Index = () => {
 
       {/* About */}
       <section id="about" className="py-20">
-        <div className="container mx-auto max-w-3xl px-4">
+        <div className="container mx-auto grid gap-12 px-4 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="text-3xl font-bold sm:text-4xl">Award-Winning. NKY's Best.</h2>
             <p className="mt-4 text-muted-foreground">
@@ -751,6 +603,154 @@ const Index = () => {
               </div>
             </div>
           </div>
+          <Card className="border-primary/20 shadow-lg">
+            <CardContent className="p-6 sm:p-8">
+              <h3 className="text-2xl font-bold">Request a Free Estimate</h3>
+              <p className="mt-1 text-sm text-muted-foreground">We'll get back to you within 24 hours.</p>
+              <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <Label htmlFor="home-firstName">First Name</Label>
+                    <Input id="home-firstName" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} maxLength={50} />
+                  </div>
+                  <div>
+                    <Label htmlFor="home-lastName">Last Name</Label>
+                    <Input id="home-lastName" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} maxLength={50} />
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="home-email">Email *</Label>
+                  <Input id="home-email" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} maxLength={255} required />
+                </div>
+                <div>
+                  <Label htmlFor="home-phone">Phone Number{contactMethod !== "email" && " *"}</Label>
+                  <Input
+                    id="home-phone"
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    maxLength={20}
+                    placeholder="(859) 555-1234"
+                    required={contactMethod !== "email"}
+                  />
+                </div>
+                <div>
+                  <Label>How would you like us to contact you? *</Label>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-3">
+                    {([
+                      { value: "email", label: "Email me" },
+                      { value: "call", label: "Call me" },
+                      { value: "text", label: "Text me" },
+                    ] as const).map((opt) => (
+                      <label
+                        key={opt.value}
+                        className={`flex cursor-pointer items-center gap-2 rounded-md border bg-card p-3 transition-colors ${
+                          contactMethod === opt.value ? "border-primary" : "border-border hover:border-primary"
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="home-contactMethod"
+                          value={opt.value}
+                          checked={contactMethod === opt.value}
+                          onChange={() => setContactMethod(opt.value)}
+                          className="h-4 w-4 accent-primary"
+                        />
+                        <span className="text-sm font-medium">{opt.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {contactMethod === "call" && (
+                  <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
+                    <Checkbox checked={callConsent} onCheckedChange={(c) => setCallConsent(c === true)} className="mt-0.5" />
+                    <span className="text-xs text-muted-foreground">
+                      <strong className="text-foreground">Permission to call:</strong> By checking this
+                      box, I give Jones Service Group express written consent to contact me by phone at
+                      the number provided, including using automated technology, regarding my project
+                      inquiry. Consent is not a condition of purchase. Standard call rates may apply.
+                    </span>
+                  </label>
+                )}
+
+                {contactMethod === "text" && (
+                  <label className="flex cursor-pointer items-start gap-3 rounded-md border border-border bg-card p-4">
+                    <Checkbox checked={smsConsent} onCheckedChange={(c) => setSmsConsent(c === true)} className="mt-0.5" />
+                    <span className="text-xs text-muted-foreground">
+                      <strong className="text-foreground">Permission to text:</strong> By checking this
+                      box, I give Jones Service Group express written consent to send me text messages
+                      (SMS) at the number provided, including using automated technology, regarding my
+                      project inquiry. Consent is not a condition of purchase. Msg & data rates may
+                      apply. Msg frequency varies. Reply STOP to opt out, HELP for help.
+                    </span>
+                  </label>
+                )}
+
+                <div>
+                  <Label htmlFor="home-service">Service you're interested in</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        id="home-service"
+                        className="mt-2 flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                      >
+                        <span className={selectedServices.length === 0 ? "text-muted-foreground" : "truncate text-left"}>
+                          {selectedServices.length === 0
+                            ? "Select services"
+                            : selectedServices.length === 1
+                              ? selectedServices[0]
+                              : `${selectedServices.length} selected`}
+                        </span>
+                        <ChevronDown className="h-4 w-4 opacity-50" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="w-[--radix-popover-trigger-width] max-h-[300px] overflow-y-auto p-1">
+                      {SERVICE_OPTIONS.map((s) => (
+                        <label key={s} className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent">
+                          <Checkbox checked={selectedServices.includes(s)} onCheckedChange={() => toggleService(s)} />
+                          <span>{s}</span>
+                        </label>
+                      ))}
+                    </PopoverContent>
+                  </Popover>
+                  {selectedServices.includes("Something else") && (
+                    <Input
+                      className="mt-3"
+                      placeholder="Tell us what you have in mind"
+                      value={otherService}
+                      onChange={(e) => setOtherService(e.target.value)}
+                      maxLength={200}
+                    />
+                  )}
+                </div>
+
+                <div>
+                  <Label htmlFor="home-message">Comment</Label>
+                  <Textarea
+                    id="home-message"
+                    rows={4}
+                    value={form.message}
+                    onChange={(e) => setForm({ ...form, message: e.target.value })}
+                    maxLength={2000}
+                    placeholder="Anything you'd like us to know?"
+                  />
+                </div>
+
+                <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+                  {submitting ? <><Loader2 className="animate-spin" /> Sending…</> : "Send Request"}
+                </Button>
+
+                <div className="border-t border-border pt-4 text-sm text-muted-foreground">
+                  <p className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> <a href={`tel:${PHONE_TEL}`} className="hover:text-primary">{PHONE}</a></p>
+                  <p className="mt-2 flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> <a href={`mailto:${EMAIL}`} className="break-all hover:text-primary">{EMAIL}</a></p>
+                  <p className="mt-2 flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> <a href="https://www.google.com/maps/search/?api=1&query=10959+Appaloosa+Dr,+Walton,+KY+41094" target="_blank" rel="noopener noreferrer" className="hover:text-primary">10959 Appaloosa Dr, Walton, KY 41094</a></p>
+                  <p className="mt-2 flex items-center gap-2"><Facebook className="h-4 w-4 text-primary" /> <a href={FB} target="_blank" rel="noopener noreferrer" className="hover:text-primary">Follow us on Facebook</a></p>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
